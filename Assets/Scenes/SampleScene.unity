@@ -2475,7 +2475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1d9af3543b16d4586d7ccea223e6de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnableScann: 0
+  EnableScann: 1
   ScanningLine: {fileID: 1700470966}
   Center: {fileID: 6216532114968936593}
   Follow_Center: 0
@@ -2485,11 +2485,7 @@ MonoBehaviour:
   DemoImage: {fileID: 1851202321}
   Cube: {fileID: 851423644}
   RotateSpeed: 50
-  Entity_Traces:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Entity_Traces: []
   RenderTextureSize: 1080
   rayDistance: 200
   raymask:
