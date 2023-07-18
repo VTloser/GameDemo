@@ -23,12 +23,15 @@ namespace DemoGame
         public float Damage;
         /// <summary>     移动速度    </summary>
         public float MoveSpeed;
+        /// <summary>    攻击间隔    </summary>
+        public float Interval;
 
-        public BulletAttr(float lifeTime, float damage, float moveSpeed)
+        public BulletAttr(float lifeTime, float damage, float moveSpeed, float interval)
         {
             LifeTime = lifeTime;
             Damage = damage;
             MoveSpeed = moveSpeed;
+            Interval = interval;
         }
     }
 
@@ -42,6 +45,8 @@ namespace DemoGame
         Long,
         //子弹速度快
         Fast,
+        //子弹射速快
+        FastShoot,
     }
 
 
@@ -51,11 +56,12 @@ namespace DemoGame
         public BulletFactory()
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();
-            bulletAttrDB.Add(BulletType.None,   new BulletAttr(2, 2, 2));
-            bulletAttrDB.Add(BulletType.Height, new BulletAttr(2, 9, 2));
-            bulletAttrDB.Add(BulletType.Long,   new BulletAttr(9, 2, 2));
-            bulletAttrDB.Add(BulletType.Fast,   new BulletAttr(2, 2, 9));
-        }
+            bulletAttrDB.Add(BulletType.None,   new BulletAttr(2, 2, 2, 0.5f));
+            bulletAttrDB.Add(BulletType.Height, new BulletAttr(2, 9, 2, 0.5f));
+            bulletAttrDB.Add(BulletType.Long,   new BulletAttr(9, 2, 2, 0.5f));
+            bulletAttrDB.Add(BulletType.Fast,   new BulletAttr(2, 2, 9, 0.5f));
+            bulletAttrDB.Add(BulletType.FastShoot,   new BulletAttr(2, 2, 2, 0.01f));
+                    }
 
         public BulletAttr GetBulletAttr(BulletType bulletType)
         { 

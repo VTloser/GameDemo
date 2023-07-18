@@ -20,7 +20,6 @@ namespace DemoGame
         {
             IsUse = true;
             this.gameObject.SetActive(true);
-            StartCoroutine(DieCountDown());
         }
 
         public void Release()
@@ -31,13 +30,21 @@ namespace DemoGame
 
         #endregion
 
+        public BulletDetail _BulletDetail ;
+
+        public void Init(BulletDetail bulletDetail)
+        {
+            _BulletDetail = bulletDetail;
+            StartCoroutine(DieCountDown());
+        }
+
 
         /// <summary>
         /// À¿Õˆµπº∆ ±
         /// </summary>
         public IEnumerator DieCountDown()
         {
-            yield return new WaitForSeconds(BulletDetail.bulletAttr.LifeTime);
+            yield return new WaitForSeconds(_BulletDetail.bulletAttr.LifeTime);
             Die();
         }
 
@@ -49,11 +56,10 @@ namespace DemoGame
             GameManager.BulletManager.Destroy(this);
         }
 
-        public BulletDetail BulletDetail = new DemoBullet();
 
         private void Update()
         {
-            BulletDetail.Move(this);
+            _BulletDetail.Move(this);
             //if (BulletDetail.JudgeHit())
             //    Die();
         }
