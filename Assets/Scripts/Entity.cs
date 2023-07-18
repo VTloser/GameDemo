@@ -1,53 +1,53 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Entity : MonoBehaviour, MiniMap
+namespace DemoGame
 {
-
-    public float Move_Speed;
-
-    public float Rotate_Speed;
-
-
-    float angle;
-    public float Angle { get => angle; set => angle = value; }
-
-    [SerializeField]
-    Sprite image;
-    public Sprite Image { get => image; set => image = value; }
-
-
-
-    private void OnEnable()
+    public class Entity : MonoBehaviour
     {
-        GameManager.Instance.Entities.Add(this);
+        public Type type = Type.Entity;
+
+        private void OnEnable()
+        {
+            GameManager.Instance.Entities.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            GameManager.Instance.Entities.Remove(this);
+        }
     }
 
-    private void OnDisable()
+    public interface Injured
     {
-        GameManager.Instance.Entities.Remove(this);
+        public void Injured();
     }
-}
 
-public interface Injured
-{
-    public void Injured();
-}
+    public interface Attack
+    {
+        public void Attack();
+    }
 
-public interface Attack
-{
-    public void Attack();
-}
+    public interface Skill
+    {
+        public void Skill();
+    }
 
-public interface Skill
-{
-    public void Skill();
-}
+    public interface MiniMap
+    {
 
-public interface MiniMap
-{
-    public float Angle { get; set; }
+    }
 
-    public Sprite Image { get; set; }
+    public interface Fire
+    {
+        public void Fire();
+    }
 
+    public enum Type
+    {
+        None,
+        Player,//玩家
+        Entity,//敌人
+        Props, //道具
+    }
 }

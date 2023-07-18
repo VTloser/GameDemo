@@ -18,7 +18,6 @@ public class Create : MonoBehaviour
         }
 
         Debug.Log(EnBools());
-
     }
 
     bool[] bools = new bool[5] { true, false, false, true, true };
