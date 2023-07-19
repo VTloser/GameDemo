@@ -1,0 +1,16 @@
+{
+    "name": "DemoGame",
+    "rootNamespace": "DemoGame",
+    "references": [
+        "GUID:b0ac0937b50338e42a31a4e60150b0f1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

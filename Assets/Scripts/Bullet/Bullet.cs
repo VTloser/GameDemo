@@ -30,11 +30,17 @@ namespace DemoGame
 
         #endregion
 
-        public BulletDetail _BulletDetail ;
+        private BulletDetail LastBulletDetail;
+        public BulletDetail _BulletDetail;
 
         public void Init(BulletDetail bulletDetail)
         {
-            _BulletDetail = bulletDetail;
+            if(bulletDetail != LastBulletDetail)
+            {
+                _BulletDetail = bulletDetail;
+                SwitchBulletDetail(_BulletDetail, LastBulletDetail);
+                LastBulletDetail = bulletDetail;
+            }
             StartCoroutine(DieCountDown());
         }
 
@@ -60,13 +66,20 @@ namespace DemoGame
         private void Update()
         {
             _BulletDetail.Move(this);
-            //if (BulletDetail.JudgeHit())
-            //    Die();
+            if (_BulletDetail.JudgeHit(this.transform))
+                Die();
         }
 
-        public void SwitchType()
+        public void SwitchBulletDetail(BulletDetail newDetail, BulletDetail oldDetail)
         {
+            if (this.transform.Find(newDetail.Mode()) == null)
+            {
+                Instantiate(GameManager.ResourceManager.Load<GameObject>("Bullet/" + newDetail.Mode()), this.transform).name = newDetail.Mode();
+            }
+            this.transform.Find(newDetail.Mode()).gameObject.SetActive(true);
 
+            if (oldDetail != null)
+                this.transform.Find(oldDetail?.Mode())?.gameObject?.SetActive(false);
         }
     }
 }

@@ -17,21 +17,30 @@ namespace DemoGame
     /// 通过享元模式共享基础属性
     public class BulletAttr
     {
-        /// <summary>     生命周期    </summary>
+        /// <summary>     生命周期   </summary>
         public float LifeTime;
-        /// <summary>     伤害    </summary>
+        /// <summary>     伤害       </summary>
         public float Damage;
-        /// <summary>     移动速度    </summary>
+        /// <summary>     移动速度   </summary>
         public float MoveSpeed;
         /// <summary>    攻击间隔    </summary>
         public float Interval;
+        /// <summary>    子弹穿透    </summary>
+        public float Penetrate;
+        /// <summary>    暴击率      </summary>
+        public float CritRate;
+        /// <summary>    暴击加成    </summary>
+        public float CritDamage;
 
-        public BulletAttr(float lifeTime, float damage, float moveSpeed, float interval)
+        public BulletAttr(float lifeTime, float damage, float moveSpeed, float interval, float penetrate, float critRate, float critDamage)
         {
             LifeTime = lifeTime;
             Damage = damage;
             MoveSpeed = moveSpeed;
             Interval = interval;
+            Penetrate = penetrate;
+            CritRate = critRate;
+            CritDamage = critDamage;
         }
     }
 
@@ -56,12 +65,12 @@ namespace DemoGame
         public BulletFactory()
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();
-            bulletAttrDB.Add(BulletType.None,   new BulletAttr(2, 2, 2, 0.5f));
-            bulletAttrDB.Add(BulletType.Height, new BulletAttr(2, 9, 2, 0.5f));
-            bulletAttrDB.Add(BulletType.Long,   new BulletAttr(9, 2, 2, 0.5f));
-            bulletAttrDB.Add(BulletType.Fast,   new BulletAttr(2, 2, 9, 0.5f));
-            bulletAttrDB.Add(BulletType.FastShoot,   new BulletAttr(2, 2, 2, 0.01f));
-                    }
+            bulletAttrDB.Add(BulletType.None,      new BulletAttr(4, 2, 2, 0.1f,  1, 10, 2));
+            bulletAttrDB.Add(BulletType.Height,    new BulletAttr(2, 9, 2, 0.5f,  0, 10, 2));
+            bulletAttrDB.Add(BulletType.Long,      new BulletAttr(9, 2, 2, 0.5f,  0, 10, 2));
+            bulletAttrDB.Add(BulletType.Fast,      new BulletAttr(2, 2, 9, 0.5f,  0, 10, 2));
+            bulletAttrDB.Add(BulletType.FastShoot, new BulletAttr(2, 2, 2, 0.01f, 0, 10, 2));
+        }
 
         public BulletAttr GetBulletAttr(BulletType bulletType)
         { 

@@ -25,7 +25,7 @@ namespace DemoGame
 
         public float RotateSpeed;
 
-        public List<UITrace> Entity_Traces;
+        public List<UITrace> UI_Traces;
 
         public int RenderTextureSize;
 
@@ -36,27 +36,27 @@ namespace DemoGame
             MiniImage.GetComponent<RawImage>().texture = renderTexture;
             MiniCam.transform.position = new Vector3(Center.position.x, MiniCam.transform.position.y, Center.position.z);
 
-            for (int i = 0; i < GameManager.Instance.Entities.Count; i++)
+            for (int i = 0; i < GameManager.Instance.MiniMapTail.Count; i++)
             {
                 var uITrace = Instantiate(GameManager.ResourceManager.Load<UITrace>("UITrace"), MiniImage);
-                uITrace.Image.sprite = GetUITrace(GameManager.Instance.Entities[i].type);
-                uITrace.Tag = GameManager.Instance.Entities[i].transform;
-                Entity_Traces.Add(uITrace);
+                uITrace.Image.sprite = GetUITrace(GameManager.Instance.MiniMapTail[i]._MiniType);
+                uITrace.Tag = GameManager.Instance.MiniMapTail[i]._Transform;
+                UI_Traces.Add(uITrace);
             }
         }
 
 
-        public Sprite GetUITrace(Type type)
+        public Sprite GetUITrace(MiniType type)
         {
             switch (type)
             {
-                case Type.None:
+                case MiniType.None:
                     return null;
-                case Type.Player:
+                case MiniType.Player:
                     return GameManager.ResourceManager.Load<Sprite>("Player");
-                case Type.Entity:
-                    return GameManager.ResourceManager.Load<Sprite>("Entity");
-                case Type.Props:
+                case MiniType.Enemy:
+                    return GameManager.ResourceManager.Load<Sprite>("Enemy");
+                case MiniType.Props:
                     return GameManager.ResourceManager.Load<Sprite>("Props");
                 default:
                     Debug.LogError($"未处理的类型{type}");
@@ -89,13 +89,13 @@ namespace DemoGame
         /// </summary>
         public void Trace()
         {
-            for (int i = 0; i < Entity_Traces.Count; i++)
+            for (int i = 0; i < UI_Traces.Count; i++)
             {
-                Vector3 Tag = RectTransformUtility.WorldToScreenPoint(MiniCam, Entity_Traces[i].Tag.position);
+                Vector3 Tag = RectTransformUtility.WorldToScreenPoint(MiniCam, UI_Traces[i].Tag.position);
                 Tag -= new Vector3(RenderTextureSize / 2, Screen.height / 2, 0);
                 Tag *= (MiniMap.localScale.x * MiniImage.localScale.x * MiniImage.sizeDelta.x / RenderTextureSize);
                 Tag += MiniMap.position;
-                Entity_Traces[i].transform.position = Tag;
+                UI_Traces[i].transform.position = Tag;
             }
         }
 
@@ -122,7 +122,7 @@ namespace DemoGame
         {
             _angle = ScanningLine.transform.eulerAngles.z;
             _angle = _angle >= 180 ? _angle - 360 : _angle;
-            foreach (var item in Entity_Traces)
+            foreach (var item in UI_Traces)
             {
                 item.Angle = Two_ObjectAngle(Center.transform.position, item.Tag.position);
 

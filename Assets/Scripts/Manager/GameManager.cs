@@ -3,7 +3,7 @@ namespace DemoGame
 {
     public class GameManager
     {
-        public List<Entity> Entities = new List<Entity>();
+        public List<MiniMap> MiniMapTail = new List<MiniMap>();
 
         private static GameManager instance;
 
@@ -42,6 +42,25 @@ namespace DemoGame
             }
         }
 
+
+        private static EnemyManager enemyManager;
+        public static EnemyManager EnemyManager
+        {
+            get
+            {
+                if (enemyManager == null)
+                {
+                    enemyManager = new EnemyManager();
+                    enemyManager.Init();
+                }
+                return enemyManager;
+            }
+        }
+
+
         public static BulletFactory bulletFactory = new BulletFactory();
+
+        public static EnemyFactory enemyFactory = new EnemyFactory();
+
     }
 }

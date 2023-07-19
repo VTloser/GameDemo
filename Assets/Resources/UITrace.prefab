@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1341828331768606542}
   - component: {fileID: 1341828331768606543}
   - component: {fileID: 6901438985234205224}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: UITrace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,3 +91,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Angle: 0
   Image: {fileID: 1341828331768606543}
+  Tag: {fileID: 0}
