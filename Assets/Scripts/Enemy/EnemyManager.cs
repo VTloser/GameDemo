@@ -17,24 +17,23 @@ namespace DemoGame
         public Enemy _Enemy;
         private Pool<Enemy> EnemyPool;
 
-        public EnemyDetail CurrentEnemyDetail;
-
         public void Init()
         {
             _Enemy = GameManager.ResourceManager.Load<Enemy>("Enemy");
             EnemyPool = new Pool<Enemy>(_Enemy, null, 100);
-
-            CurrentEnemyDetail = new DemoEnemyDetail();
         }
+
 
         public void Destroy(Enemy enemy)
         {
             EnemyPool.DestObject(enemy);
         }
 
-        public Enemy GetEnemy()
+        public Enemy GetEnemy(EnemyDetail enemyDetail)
         {
-            return EnemyPool.GetObject();
+            var enemy = EnemyPool.GetObject();
+            enemy._EnemyDetail = enemyDetail;
+            return enemy;
         }
     }
 }

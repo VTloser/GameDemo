@@ -22,7 +22,7 @@ namespace DemoGame
         {
             for (int i = 0; i < EnemyNum; i++)
             {
-                var t = GameManager.EnemyManager.GetEnemy();
+                var t = GameManager.EnemyManager.GetEnemy(new DemoEnemyDetail());
                 Vector3 random = Random.insideUnitSphere * 5;
                 random.y = 0;
                 t.transform.position = random;

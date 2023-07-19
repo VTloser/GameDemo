@@ -50,7 +50,7 @@ namespace DemoGame
             throw new System.NotImplementedException();
         }
 
-        private EnemyDetail _EnemyDetail;
+        public EnemyDetail _EnemyDetail;
 
         private void Update()
         {
