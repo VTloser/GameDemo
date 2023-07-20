@@ -59,14 +59,23 @@ namespace DemoGame
         public EnemyFactory()
         {
             EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
-            EnemyAttrDB.Add(EnemyType.None, new EnemyAttr(2, 2, 2, 2, 2));
-            EnemyAttrDB.Add(EnemyType.Height, new EnemyAttr(2, 2, 2, 2, 2));
-            EnemyAttrDB.Add(EnemyType.Long, new EnemyAttr(2, 2, 2, 2, 2));
-            EnemyAttrDB.Add(EnemyType.Fast, new EnemyAttr(2, 2, 2, 2, 2));
-            EnemyAttrDB.Add(EnemyType.FastShoot, new EnemyAttr(2, 2, 2, 2, 2));
+            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 2, 200));
+            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 0.1f, 2, 200));
+            EnemyAttrDB.Add(EnemyType.Long,      new EnemyAttr(2, 2, 0.1f, 2, 200));
+            EnemyAttrDB.Add(EnemyType.Fast,      new EnemyAttr(2, 2, 0.1f, 2, 200));
+            EnemyAttrDB.Add(EnemyType.FastShoot, new EnemyAttr(2, 2, 0.1f, 2, 200));
         }
 
-        public EnemyAttr GetBulletAttr(EnemyType enemyType)
+        public void ChangePlayer(Transform tag)
+        {
+            foreach (var item in EnemyAttrDB.Values)
+            {
+                item.Tag = tag;
+            }            
+        }
+
+
+        public EnemyAttr GetEnemyAttr(EnemyType enemyType)
         {
             return EnemyAttrDB[enemyType];
         }

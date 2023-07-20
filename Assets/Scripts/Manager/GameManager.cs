@@ -1,24 +1,32 @@
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+
 namespace DemoGame
 {
-    public class GameManager
+    public class GameManager : MonoBehaviour
     {
+        public static GameManager Instance;
+
         public List<MiniMap> MiniMapTail = new List<MiniMap>();
 
-        private static GameManager instance;
+        private PlayerControl player;
 
-        public static GameManager Instance
+        public PlayerControl Player { get => player; set { player = value; enemyFactory.ChangePlayer(player.transform); } }
+
+        public BulletFactory bulletFactory = new BulletFactory();
+
+        public EnemyFactory enemyFactory = new EnemyFactory();
+
+
+        private void Awake()
         {
-            get
-            {
-                if (instance == null)
-                    instance = new GameManager();
-                return instance;
-            }
+            Instance = this;
         }
 
-        private static ResourceManager resourceManager;
-        public static ResourceManager ResourceManager
+
+        private ResourceManager resourceManager;
+        public ResourceManager ResourceManager
         {
             get
             {
@@ -28,8 +36,8 @@ namespace DemoGame
             }
         }
 
-        private static BulletManager bulletManager;
-        public static BulletManager BulletManager
+        private BulletManager bulletManager;
+        public BulletManager BulletManager
         {
             get
             {
@@ -43,8 +51,8 @@ namespace DemoGame
         }
 
 
-        private static EnemyManager enemyManager;
-        public static EnemyManager EnemyManager
+        private EnemyManager enemyManager;
+        public EnemyManager EnemyManager
         {
             get
             {
@@ -57,10 +65,18 @@ namespace DemoGame
             }
         }
 
-
-        public static BulletFactory bulletFactory = new BulletFactory();
-
-        public static EnemyFactory enemyFactory = new EnemyFactory();
+        private MathManager mathManager;
+        public MathManager MathManager
+        {
+            get
+            {
+                if (mathManager == null)
+                {
+                    mathManager = new MathManager();
+                }
+                return mathManager;
+            }
+        }
 
     }
 }

@@ -45,43 +45,39 @@ namespace DemoGame
         {
             ExtraDetail = new List<BulletDetail>();
             bulletType = BulletType.None;
-            bulletAttr = GameManager.bulletFactory.GetBulletAttr(bulletType);
+            bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
         }
 
         public override void Generate(Vector3 Pos, Vector3 ForWard, BulletDetail bulletDetail)
         {
             currentPenetrate = bulletAttr.Penetrate;
 
-            var left = GameManager.BulletManager.GetBullet();
-            left.transform.forward = ForWard;
-            left.transform.position = Pos - left.transform.right * 0.25f;
-            left.Init(bulletDetail);
+            var left1 = GameManager.Instance.BulletManager.GetBullet();
+            left1.transform.forward = ForWard;
+            left1.transform.position = Pos ;
+            left1.Init(bulletDetail);
 
-            var right = GameManager.BulletManager.GetBullet();
-            right.transform.forward = ForWard;
-            right.transform.position = Pos + right.transform.right * 0.25f;
-            right.Init(bulletDetail);
-
-            foreach (var item in ExtraDetail)
-            {
-                item.Generate(Pos, ForWard, item);
-            }
+            //foreach (var item in ExtraDetail)
+            //{
+            //    item.Generate(Pos, ForWard, item);
+            //}
         }
 
         public override void Hit()
         {
-            enemy.gameObject.SetActive(false);
+            enemy._EnemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy._EnemyDetail.enemyAttr, this.bulletAttr));
         }
 
         Enemy enemy;
         float currentPenetrate;
         public override bool JudgeHit(Transform transform)
         {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.1f))
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.05f))
             {
                 if (hit.collider.tag == "Enemy")
                 {
                     enemy = hit.collider.GetComponent<Enemy>();
+                    Debug.Log(enemy.name);
                     Hit();
                     if (--currentPenetrate < 0)
                         return true;
@@ -102,7 +98,6 @@ namespace DemoGame
     }
 
 
-
     public class SideBulletDetail : BulletDetail
     {
 
@@ -110,18 +105,18 @@ namespace DemoGame
         {
             ExtraDetail = new List<BulletDetail>();
             bulletType = BulletType.None;
-            bulletAttr = GameManager.bulletFactory.GetBulletAttr(bulletType);
+            bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
         }
 
         public override void Generate(Vector3 Pos, Vector3 ForWard, BulletDetail bulletDetail)
         {
             currentPenetrate = bulletAttr.Penetrate;
-            var left = GameManager.BulletManager.GetBullet();
+            var left = GameManager.Instance.BulletManager.GetBullet();
             left.transform.right = ForWard;
             left.transform.position = Pos;
             left.Init(bulletDetail);
 
-            var right = GameManager.BulletManager.GetBullet();
+            var right = GameManager.Instance.BulletManager.GetBullet();
             right.transform.right = -ForWard;
             right.transform.position = Pos;
             right.Init(bulletDetail);
@@ -134,7 +129,7 @@ namespace DemoGame
 
         public override void Hit()
         {
-            enemy.gameObject.SetActive(false);
+            enemy._EnemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy._EnemyDetail.enemyAttr, this.bulletAttr));
         }
 
         Enemy enemy;
@@ -164,5 +159,69 @@ namespace DemoGame
             bullet.transform.Translate(Vector3.forward * Time.deltaTime * bulletAttr.MoveSpeed);
         }
     }
+
+
+
+
+    public class SuperBulletDetail : BulletDetail
+    {
+
+        public SuperBulletDetail()
+        {
+            ExtraDetail = new List<BulletDetail>();
+            bulletType = BulletType.None;
+            bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
+        }
+
+        public override void Generate(Vector3 Pos, Vector3 ForWard, BulletDetail bulletDetail)
+        {
+            currentPenetrate = bulletAttr.Penetrate;
+
+            int count = 36;
+            for (int i = 0; i < count; i++)
+            {
+                var left1 = GameManager.Instance.BulletManager.GetBullet();
+                left1.transform.forward = Quaternion.Euler(new Vector3(0, (360f / count) * i, 0)) * ForWard;
+                left1.transform.position = Pos;
+                left1.Init(bulletDetail);
+            }
+        }
+
+        public override void Hit()
+        {
+            enemy._EnemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy._EnemyDetail.enemyAttr, this.bulletAttr));
+        }
+
+        Enemy enemy;
+        float currentPenetrate;
+        public override bool JudgeHit(Transform transform)
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.05f))
+            {
+                if (hit.collider.tag == "Enemy")
+                {
+                    enemy = hit.collider.GetComponent<Enemy>();
+                    Debug.Log(enemy.name);
+                    Hit();
+                    if (--currentPenetrate < 0)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        public override string Mode()
+        {
+            return "Cube";
+        }
+
+        public override void Move(Bullet bullet)
+        {
+            bullet.transform.Translate(Vector3.forward * Time.deltaTime * bulletAttr.MoveSpeed);
+        }
+    }
+
+
+
 
 }

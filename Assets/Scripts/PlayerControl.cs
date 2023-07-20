@@ -15,11 +15,11 @@ namespace DemoGame
         {
             this.transform.position += inputManager.MoveControl() * Time.deltaTime * 10;
 
-            this.transform.LookAt(inputManager.LookAt(PlayerCam, 0));
+            this.transform.rotation = Quaternion.FromToRotation(Vector3.right, inputManager.LookAt(PlayerCam, 0) - this.transform.position);
 
             if (inputManager.Fire())
             {
-                GameManager.BulletManager.Fire(this.transform.position, this.transform.forward);
+                GameManager.Instance.BulletManager.Fire(this.transform.position, this.transform.forward);
             }
         }
 
@@ -29,6 +29,7 @@ namespace DemoGame
         private void OnEnable()
         {
             GameManager.Instance.MiniMapTail.Add(this);
+            GameManager.Instance.Player = this;
         }
 
         private void OnDisable()

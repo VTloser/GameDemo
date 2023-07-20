@@ -29,7 +29,7 @@ namespace DemoGame
 
         public int RenderTextureSize;
 
-        private void Awake()
+        private void Start()
         {
             RenderTexture renderTexture = new RenderTexture(RenderTextureSize, RenderTextureSize, 0);
             MiniCam.targetTexture = renderTexture;
@@ -38,7 +38,7 @@ namespace DemoGame
 
             for (int i = 0; i < GameManager.Instance.MiniMapTail.Count; i++)
             {
-                var uITrace = Instantiate(GameManager.ResourceManager.Load<UITrace>("UITrace"), MiniImage);
+                var uITrace = Instantiate(GameManager.Instance.ResourceManager.Load<UITrace>("UITrace"), MiniImage);
                 uITrace.Image.sprite = GetUITrace(GameManager.Instance.MiniMapTail[i]._MiniType);
                 uITrace.Tag = GameManager.Instance.MiniMapTail[i]._Transform;
                 UI_Traces.Add(uITrace);
@@ -53,11 +53,11 @@ namespace DemoGame
                 case MiniType.None:
                     return null;
                 case MiniType.Player:
-                    return GameManager.ResourceManager.Load<Sprite>("Player");
+                    return GameManager.Instance.ResourceManager.Load<Sprite>("Player");
                 case MiniType.Enemy:
-                    return GameManager.ResourceManager.Load<Sprite>("Enemy");
+                    return GameManager.Instance.ResourceManager.Load<Sprite>("Enemy");
                 case MiniType.Props:
-                    return GameManager.ResourceManager.Load<Sprite>("Props");
+                    return GameManager.Instance.ResourceManager.Load<Sprite>("Props");
                 default:
                     Debug.LogError($"未处理的类型{type}");
                     break;

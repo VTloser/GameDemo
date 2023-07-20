@@ -54,7 +54,7 @@ namespace DemoGame
 
         private void Update()
         {
-            _EnemyDetail.Move(this);
+            _EnemyDetail.Move();
         }
 
     }

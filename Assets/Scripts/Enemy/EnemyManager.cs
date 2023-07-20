@@ -19,7 +19,7 @@ namespace DemoGame
 
         public void Init()
         {
-            _Enemy = GameManager.ResourceManager.Load<Enemy>("Enemy");
+            _Enemy = GameManager.Instance.ResourceManager.Load<Enemy>("Enemy");
             EnemyPool = new Pool<Enemy>(_Enemy, null, 100);
         }
 
@@ -33,6 +33,7 @@ namespace DemoGame
         {
             var enemy = EnemyPool.GetObject();
             enemy._EnemyDetail = enemyDetail;
+            enemy._EnemyDetail.Init(enemy);
             return enemy;
         }
     }

@@ -7,6 +7,7 @@
  * Version:       0.1
  */
 
+using System.Security.Cryptography;
 using UnityEngine;
 
 namespace DemoGame
@@ -26,7 +27,7 @@ namespace DemoGame
     {
         public Vector3 MoveControl()
         {
-            return new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            return new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
         }
 
         public bool Jump()
@@ -34,9 +35,9 @@ namespace DemoGame
             return Input.GetAxisRaw("Jump") > 0.5f;
         }
 
-        public Vector3 LookAt(Camera camera, float height)
+        public Vector3 LookAt(Camera camera, float Z)
         {
-            Plane plane = new Plane(Vector3.up, height);
+            Plane plane = new Plane(Vector3.forward, Z);
             var ray = camera.ScreenPointToRay(Input.mousePosition);
             Vector3 GetPoint = Vector3.zero;
             if (plane.Raycast(ray, out float enter))
@@ -44,6 +45,8 @@ namespace DemoGame
                 GetPoint = ray.GetPoint(enter);
             }
             return GetPoint;
+            camera.ScreenToWorldPoint(Input.mousePosition);
+            return camera.ScreenToWorldPoint(Input.mousePosition) ;
         }
 
         public bool Fire()

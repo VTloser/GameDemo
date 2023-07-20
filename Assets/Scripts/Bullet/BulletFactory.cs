@@ -65,11 +65,11 @@ namespace DemoGame
         public BulletFactory()
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();
-            bulletAttrDB.Add(BulletType.None,      new BulletAttr(4, 2, 2, 0.1f,  1, 10, 2));
-            bulletAttrDB.Add(BulletType.Height,    new BulletAttr(2, 9, 2, 0.5f,  0, 10, 2));
-            bulletAttrDB.Add(BulletType.Long,      new BulletAttr(9, 2, 2, 0.5f,  0, 10, 2));
-            bulletAttrDB.Add(BulletType.Fast,      new BulletAttr(2, 2, 9, 0.5f,  0, 10, 2));
-            bulletAttrDB.Add(BulletType.FastShoot, new BulletAttr(2, 2, 2, 0.01f, 0, 10, 2));
+            bulletAttrDB.Add(BulletType.None,      new BulletAttr(4, 1, 2, 0.1f,  1, 10, 2));
+            bulletAttrDB.Add(BulletType.Height,    new BulletAttr(2, 1, 2, 0.5f,  0, 10, 2));
+            bulletAttrDB.Add(BulletType.Long,      new BulletAttr(9, 1, 2, 0.5f,  0, 10, 2));
+            bulletAttrDB.Add(BulletType.Fast,      new BulletAttr(2, 1, 9, 0.5f,  0, 10, 2));
+            bulletAttrDB.Add(BulletType.FastShoot, new BulletAttr(2, 1, 2, 0.01f, 0, 10, 2));
         }
 
         public BulletAttr GetBulletAttr(BulletType bulletType)

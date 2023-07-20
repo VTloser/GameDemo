@@ -14,11 +14,11 @@ namespace DemoGame
 
         public void Init() 
         {
-            _Bullet = GameManager.ResourceManager.Load<Bullet>("Bullet");
+            _Bullet = GameManager.Instance.ResourceManager.Load<Bullet>("Bullet");
             BulletPool = new Pool<Bullet>(_Bullet, null, 100);
 
-            CurrentBulletDetail = new DemoBulletDetail();
-            CurrentBulletDetail.ExtraDetail = new List<BulletDetail> { new SideBulletDetail() };
+            CurrentBulletDetail = new SuperBulletDetail();
+            //CurrentBulletDetail.ExtraDetail = new List<BulletDetail> { new SideBulletDetail() };
         }
 
         public void Fire(Vector3 Pos, Vector3 ForWard)

@@ -30,6 +30,7 @@ namespace DemoGame
 
         #endregion
 
+
         private BulletDetail LastBulletDetail;
         public BulletDetail _BulletDetail;
 
@@ -59,7 +60,7 @@ namespace DemoGame
         /// </summary>
         public void Die()
         {
-            GameManager.BulletManager.Destroy(this);
+            GameManager.Instance.BulletManager.Destroy(this);
         }
 
 
@@ -74,7 +75,7 @@ namespace DemoGame
         {
             if (this.transform.Find(newDetail.Mode()) == null)
             {
-                Instantiate(GameManager.ResourceManager.Load<GameObject>("Bullet/" + newDetail.Mode()), this.transform).name = newDetail.Mode();
+                Instantiate(GameManager.Instance.ResourceManager.Load<GameObject>("Bullet/" + newDetail.Mode()), this.transform).name = newDetail.Mode();
             }
             this.transform.Find(newDetail.Mode()).gameObject.SetActive(true);
 
