@@ -28,14 +28,17 @@ namespace DemoGame
         public Transform Tag;
         /// <summary>    血量上限    </summary>
         public float MaxHp;
+        /// <summary>    模型名称    </summary>
+        public string ModeName;
 
-        public EnemyAttr(float attackRange, float damage, float moveSpeed, float interval, float maxHp)
+        public EnemyAttr(float attackRange, float damage, float moveSpeed, float interval, float maxHp, string modeName)
         {
             AttackRange = attackRange;
             Damage = damage;
             MoveSpeed = moveSpeed;
             Interval = interval;
             MaxHp = maxHp;
+            ModeName = modeName;
         }
     }
     public enum EnemyType
@@ -59,11 +62,11 @@ namespace DemoGame
         public EnemyFactory()
         {
             EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
-            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 2, 200));
-            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 0.1f, 2, 200));
-            EnemyAttrDB.Add(EnemyType.Long,      new EnemyAttr(2, 2, 0.1f, 2, 200));
-            EnemyAttrDB.Add(EnemyType.Fast,      new EnemyAttr(2, 2, 0.1f, 2, 200));
-            EnemyAttrDB.Add(EnemyType.FastShoot, new EnemyAttr(2, 2, 0.1f, 2, 200));
+            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.Long,      new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.Fast,      new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.FastShoot, new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
         }
 
         public void ChangePlayer(Transform tag)

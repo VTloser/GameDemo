@@ -6,6 +6,7 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,19 +15,22 @@ namespace DemoGame
     public abstract class BulletDetail
     {
         /// <summary>  移动   </summary>
-        public abstract void Move(Bullet bullet);
+        public abstract void Move();
 
         /// <summary>  子弹生成 可视为一次开火  </summary>
-        public abstract void Generate(Vector3 Pos, Vector3 ForWard, BulletDetail bulletDetail);
-
-        /// <summary>  模型  </summary>
-        public abstract string Mode();
+        public abstract void Generate(BulletAgaent _bulletAgaent);
 
         /// <summary>  判断命中  </summary>
-        public abstract bool JudgeHit(Transform transform);
+        public abstract void JudgeHit();
 
         /// <summary>  判断命中  </summary>
         public abstract void Hit();
+
+        /// <summary>  生命周期倒计时  </summary>
+        public abstract IEnumerator LifeTime();
+
+        /// <summary>  子弹销毁  </summary>
+        public abstract void Die();
 
         /// <summary>  子弹种类  </summary>
         public BulletType bulletType;
@@ -36,135 +40,20 @@ namespace DemoGame
 
         /// <summary>  其他武器  </summary>
         public List<BulletDetail> ExtraDetail;
+
+        /// <summary>  子弹代理  </summary>
+        public BulletAgaent bulletAgaent;
+
     }
-
-    public class DemoBulletDetail : BulletDetail
-    {
-
-        public DemoBulletDetail()
-        {
-            ExtraDetail = new List<BulletDetail>();
-            bulletType = BulletType.None;
-            bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
-        }
-
-        public override void Generate(Vector3 Pos, Vector3 ForWard, BulletDetail bulletDetail)
-        {
-            currentPenetrate = bulletAttr.Penetrate;
-
-            var left1 = GameManager.Instance.BulletManager.GetBullet();
-            left1.transform.forward = ForWard;
-            left1.transform.position = Pos ;
-            left1.Init(bulletDetail);
-
-            //foreach (var item in ExtraDetail)
-            //{
-            //    item.Generate(Pos, ForWard, item);
-            //}
-        }
-
-        public override void Hit()
-        {
-            enemy._EnemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy._EnemyDetail.enemyAttr, this.bulletAttr));
-        }
-
-        Enemy enemy;
-        float currentPenetrate;
-        public override bool JudgeHit(Transform transform)
-        {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.05f))
-            {
-                if (hit.collider.tag == "Enemy")
-                {
-                    enemy = hit.collider.GetComponent<Enemy>();
-                    Debug.Log(enemy.name);
-                    Hit();
-                    if (--currentPenetrate < 0)
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        public override string Mode()
-        {
-            return "Cube";
-        }
-
-        public override void Move(Bullet bullet)
-        {
-            bullet.transform.Translate(Vector3.forward * Time.deltaTime * bulletAttr.MoveSpeed);
-        }
-    }
-
-
-    public class SideBulletDetail : BulletDetail
-    {
-
-        public SideBulletDetail()
-        {
-            ExtraDetail = new List<BulletDetail>();
-            bulletType = BulletType.None;
-            bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
-        }
-
-        public override void Generate(Vector3 Pos, Vector3 ForWard, BulletDetail bulletDetail)
-        {
-            currentPenetrate = bulletAttr.Penetrate;
-            var left = GameManager.Instance.BulletManager.GetBullet();
-            left.transform.right = ForWard;
-            left.transform.position = Pos;
-            left.Init(bulletDetail);
-
-            var right = GameManager.Instance.BulletManager.GetBullet();
-            right.transform.right = -ForWard;
-            right.transform.position = Pos;
-            right.Init(bulletDetail);
-
-            foreach (var item in ExtraDetail)
-            {
-                item.Generate(Pos, ForWard, item);
-            }
-        }
-
-        public override void Hit()
-        {
-            enemy._EnemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy._EnemyDetail.enemyAttr, this.bulletAttr));
-        }
-
-        Enemy enemy;
-        float currentPenetrate;
-        public override bool JudgeHit(Transform transform)
-        {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.1f))
-            {
-                if (hit.collider.tag == "Enemy")
-                {
-                    enemy = hit.collider.GetComponent<Enemy>();
-                    Hit();
-                    if (--currentPenetrate < 0)
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        public override string Mode()
-        {
-            return "Sphere";
-        }
-
-        public override void Move(Bullet bullet)
-        {
-            bullet.transform.Translate(Vector3.forward * Time.deltaTime * bulletAttr.MoveSpeed);
-        }
-    }
-
-
 
 
     public class SuperBulletDetail : BulletDetail
     {
+        private EnemyAgaent enemy;
+
+        private float currentPenetrate;
+
+        private float LastGenerate;
 
         public SuperBulletDetail()
         {
@@ -173,18 +62,21 @@ namespace DemoGame
             bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
         }
 
-        public override void Generate(Vector3 Pos, Vector3 ForWard, BulletDetail bulletDetail)
+        public override void Generate(BulletAgaent _bulletAgaent)
         {
+            if (Time.time - LastGenerate < bulletAttr.Interval) return;
             currentPenetrate = bulletAttr.Penetrate;
+            bulletAgaent = _bulletAgaent;
+            _bulletAgaent.Sprite.sprite = bulletAttr.Sprite;
 
             int count = 36;
             for (int i = 0; i < count; i++)
             {
                 var left1 = GameManager.Instance.BulletManager.GetBullet();
-                left1.transform.forward = Quaternion.Euler(new Vector3(0, (360f / count) * i, 0)) * ForWard;
-                left1.transform.position = Pos;
-                left1.Init(bulletDetail);
+                left1.transform.up = Quaternion.Euler(new Vector3(0, 0, (360f / count) * i)) * _bulletAgaent.transform.forward;
+                left1.transform.position = _bulletAgaent.transform.position;
             }
+            LastGenerate = Time.time;
         }
 
         public override void Hit()
@@ -192,36 +84,34 @@ namespace DemoGame
             enemy._EnemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy._EnemyDetail.enemyAttr, this.bulletAttr));
         }
 
-        Enemy enemy;
-        float currentPenetrate;
-        public override bool JudgeHit(Transform transform)
+
+        public override void JudgeHit()
         {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.05f))
+            var rayHit = Physics2D.Raycast(bulletAgaent.transform.position, bulletAgaent.transform.up, 0.05f);
+            if (rayHit.collider?.tag == "Enemy")
             {
-                if (hit.collider.tag == "Enemy")
-                {
-                    enemy = hit.collider.GetComponent<Enemy>();
-                    Debug.Log(enemy.name);
-                    Hit();
-                    if (--currentPenetrate < 0)
-                        return true;
-                }
+                enemy = rayHit.collider.GetComponent<EnemyAgaent>();
+                Hit();
+                if (--currentPenetrate < 0)
+                    Die();
             }
-            return false;
         }
 
-        public override string Mode()
+        public override void Move()
         {
-            return "Cube";
+            bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
         }
 
-        public override void Move(Bullet bullet)
+        public override IEnumerator LifeTime()
         {
-            bullet.transform.Translate(Vector3.forward * Time.deltaTime * bulletAttr.MoveSpeed);
+            yield return new WaitForSeconds(bulletAttr.LifeTime);
+            Die();
+        }
+
+        public override void Die()
+        {
+            GameManager.Instance.BulletManager.Destroy(bulletAgaent);
         }
     }
-
-
-
 
 }

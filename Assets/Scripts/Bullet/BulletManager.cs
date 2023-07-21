@@ -6,16 +6,15 @@ namespace DemoGame
 {
     public class BulletManager
     {
-        public Bullet _Bullet;
-        private Pool<Bullet> BulletPool;
-        private float _LastGenerate;
+        public BulletAgaent _Bullet;
+        private Pool<BulletAgaent> BulletPool;
 
         public BulletDetail CurrentBulletDetail;
 
         public void Init() 
         {
-            _Bullet = GameManager.Instance.ResourceManager.Load<Bullet>("Bullet");
-            BulletPool = new Pool<Bullet>(_Bullet, null, 100);
+            _Bullet = GameManager.Instance.ResourceManager.Load<BulletAgaent>("Bullet");
+            BulletPool = new Pool<BulletAgaent>(_Bullet, null, 100);
 
             CurrentBulletDetail = new SuperBulletDetail();
             //CurrentBulletDetail.ExtraDetail = new List<BulletDetail> { new SideBulletDetail() };
@@ -23,20 +22,20 @@ namespace DemoGame
 
         public void Fire(Vector3 Pos, Vector3 ForWard)
         {
-            _Bullet._BulletDetail = CurrentBulletDetail;
-            if (Time.time - _LastGenerate > _Bullet._BulletDetail.bulletAttr.Interval * 2)
-            {
-                _Bullet._BulletDetail.Generate(Pos, ForWard, CurrentBulletDetail);
-                _LastGenerate = Time.time;
-            }
+            //_Bullet._BulletDetail = CurrentBulletDetail;
+            //if (Time.time - _LastGenerate > _Bullet._BulletDetail.bulletAttr.Interval * 2)
+            //{
+            //    _Bullet._BulletDetail.Generate(Pos, ForWard, CurrentBulletDetail);
+            //    _LastGenerate = Time.time;
+            //}
         }
 
-        public void Destroy(Bullet bullet)
+        public void Destroy(BulletAgaent bullet)
         {
             BulletPool.DestObject(bullet);
         }
 
-        public Bullet GetBullet()
+        public BulletAgaent GetBullet()
         {
             return BulletPool.GetObject();
         }

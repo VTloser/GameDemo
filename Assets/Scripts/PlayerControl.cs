@@ -7,19 +7,17 @@ namespace DemoGame
 {
     public class PlayerControl : MonoBehaviour, MiniMap
     {
-        InputManager inputManager = new PCInputManager();
+        
         public Camera PlayerCam;
 
 
         private void Update()
         {
-            this.transform.position += inputManager.MoveControl() * Time.deltaTime * 10;
+            this.transform.position += GameManager.Instance.inputManager.MoveControl() * Time.deltaTime * 10;
 
-            this.transform.rotation = Quaternion.FromToRotation(Vector3.right, inputManager.LookAt(PlayerCam, 0) - this.transform.position);
-
-            if (inputManager.Fire())
+            if (GameManager.Instance.inputManager.Fire())
             {
-                GameManager.Instance.BulletManager.Fire(this.transform.position, this.transform.forward);
+                GameManager.Instance.BulletManager.Fire(this.transform.position, GameManager.Instance.inputManager.LookAt(PlayerCam, 0) - this.transform.position);
             }
         }
 
@@ -30,6 +28,7 @@ namespace DemoGame
         {
             GameManager.Instance.MiniMapTail.Add(this);
             GameManager.Instance.Player = this;
+            PlayerCam = Camera.main;
         }
 
         private void OnDisable()

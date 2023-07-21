@@ -14,22 +14,22 @@ namespace DemoGame
 {
     public class EnemyManager
     {
-        public Enemy _Enemy;
-        private Pool<Enemy> EnemyPool;
+        public EnemyAgaent _Enemy;
+        private Pool<EnemyAgaent> EnemyPool;
 
         public void Init()
         {
-            _Enemy = GameManager.Instance.ResourceManager.Load<Enemy>("Enemy");
-            EnemyPool = new Pool<Enemy>(_Enemy, null, 100);
+            _Enemy = GameManager.Instance.ResourceManager.Load<EnemyAgaent>("Enemy");
+            EnemyPool = new Pool<EnemyAgaent>(_Enemy, null, 100);
         }
 
 
-        public void Destroy(Enemy enemy)
+        public void Destroy(EnemyAgaent enemy)
         {
             EnemyPool.DestObject(enemy);
         }
 
-        public Enemy GetEnemy(EnemyDetail enemyDetail)
+        public EnemyAgaent GetEnemy(EnemyDetail enemyDetail)
         {
             var enemy = EnemyPool.GetObject();
             enemy._EnemyDetail = enemyDetail;

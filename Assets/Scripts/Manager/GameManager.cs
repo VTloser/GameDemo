@@ -18,10 +18,13 @@ namespace DemoGame
 
         public EnemyFactory enemyFactory = new EnemyFactory();
 
+        public InputManager inputManager;
 
         private void Awake()
         {
             Instance = this;
+
+            inputManager = new PCInputManager();
         }
 
 
@@ -77,6 +80,8 @@ namespace DemoGame
                 return mathManager;
             }
         }
+
+
 
     }
 }

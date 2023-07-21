@@ -18,11 +18,8 @@ namespace DemoGame
         /// <summary>  移动   </summary>
         public abstract void Move();
 
-        /// <summary>  模型  </summary>
-        public abstract string Mode();
-
         /// <summary>  判断命中  </summary>
-        public abstract bool JudgeHit(Transform transform);
+        public abstract bool JudgeHit();
 
         /// <summary>  判断命中  </summary>
         public abstract void Hit();
@@ -32,7 +29,7 @@ namespace DemoGame
 
         public abstract void Die();
 
-        public abstract void Init(Enemy enemy);
+        public abstract void Init(EnemyAgaent enemy);
 
         /// <summary>  敌人种类  </summary>
         public EnemyType enemyType;
@@ -44,7 +41,7 @@ namespace DemoGame
         public float CurrentHp;
 
         /// <summary>  对应实体  </summary>
-        public Enemy _Enemy;
+        public EnemyAgaent _Enemy;
 
     }
 
@@ -67,9 +64,18 @@ namespace DemoGame
             throw new System.NotImplementedException();
         }
 
-        public override void Init(Enemy enemy)
+        public override void Init(EnemyAgaent enemy)
         {
             _Enemy = enemy;
+            for (int i = 0; i < enemy.transform.childCount; i++)
+            {
+                enemy.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            if (enemy.transform.Find(enemyAttr.ModeName) == null)
+            {
+                GameManager.Instance.ResourceManager.Load<GameManager>("Enemy/" + (enemyAttr.ModeName, enemy));
+            }
+            enemy.transform.Find(enemyAttr.ModeName).gameObject.SetActive(true);
         }
 
         public override void Injury(float damage)
@@ -81,25 +87,20 @@ namespace DemoGame
             }
         }
 
-        public override bool JudgeHit(Transform transform)
+        public override bool JudgeHit()
         {
             throw new System.NotImplementedException();
         }
 
-        public override string Mode()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Move()
         {
             if (enemyAttr.Tag != null)
             {
-                _Enemy.transform.LookAt(enemyAttr.Tag);
-                _Enemy.transform.Translate(Vector3.forward * Time.deltaTime * enemyAttr.MoveSpeed);
+                _Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position );
+                _Enemy.transform.Translate(Vector3.right * Time.deltaTime * enemyAttr.MoveSpeed);
             }
         }
+
     }
-
-
 }

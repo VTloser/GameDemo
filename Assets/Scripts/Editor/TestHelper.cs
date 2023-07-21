@@ -24,9 +24,17 @@ namespace DemoGame
             {
                 var t = GameManager.Instance.EnemyManager.GetEnemy(new DemoEnemyDetail());
                 Vector3 random = Random.insideUnitSphere * 5;
-                random.y = 0;
+                random.z = 0;
                 t.transform.position = random;
             }
         }
+
+        [Button(ButtonSizes.Medium)]
+        private void AddPlayer()
+        {
+            Instantiate(GameManager.Instance.ResourceManager.Load<PlayerControl>("Player"));
+        }
+
+
     }
 }

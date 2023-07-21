@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,7 +59,7 @@ namespace DemoGame
                 case MiniType.Props:
                     return GameManager.Instance.ResourceManager.Load<Sprite>("Props");
                 default:
-                    Debug.LogError($"Î´´¦ÀíµÄÀàĞÍ{type}");
+                    Debug.LogError($"æœªå¤„ç†çš„ç±»å‹{type}");
                     break;
             }
             return null;
@@ -85,7 +85,7 @@ namespace DemoGame
         }
 
         /// <summary>
-        /// UI¸ú×ÙÄ¿±ê
+        /// UIè·Ÿè¸ªç›®æ ‡
         /// </summary>
         public void Trace()
         {
@@ -101,7 +101,7 @@ namespace DemoGame
 
 
         /// <summary>
-        /// »ñÈ¡Á½ÎïÌå½Ç¶È
+        /// è·å–ä¸¤ç‰©ä½“è§’åº¦
         /// </summary>
         /// <param name="Pos_A"></param>
         /// <param name="Pos_B"></param>
@@ -109,14 +109,14 @@ namespace DemoGame
         public float Two_ObjectAngle(Vector3 Pos_A, Vector3 Pos_B)
         {
             Vector3 dir = new Vector2(Pos_B.x, Pos_B.z) - new Vector2(Pos_A.x, Pos_A.z);
-            float angle = Vector2.Angle(Vector2.up, dir); //Çó³öÁ½ÏòÁ¿Ö®¼äµÄ¼Ğ½Ç 
-            angle *= Mathf.Sign(Vector2.Dot(dir, Vector2.left));  //Çó·¨ÏßÏòÁ¿ÓëÎïÌåÉÏ·½ÏòÏòÁ¿µã³Ë£¬½á¹ûÎª1»ò-1£¬ĞŞÕıĞı×ª·½Ïò 
+            float angle = Vector2.Angle(Vector2.up, dir); //æ±‚å‡ºä¸¤å‘é‡ä¹‹é—´çš„å¤¹è§’ 
+            angle *= Mathf.Sign(Vector2.Dot(dir, Vector2.left));  //æ±‚æ³•çº¿å‘é‡ä¸ç‰©ä½“ä¸Šæ–¹å‘å‘é‡ç‚¹ä¹˜ï¼Œç»“æœä¸º1æˆ–-1ï¼Œä¿®æ­£æ—‹è½¬æ–¹å‘ 
             return angle;
         }
 
         private float _angle;
         /// <summary>
-        /// ¼ì²â·¢ÏÖ
+        /// æ£€æµ‹å‘ç°
         /// </summary>
         private void Detection()
         {
@@ -142,17 +142,25 @@ namespace DemoGame
         public LayerMask raymask = -1;
         private RaycastHit hitInfo;
         /// <summary>
-        /// µã»÷µØÍ¼ ·µ»ØÊÀ½ç×ø±ê
+        /// ç‚¹å‡»åœ°å›¾ è¿”å›ä¸–ç•Œåæ ‡
         /// </summary>
         private void ClickMap()
         {
             DemoImage.transform.position = Input.mousePosition;
             Ray ray = RectTransformUtility.ScreenPointToRay(MiniCam, (DemoImage.transform.position - MiniMap.position) / MiniMap.localScale.x / MiniImage.localScale.x / (MiniImage.sizeDelta.x / RenderTextureSize));
-            ray.origin += new Vector3(MiniCam.orthographicSize, 0, MiniCam.orthographicSize); //UIÉãÏñ»úµÄSize
+            ray.origin += new Vector3(MiniCam.orthographicSize, 0, MiniCam.orthographicSize); //UIæ‘„åƒæœºçš„Size
             if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, rayDistance, raymask))
             {
                 Cube.transform.position = hitInfo.point;
             }
         }
     }
+}
+
+public enum MiniType
+{
+    None,
+    Player, //ç©å®¶
+    Enemy,  //æ•Œäºº
+    Props,  //é“å…·
 }
