@@ -17,7 +17,7 @@ namespace DemoGame
 
             if (GameManager.Instance.inputManager.Fire())
             {
-                GameManager.Instance.BulletManager.Fire(this.transform.position, GameManager.Instance.inputManager.LookAt(PlayerCam, 0) - this.transform.position);
+                GameManager.Instance.BulletManager.Fire(GameManager.Instance.inputManager.LookAt(PlayerCam, 0) - this.transform.position);
             }
         }
 

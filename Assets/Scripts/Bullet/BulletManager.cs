@@ -6,28 +6,43 @@ namespace DemoGame
 {
     public class BulletManager
     {
+
+        #region 对象池部分
+
         public BulletAgaent _Bullet;
         private Pool<BulletAgaent> BulletPool;
 
-        public BulletDetail CurrentBulletDetail;
+        #endregion
+
+        private List<BulletDetail> CurrentBulletDetail;
+        private Dictionary<BulletDetail, BulletGenerate> Generates;
+
+        public void AddBullet(BulletDetail bulletDetail, BulletGenerate bulletGenerate)
+        {
+            CurrentBulletDetail.Add(bulletDetail);
+            Generates.Add(bulletDetail, bulletGenerate);
+        }
+
+        public void RemoveBullet(BulletDetail bulletDetail)
+        {
+            CurrentBulletDetail.Remove(bulletDetail);
+        }
 
         public void Init() 
         {
             _Bullet = GameManager.Instance.ResourceManager.Load<BulletAgaent>("Bullet");
-            BulletPool = new Pool<BulletAgaent>(_Bullet, null, 100);
+            BulletPool = new Pool<BulletAgaent>(_Bullet, null, 64);
 
-            CurrentBulletDetail = new SuperBulletDetail();
-            //CurrentBulletDetail.ExtraDetail = new List<BulletDetail> { new SideBulletDetail() };
+            CurrentBulletDetail = new List<BulletDetail>();
+            Generates = new Dictionary<BulletDetail, BulletGenerate>();
         }
 
-        public void Fire(Vector3 Pos, Vector3 ForWard)
+        public void Fire(Vector3 ForWard)
         {
-            //_Bullet._BulletDetail = CurrentBulletDetail;
-            //if (Time.time - _LastGenerate > _Bullet._BulletDetail.bulletAttr.Interval * 2)
-            //{
-            //    _Bullet._BulletDetail.Generate(Pos, ForWard, CurrentBulletDetail);
-            //    _LastGenerate = Time.time;
-            //}
+            foreach (BulletDetail b in CurrentBulletDetail)
+            {
+                Generates[b].Generate(ForWard);
+            }
         }
 
         public void Destroy(BulletAgaent bullet)
@@ -35,9 +50,11 @@ namespace DemoGame
             BulletPool.DestObject(bullet);
         }
 
-        public BulletAgaent GetBullet()
+        public BulletAgaent GetBullet(BulletDetail bulletDetail)
         {
-            return BulletPool.GetObject();
+            BulletAgaent bullet = BulletPool.GetObject();
+            bullet.Init(bulletDetail);
+            return bullet;
         }
     }
 }

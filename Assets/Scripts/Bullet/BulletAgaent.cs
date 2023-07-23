@@ -1,3 +1,4 @@
+using Codice.CM.Common;
 using System.Collections;
 using System.Threading;
 using UnityEditor.Overlays;
@@ -5,6 +6,7 @@ using UnityEngine;
 
 namespace DemoGame
 {
+    [System.Serializable]
     public class BulletAgaent : MonoBehaviour, IPoolBase
     {
         #region 对象池部分
@@ -32,21 +34,22 @@ namespace DemoGame
         private BulletDetail _BulletDetail;
         public SpriteRenderer Sprite;
 
+        public void Init(BulletDetail bulletDetail)
+        {
+            _BulletDetail = bulletDetail;
+            _BulletDetail.Int(this);
+            StartCoroutine(_BulletDetail.LifeTime());
+        }
 
+        //注释Update 180-190
         private void Update()
         {
-            _BulletDetail.Move();
-            try
-            {
-                _BulletDetail.JudgeHit();
+            //180-170
+            _BulletDetail.Move(); //仅Move 150 -160
+            _BulletDetail.JudgeHit();  //仅潘顿 150-140
 
-            }
-            catch
-            {
-                Debug.Log(_BulletDetail);
-                Debug.Log(this.transform);
-                throw;
-            }
+            //全卡120-130
         }
+
     }
 }

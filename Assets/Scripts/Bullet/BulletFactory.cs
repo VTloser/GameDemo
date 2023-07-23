@@ -63,6 +63,7 @@ namespace DemoGame
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();
             //后期读取配置表实现
+
             bulletAttrDB.Add(BulletType.None,     new BulletAttr(4, 1, 2, GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.1f, 1, 10, 2));
             bulletAttrDB.Add(BulletType.FireBall, new BulletAttr(2, 1, 2, GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.5f, 0, 10, 2));
         }

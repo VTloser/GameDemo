@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,74 +15,34 @@ namespace DemoGame
 
         public PlayerControl Player { get => player; set { player = value; enemyFactory.ChangePlayer(player.transform); } }
 
-        public BulletFactory bulletFactory = new BulletFactory();
+        public BulletFactory bulletFactory;
 
-        public EnemyFactory enemyFactory = new EnemyFactory();
+        public EnemyFactory enemyFactory;
 
         public InputManager inputManager;
+
+        public ResourceManager ResourceManager;
+
+        public BulletManager BulletManager;
+
+        public EnemyManager EnemyManager;
+
+        public MathManager MathManager;
 
         private void Awake()
         {
             Instance = this;
 
-            inputManager = new PCInputManager();
+            ResourceManager = new ResourceManager();
+            MathManager     = new MathManager();
+            BulletManager   = new BulletManager(); BulletManager.Init();
+            EnemyManager    = new EnemyManager();  EnemyManager.Init();
+            inputManager    = new PCInputManager();
+
+
+            bulletFactory = new BulletFactory();
+            enemyFactory  = new EnemyFactory();
         }
-
-
-        private ResourceManager resourceManager;
-        public ResourceManager ResourceManager
-        {
-            get
-            {
-                if (resourceManager == null)
-                    resourceManager = new ResourceManager();
-                return resourceManager;
-            }
-        }
-
-        private BulletManager bulletManager;
-        public BulletManager BulletManager
-        {
-            get
-            {
-                if (bulletManager == null)
-                {
-                    bulletManager = new BulletManager();
-                    bulletManager.Init();
-                }
-                return bulletManager;
-            }
-        }
-
-
-        private EnemyManager enemyManager;
-        public EnemyManager EnemyManager
-        {
-            get
-            {
-                if (enemyManager == null)
-                {
-                    enemyManager = new EnemyManager();
-                    enemyManager.Init();
-                }
-                return enemyManager;
-            }
-        }
-
-        private MathManager mathManager;
-        public MathManager MathManager
-        {
-            get
-            {
-                if (mathManager == null)
-                {
-                    mathManager = new MathManager();
-                }
-                return mathManager;
-            }
-        }
-
-
 
     }
 }

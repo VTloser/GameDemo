@@ -45,8 +45,6 @@ namespace DemoGame
                 GetPoint = ray.GetPoint(enter);
             }
             return GetPoint;
-            camera.ScreenToWorldPoint(Input.mousePosition);
-            return camera.ScreenToWorldPoint(Input.mousePosition) ;
         }
 
         public bool Fire()

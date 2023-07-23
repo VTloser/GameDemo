@@ -35,6 +35,13 @@ namespace DemoGame
             Instantiate(GameManager.Instance.ResourceManager.Load<PlayerControl>("Player"));
         }
 
+        [Button(ButtonSizes.Medium)]
+        private void AddBullet()
+        {
+            BulletDetail bullet = new SuperBulletDetail();
+            GameManager.Instance.BulletManager.AddBullet(bullet, new CircleDirGenerate(bullet,1));
+        }
+
 
     }
 }

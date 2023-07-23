@@ -20,7 +20,7 @@ namespace DemoGame
         public void Init()
         {
             _Enemy = GameManager.Instance.ResourceManager.Load<EnemyAgaent>("Enemy");
-            EnemyPool = new Pool<EnemyAgaent>(_Enemy, null, 100);
+            EnemyPool = new Pool<EnemyAgaent>(_Enemy, null, 64);
         }
 
 
