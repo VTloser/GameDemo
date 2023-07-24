@@ -95,9 +95,12 @@ namespace DemoGame
 
         public override void Move()
         {
+
+            //_Enemy.transform.Translate(Vector3.up * Time.deltaTime * enemyAttr.MoveSpeed);
+
             if (enemyAttr.Tag != null)
             {
-                _Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position );
+                _Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position);
                 _Enemy.transform.Translate(Vector3.right * Time.deltaTime * enemyAttr.MoveSpeed);
             }
         }

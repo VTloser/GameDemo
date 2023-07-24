@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace DemoGame
 {
-    public class EnemyAgaent : MonoBehaviour, IPoolBase, IMiniMap
+    public class EnemyAgaent : MonoBehaviour, IPoolBase , IMiniMap
     {
 
         #region 对象池部分
@@ -56,9 +56,12 @@ namespace DemoGame
 
         public EnemyDetail _EnemyDetail;
 
+        ////关闭160-170
         private void Update()
         {
-            _EnemyDetail.Move();
+            _EnemyDetail.Move(); //打开 60帧
+
+            //全关闭 170-160帧
         }
 
     }

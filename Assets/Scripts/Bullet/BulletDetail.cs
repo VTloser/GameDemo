@@ -58,7 +58,7 @@ namespace DemoGame
 
         public FireBallDetail()
         {
-            bulletType = BulletType.FireBall;
+            bulletType = BulletType.None;
             bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
         }
 
@@ -79,7 +79,8 @@ namespace DemoGame
 
         public override void JudgeHit()
         {
-            rayHit = Physics2D.Raycast(bulletAgaent.transform.position, bulletAgaent.transform.up, 0.05f);
+            Debug.DrawLine(bulletAgaent.transform.position, bulletAgaent.transform.position + bulletAgaent.transform.up * bulletAttr.Radius);
+            rayHit = Physics2D.Raycast(bulletAgaent.transform.position, bulletAgaent.transform.up, bulletAttr.Radius);
             if (rayHit.collider?.tag == "Enemy")
             {
                 enemy = rayHit.collider.GetComponentInParent<EnemyAgaent>();

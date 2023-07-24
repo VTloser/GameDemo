@@ -63,10 +63,7 @@ namespace DemoGame
         {
             EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
             EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.Long,      new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.Fast,      new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.FastShoot, new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 1f, 2, 5, "DemoEnemy"));
         }
 
         public void ChangePlayer(Transform tag)

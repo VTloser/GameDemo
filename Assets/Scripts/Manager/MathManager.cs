@@ -22,9 +22,6 @@ namespace DemoGame
             Damage += bullet.Damage;
             //计算暴击伤害
             Damage += Random.Range(0, 101) < bullet.CritRate ? bullet.Damage * bullet.CritDamage : 0;
-            Debug.Log($"暴击率 {bullet.CritRate} ");
-            if (Damage > 1)
-                Debug.Log($"暴击了！ {Damage} ");
             return Damage;
         }
     }

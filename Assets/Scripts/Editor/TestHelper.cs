@@ -29,12 +29,25 @@ namespace DemoGame
                 t.transform.position = random;
             }
         }
+        public int BulletNum;
+        [Button(ButtonSizes.Medium)]
+        private void AddBullet()
+        {
+            for (int i = 0; i < BulletNum; i++)
+            {
+                var t = GameManager.Instance.BulletManager.GetBullet(new FireBallDetail());
+                Vector3 random = Random.insideUnitSphere * 5;
+                random.z = 0;
+                t.transform.position = random;
+            }
+        }
+
 
 
         [Button(ButtonSizes.Medium)]
         private void AddPlayer()
         {
-            Instantiate(GameManager.Instance.ResourceManager.Load<PlayerControl>("Player"));
+            Instantiate(GameManager.Instance.ResourceManager.Load<PlayerControl>(Path: "Player"));
         }
 
         int Count0;        
@@ -60,7 +73,7 @@ namespace DemoGame
         private void AddCircleDirGenerateBullet()
         {
             BulletDetail bullet = new FireBallDetail();
-            GameManager.Instance.BulletManager.AddBullet(bullet, new CircleDirGenerate(bullet, 500 * Count2++, 1f));
+            GameManager.Instance.BulletManager.AddBullet(bullet, new CircleDirGenerate(bullet, 500 * Count2++, 2f));
         }
 
 
