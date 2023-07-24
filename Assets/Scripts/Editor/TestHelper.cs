@@ -8,6 +8,7 @@
  */
 using Sirenix.OdinInspector;
 using Sirenix.Utilities.Editor;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace DemoGame
 {
     public class TestHelper : MonoBehaviour
     {
-        public float EnemyNum;
+        public int EnemyNum;
 
         [Button(ButtonSizes.Medium)]
         private void AddEnemy()
@@ -29,19 +30,46 @@ namespace DemoGame
             }
         }
 
+
         [Button(ButtonSizes.Medium)]
         private void AddPlayer()
         {
             Instantiate(GameManager.Instance.ResourceManager.Load<PlayerControl>("Player"));
         }
 
+        int Count0;        
         [Button(ButtonSizes.Medium)]
-        private void AddBullet()
+
+        private void AddDirGenerateBullet()
         {
-            BulletDetail bullet = new SuperBulletDetail();
-            GameManager.Instance.BulletManager.AddBullet(bullet, new CircleDirGenerate(bullet,1));
+            BulletDetail bullet = new FireBallDetail();
+            GameManager.Instance.BulletManager.AddBullet(bullet, new DirGenerate(bullet, 500 * Count0++));
         }
 
+
+        int Count1;
+        [Button(ButtonSizes.Medium)]
+        private void AddCircleGenerateBullet()
+        {
+            BulletDetail bullet = new FireBallDetail();
+            GameManager.Instance.BulletManager.AddBullet(bullet, new CircleGenerate(bullet, 500 * Count1++));
+        }
+
+        int Count2;
+        [Button(ButtonSizes.Medium)]
+        private void AddCircleDirGenerateBullet()
+        {
+            BulletDetail bullet = new FireBallDetail();
+            GameManager.Instance.BulletManager.AddBullet(bullet, new CircleDirGenerate(bullet, 500 * Count2++, 1f));
+        }
+
+
+        [Button(ButtonSizes.Medium)]
+        private void GetDemoProps()
+        {
+            DemoPropsBase demoPropsBase = new DemoPropsBase();
+            demoPropsBase.Get();
+        }
 
     }
 }

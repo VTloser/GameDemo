@@ -28,6 +28,8 @@ namespace DemoGame
         public Sprite Sprite;
         /// <summary>    攻击间隔    </summary>
         public float Interval;
+        /// <summary>    伤害半径    </summary>
+        public float Radius;
         /// <summary>    子弹穿透    </summary>
         public float Penetrate;
         /// <summary>    暴击率      </summary>
@@ -35,13 +37,14 @@ namespace DemoGame
         /// <summary>    暴击加成    </summary>
         public float CritDamage;
 
-        public BulletAttr(float lifeTime, float damage, float moveSpeed, Sprite sprite, float interval, float penetrate, float critRate, float critDamage)
+        public BulletAttr(float lifeTime, float damage, float moveSpeed, Sprite sprite, float interval, float radius, float penetrate, float critRate, float critDamage)
         {
             LifeTime = lifeTime;
             Damage = damage;
             MoveSpeed = moveSpeed;
             Sprite = sprite;
             Interval = interval;
+            Radius = radius;
             Penetrate = penetrate;
             CritRate = critRate;
             CritDamage = critDamage;
@@ -50,7 +53,7 @@ namespace DemoGame
 
     public enum BulletType
     {
-        //默认
+        //性能检测用
         None = 0,
         //火球
         FireBall,
@@ -58,14 +61,14 @@ namespace DemoGame
 
     public class BulletFactory
     {
-        private Dictionary<BulletType, BulletAttr> bulletAttrDB = null;
+        public Dictionary<BulletType, BulletAttr> bulletAttrDB = null;
         public BulletFactory()
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();
             //后期读取配置表实现
 
-            bulletAttrDB.Add(BulletType.None,     new BulletAttr(4, 1, 2, GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.1f, 1, 10, 2));
-            bulletAttrDB.Add(BulletType.FireBall, new BulletAttr(2, 1, 2, GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.5f, 0, 10, 2));
+            bulletAttrDB.Add(BulletType.None,     new BulletAttr(4, 1, 2, GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.01f, 0.05f, 0, 10, 0.5f));
+            bulletAttrDB.Add(BulletType.FireBall, new BulletAttr(2, 1, 2, GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.5f, 0.05f, 0, 10, 0.5f));
         }
 
         public BulletAttr GetBulletAttr(BulletType bulletType)

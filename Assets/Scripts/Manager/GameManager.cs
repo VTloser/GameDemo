@@ -9,7 +9,7 @@ namespace DemoGame
     {
         public static GameManager Instance;
 
-        public List<MiniMap> MiniMapTail = new List<MiniMap>();
+        public List<IMiniMap> MiniMapTail = new List<IMiniMap>();
 
         private PlayerControl player;
 

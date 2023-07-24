@@ -15,7 +15,7 @@ namespace DemoGame
         #endregion
 
         private List<BulletDetail> CurrentBulletDetail;
-        private Dictionary<BulletDetail, BulletGenerate> Generates;
+        public Dictionary<BulletDetail, BulletGenerate> Generates;
 
         public void AddBullet(BulletDetail bulletDetail, BulletGenerate bulletGenerate)
         {

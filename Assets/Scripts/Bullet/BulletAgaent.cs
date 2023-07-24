@@ -38,6 +38,7 @@ namespace DemoGame
         {
             _BulletDetail = bulletDetail;
             _BulletDetail.Int(this);
+            Sprite.enabled = true;
             StartCoroutine(_BulletDetail.LifeTime());
         }
 
@@ -47,9 +48,13 @@ namespace DemoGame
             //180-170
             _BulletDetail.Move(); //½öMove 150 -160
             _BulletDetail.JudgeHit();  //½öÅË¶Ù 150-140
-
             //È«¿¨120-130
         }
 
+        //private void OnBecameInvisible()
+        //{
+        //    Debug.Log(111);
+        //    Sprite.enabled = false;
+        //}
     }
 }

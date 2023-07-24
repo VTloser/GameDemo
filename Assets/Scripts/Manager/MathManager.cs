@@ -16,14 +16,16 @@ namespace DemoGame
     {
         public float Damage(EnemyAttr enemy, BulletAttr bullet)
         {
-            float Demage = 0;
+            float Damage = 0;
 
             //计算普通伤害
-            Demage += enemy.Damage;
+            Damage += bullet.Damage;
             //计算暴击伤害
-            Demage += Random.Range(0, 101) > bullet.CritRate ? bullet.Damage * bullet.CritDamage / 100 : 0;
-
-            return Demage;
+            Damage += Random.Range(0, 101) < bullet.CritRate ? bullet.Damage * bullet.CritDamage : 0;
+            Debug.Log($"暴击率 {bullet.CritRate} ");
+            if (Damage > 1)
+                Debug.Log($"暴击了！ {Damage} ");
+            return Damage;
         }
     }
 }

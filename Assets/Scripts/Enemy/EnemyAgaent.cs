@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace DemoGame
 {
-    public class EnemyAgaent : MonoBehaviour, IPoolBase, MiniMap
+    public class EnemyAgaent : MonoBehaviour, IPoolBase, IMiniMap
     {
 
         #region 对象池部分

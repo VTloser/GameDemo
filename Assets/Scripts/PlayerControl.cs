@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 namespace DemoGame
 {
-    public class PlayerControl : MonoBehaviour, MiniMap
+    public class PlayerControl : MonoBehaviour, IMiniMap
     {
         
         public Camera PlayerCam;

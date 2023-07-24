@@ -58,15 +58,15 @@ namespace DemoGame
 
     public class EnemyFactory
     {
-        private Dictionary<EnemyType, EnemyAttr> EnemyAttrDB = null;
+        public Dictionary<EnemyType, EnemyAttr> EnemyAttrDB = null;
         public EnemyFactory()
         {
             EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
-            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.Long,      new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.Fast,      new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.FastShoot, new EnemyAttr(2, 2, 0.1f, 2, 200, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.Long,      new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.Fast,      new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.FastShoot, new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
         }
 
         public void ChangePlayer(Transform tag)

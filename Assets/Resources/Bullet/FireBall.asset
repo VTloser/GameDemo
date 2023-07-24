@@ -9,20 +9,20 @@ Sprite:
   m_Name: FireBall
   m_Rect:
     serializedVersion: 2
-    x: 0
-    y: 130
+    x: 90
+    y: 0
     width: 10
     height: 26
   m_Offset: {x: 0, y: 0}
   m_Border: {x: 0, y: 0, z: 0, w: 0}
-  m_PixelsToUnits: 100
+  m_PixelsToUnits: 16
   m_Pivot: {x: 0.5, y: 0.5}
   m_Extrude: 1
   m_IsPolygon: 0
   m_AtlasName: 
   m_PackingTag: 
   m_RenderDataKey:
-    7d1eeee2ca3738f41a2af27467fe85f0: 1410944931
+    7d1eeee2ca3738f41a2af27467fe85f0: 2069488947
   m_AtlasTags: []
   m_SpriteAtlas: {fileID: 0}
   m_RD:
@@ -103,18 +103,18 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: cdcc4cbdb81e053e00000000cdcc4c3db81e053e00000000cdcc4cbdb81e05be00000000cdcc4c3db81e05be00000000000000000000803fcdcccc3d0000803f000000005555553fcdcccc3d5555553f
+      _typelessdata: 0000a0be0000503f000000000000a03e0000503f000000000000a0be000050bf000000000000a03e000050bf000000006666663fabaa2a3e0000803fabaa2a3e6666663f000000000000803f00000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
-      x: 0
-      y: 130
+      x: 90
+      y: 0
       width: 10
       height: 26
     textureRectOffset: {x: 0, y: 0}
     atlasRectOffset: {x: -1, y: -1}
     settingsRaw: 64
-    uvTransform: {x: 100, y: 5, z: 100, w: 143}
+    uvTransform: {x: 16, y: 95, z: 16, w: 13}
     downscaleMultiplier: 1
   m_AtlasRD:
     serializedVersion: 3
@@ -194,25 +194,27 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: cdcc4cbdb81e053e00000000cdcc4c3db81e053e00000000cdcc4cbdb81e05be00000000cdcc4c3db81e05be00000000000000000000803fcdcccc3d0000803f000000005555553fcdcccc3d5555553f
+      _typelessdata: 0000a0be0000503f000000000000a03e0000503f000000000000a0be000050bf000000000000a03e000050bf000000006666663fabaa2a3e0000803fabaa2a3e6666663f000000000000803f00000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
-      x: 0
-      y: 130
+      x: 90
+      y: 0
       width: 10
       height: 26
     textureRectOffset: {x: 0, y: 0}
     atlasRectOffset: {x: -1, y: -1}
     settingsRaw: 64
-    uvTransform: {x: 100, y: 5, z: 100, w: 143}
+    uvTransform: {x: 16, y: 95, z: 16, w: 13}
     downscaleMultiplier: 1
   m_PhysicsShape:
-  - - {x: -0.04, y: 0.11}
-    - {x: -0.049999997, y: 0.099999994}
-    - {x: -0.049999997, y: -0.13}
-    - {x: 0.049999997, y: -0.13}
-    - {x: 0.049999997, y: 0.07}
-    - {x: -0.02, y: 0.11}
+  - - {x: -0.0625, y: 0.625}
+    - {x: -0.3125, y: 0.4375}
+    - {x: -0.3125, y: -0.6875}
+    - {x: -0.1875, y: -0.8125}
+    - {x: 0.1875, y: -0.8125}
+    - {x: 0.3125, y: -0.6875}
+    - {x: 0.3125, y: 0.3125}
+    - {x: 0.1875, y: 0.625}
   m_Bones: []
-  m_SpriteID: eb6c8e8e95b9bb44c87eecea0dfc928e
+  m_SpriteID: 168c2bc85fb6fab4897d37523954cbf0

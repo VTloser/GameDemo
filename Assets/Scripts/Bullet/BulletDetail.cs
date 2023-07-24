@@ -9,6 +9,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DemoGame
@@ -33,10 +34,6 @@ namespace DemoGame
         /// <summary>  子弹销毁  </summary>
         public abstract void Die();
 
-        //public object Clone()
-        //{
-        //    return this.MemberwiseClone();
-        //}
         public abstract BulletDetail Clone();
 
         /// <summary>  子弹种类  </summary>
@@ -47,9 +44,11 @@ namespace DemoGame
 
         /// <summary>  子弹代理  </summary>
         public BulletAgaent bulletAgaent;
+
+        protected List<EnemyAgaent> HitEnemy;
     }
 
-    public class SuperBulletDetail : BulletDetail
+    public class FireBallDetail : BulletDetail
     {
         private EnemyAgaent enemy;
 
@@ -57,9 +56,9 @@ namespace DemoGame
 
         RaycastHit2D rayHit;
 
-        public SuperBulletDetail()
+        public FireBallDetail()
         {
-            bulletType = BulletType.None;
+            bulletType = BulletType.FireBall;
             bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
         }
 
@@ -69,11 +68,13 @@ namespace DemoGame
             bulletAgaent = _bulletAgaent;
 
             bulletAgaent.Sprite.sprite = bulletAttr.Sprite;
+            HitEnemy = new List<EnemyAgaent>();
         }
 
         public override void Hit()
         {
             enemy._EnemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy._EnemyDetail.enemyAttr, this.bulletAttr));
+            HitEnemy.Add(enemy);
         }
 
         public override void JudgeHit()
@@ -82,6 +83,7 @@ namespace DemoGame
             if (rayHit.collider?.tag == "Enemy")
             {
                 enemy = rayHit.collider.GetComponentInParent<EnemyAgaent>();
+                if (HitEnemy.Contains(enemy)) return;
                 Hit();
                 if (--currentPenetrate < 0)
                     Die();
@@ -101,12 +103,13 @@ namespace DemoGame
 
         public override void Die()
         {
+            HitEnemy.Clear();
             GameManager.Instance.BulletManager.Destroy(bulletAgaent);
         }
 
         public override BulletDetail Clone()
         {
-            return new SuperBulletDetail();
+            return new FireBallDetail();
         }
     }
 
