@@ -67,15 +67,16 @@ namespace DemoGame
         public override void Init(EnemyAgaent enemy)
         {
             _Enemy = enemy;
-            for (int i = 0; i < enemy.transform.childCount; i++)
-            {
-                enemy.transform.GetChild(i).gameObject.SetActive(false);
-            }
-            if (enemy.transform.Find(enemyAttr.ModeName) == null)
-            {
-                GameManager.Instance.ResourceManager.Load<GameManager>("Enemy/" + (enemyAttr.ModeName, enemy));
-            }
-            enemy.transform.Find(enemyAttr.ModeName).gameObject.SetActive(true);
+
+            //for (int i = 0; i < enemy.transform.childCount; i++)
+            //{
+            //    enemy.transform.GetChild(i).gameObject.SetActive(false);
+            //}
+            //if (enemy.transform.Find(enemyAttr.ModeName) == null)
+            //{
+            //    GameManager.Instance.ResourceManager.Load<GameManager>("Enemy/" + (enemyAttr.ModeName, enemy));
+            //}
+            //enemy.transform.Find(enemyAttr.ModeName).gameObject.SetActive(true);
         }
 
         public override void Injury(float damage)
@@ -96,13 +97,13 @@ namespace DemoGame
         public override void Move()
         {
 
-            //_Enemy.transform.Translate(Vector3.up * Time.deltaTime * enemyAttr.MoveSpeed);
+             _Enemy.transform.Translate(Vector3.up * Time.deltaTime * enemyAttr.MoveSpeed);
 
-            if (enemyAttr.Tag != null)
-            {
-                _Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position);
-                _Enemy.transform.Translate(Vector3.right * Time.deltaTime * enemyAttr.MoveSpeed);
-            }
+            //if (enemyAttr.Tag != null)
+            //{
+            //    _Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position);
+            //    _Enemy.transform.Translate(Vector3.right * Time.deltaTime * enemyAttr.MoveSpeed);
+            //}
         }
 
     }

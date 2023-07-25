@@ -1,0 +1,27 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+
+struct DemoDate
+{
+    float3 pos;
+    float index;
+    float minDis;
+};
+
+RWStructuredBuffer<DemoDate> BulletBuffer;
+RWStructuredBuffer<DemoDate> EnemyBuffer;
+
+
+[numthreads(10, 10, 10)]
+void CSMain(uint3 gid : SV_GroupID, uint index : SV_GroupIndex)
+{
+    int pindex = gid.x * 10 + gid.y + gid.z * 100;
+    float dis = sqrt(BulletBuffer[pindex].pos - EnemyBuffer[index].pos);
+    
+    if (BulletBuffer[pindex].minDis <= 0 || dis < BulletBuffer[pindex].minDis)
+    {
+        BulletBuffer[pindex].minDis = dis;
+        BulletBuffer[pindex].index = index;
+    }
+}
