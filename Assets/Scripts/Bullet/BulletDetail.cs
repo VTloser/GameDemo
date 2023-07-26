@@ -45,6 +45,8 @@ namespace DemoGame
         /// <summary>  子弹代理  </summary>
         public BulletAgaent bulletAgaent;
 
+        public ComputerDate computerDate;
+
         protected List<EnemyAgaent> HitEnemy;
     }
 
@@ -69,6 +71,8 @@ namespace DemoGame
 
             bulletAgaent.Sprite.sprite = bulletAttr.Sprite;
             HitEnemy = new List<EnemyAgaent>();
+            computerDate = new ComputerDate(bulletAttr.Radius);
+            GameManager.Instance.BulletManager.AddBulletComputerDate(computerDate);
         }
 
         public override void Hit()
@@ -93,7 +97,8 @@ namespace DemoGame
 
         public override void Move()
         {
-            bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
+            //bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
+            computerDate.pos = bulletAgaent.transform.position;
         }
 
         public override IEnumerator LifeTime()
@@ -105,6 +110,8 @@ namespace DemoGame
         public override void Die()
         {
             HitEnemy.Clear();
+            GameManager.Instance.BulletManager.RemoveBulletComputerDate(computerDate);
+
             GameManager.Instance.BulletManager.Destroy(bulletAgaent);
         }
 
@@ -112,6 +119,6 @@ namespace DemoGame
         {
             return new FireBallDetail();
         }
-    }
 
+    }
 }

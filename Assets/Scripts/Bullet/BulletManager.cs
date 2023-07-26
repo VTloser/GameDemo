@@ -14,16 +14,26 @@ namespace DemoGame
 
         #endregion
 
+
+        public void AddBulletComputerDate(ComputerDate ComputerDate)
+        {
+            ComputerManager.Instance.BulletComputerDates.Add(ComputerDate);
+        }
+        public void RemoveBulletComputerDate(ComputerDate ComputerDate)
+        {
+            ComputerManager.Instance.BulletComputerDates.Remove(ComputerDate);
+        }
+
         private List<BulletDetail> CurrentBulletDetail;
         public Dictionary<BulletDetail, BulletGenerate> Generates;
 
-        public void AddBullet(BulletDetail bulletDetail, BulletGenerate bulletGenerate)
+        public void AddBulletType(BulletDetail bulletDetail, BulletGenerate bulletGenerate)
         {
             CurrentBulletDetail.Add(bulletDetail);
             Generates.Add(bulletDetail, bulletGenerate);
         }
 
-        public void RemoveBullet(BulletDetail bulletDetail)
+        public void RemoveBulletType(BulletDetail bulletDetail)
         {
             CurrentBulletDetail.Remove(bulletDetail);
         }

@@ -24,7 +24,7 @@ namespace DemoGame
             for (int i = 0; i < EnemyNum; i++)
             {
                 var t = GameManager.Instance.EnemyManager.GetEnemy(new DemoEnemyDetail());
-                Vector3 random = Random.insideUnitSphere * 5;
+                Vector3 random = Random.insideUnitSphere * 50;
                 random.z = 0;
                 t.transform.position = random;
             }
@@ -56,7 +56,7 @@ namespace DemoGame
         private void AddDirGenerateBullet()
         {
             BulletDetail bullet = new FireBallDetail();
-            GameManager.Instance.BulletManager.AddBullet(bullet, new DirGenerate(bullet, 500 * Count0++));
+            GameManager.Instance.BulletManager.AddBulletType(bullet, new DirGenerate(bullet, 500 * Count0++));
         }
 
 
@@ -65,7 +65,7 @@ namespace DemoGame
         private void AddCircleGenerateBullet()
         {
             BulletDetail bullet = new FireBallDetail();
-            GameManager.Instance.BulletManager.AddBullet(bullet, new CircleGenerate(bullet, 500 * Count1++));
+            GameManager.Instance.BulletManager.AddBulletType(bullet, new CircleGenerate(bullet, 500 * Count1++));
         }
 
         int Count2;
@@ -73,7 +73,7 @@ namespace DemoGame
         private void AddCircleDirGenerateBullet()
         {
             BulletDetail bullet = new FireBallDetail();
-            GameManager.Instance.BulletManager.AddBullet(bullet, new CircleDirGenerate(bullet, 500 * Count2++, 2f));
+            GameManager.Instance.BulletManager.AddBulletType(bullet, new CircleDirGenerate(bullet, 500 * Count2++, 2f));
         }
 
 

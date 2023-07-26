@@ -30,8 +30,10 @@ namespace DemoGame
         public float MaxHp;
         /// <summary>    模型名称    </summary>
         public string ModeName;
+        /// <summary>    碰撞大小    </summary>
+        public float Radius;
 
-        public EnemyAttr(float attackRange, float damage, float moveSpeed, float interval, float maxHp, string modeName)
+        public EnemyAttr(float attackRange, float damage, float moveSpeed, float interval, float maxHp, string modeName, float radius)
         {
             AttackRange = attackRange;
             Damage = damage;
@@ -39,6 +41,7 @@ namespace DemoGame
             Interval = interval;
             MaxHp = maxHp;
             ModeName = modeName;
+            Radius = radius;
         }
     }
     public enum EnemyType
@@ -62,8 +65,8 @@ namespace DemoGame
         public EnemyFactory()
         {
             EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
-            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy"));
-            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 1f, 2, 5, "DemoEnemy"));
+            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 2, 5, "DemoEnemy", 0.5f));
+            EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 1f, 2, 5, "DemoEnemy", 0.5f));
         }
 
         public void ChangePlayer(Transform tag)

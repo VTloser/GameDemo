@@ -8,6 +8,7 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace DemoGame
@@ -16,6 +17,7 @@ namespace DemoGame
     {
         public ComputeShader computeShader;
 
+        const int MaxCount = 2048;
 
         ComputeBuffer computeBulletBuffer;
         ComputeBuffer computeEnemyBuffer;
@@ -23,41 +25,42 @@ namespace DemoGame
         void Start()
         {
             computeBulletBuffer = new ComputeBuffer(1000, 20);
-            List<DemoDate> list1 = new List<DemoDate>();
+            //List<DemoDate> list1 = new List<DemoDate>();
             for (int i = 0; i < 1000; i++)
             {
-                list1.Add(new DemoDate(Random.insideUnitSphere, -1));
+               // list1.Add(new DemoDate(Random.insideUnitSphere, -1));
             }
-            computeBulletBuffer.SetData(list1);
+            //computeBulletBuffer.SetData(list1);
 
             computeEnemyBuffer = new ComputeBuffer(1000, 20);
-            List<DemoDate> list2 = new List<DemoDate>();
+            //List<DemoDate> list2 = new List<DemoDate>();
             for (int i = 0; i < 1000; i++)
             {
-                list2.Add(new DemoDate(Random.insideUnitSphere, -1));
+                //list2.Add(new DemoDate(Random.insideUnitSphere, -1));
             }
-            computeEnemyBuffer.SetData(list2);
+            //computeEnemyBuffer.SetData(list2);
 
 
             kernelId = computeShader.FindKernel("CSMain");
         }
+
         [SerializeField]
-        DemoDate[] receive = new DemoDate[1000];
+        //DemoDate[] receive = new DemoDate[1000];
         void Update()
         {
-            List<DemoDate> list2 = new List<DemoDate>();
+            //List<DemoDate> list2 = new List<DemoDate>();
             for (int i = 0; i < 1000; i++)
             {
-                list2.Add(new DemoDate(Random.insideUnitSphere, -1));
+                //list2.Add(new DemoDate(Random.insideUnitSphere, -1));
             }
-            computeEnemyBuffer.SetData(list2);
+            //computeEnemyBuffer.SetData(list2);
 
             computeShader.SetBuffer(kernelId, "BulletBuffer", computeBulletBuffer);
             computeShader.SetBuffer(kernelId, "EnemyBuffer", computeEnemyBuffer);
 
             computeShader.Dispatch(kernelId, 10, 10, 10);
 
-            computeBulletBuffer.GetData(receive);
+           // computeBulletBuffer.GetData(receive);
 
             //foreach (var item in receive)
             //{
@@ -74,16 +77,3 @@ namespace DemoGame
     }
 }
 
-[System.Serializable]
-public struct DemoDate
-{
-    public Vector3 pos;//等价于float3
-    public float index;//等价于float4
-    public float minDis;
-
-    public DemoDate(Vector3 _pos, float _index) : this()
-    {
-        pos = _pos;
-        index = _index;
-    }
-}

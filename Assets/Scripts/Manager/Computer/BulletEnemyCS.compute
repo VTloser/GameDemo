@@ -1,17 +1,17 @@
-// Each #kernel tells which function to compile; you can have many kernels
-#pragma kernel CSMain
 
+#pragma kernel CSMain
 
 struct DemoDate
 {
-    float3 pos;
+    float2 pos;
     float index;
     float minDis;
+    float radius;
+    float contact;
 };
 
 RWStructuredBuffer<DemoDate> BulletBuffer;
 RWStructuredBuffer<DemoDate> EnemyBuffer;
-
 
 [numthreads(64, 16, 2)]
 void CSMain(uint3 gid : SV_GroupID, uint index : SV_GroupIndex)
@@ -19,9 +19,15 @@ void CSMain(uint3 gid : SV_GroupID, uint index : SV_GroupIndex)
     int pindex = gid.x * 64 + gid.y + gid.z * 1024;
     float dis = sqrt(BulletBuffer[pindex].pos - EnemyBuffer[index].pos);
     
-    if (BulletBuffer[pindex].minDis <= 0 || dis < BulletBuffer[pindex].minDis)
+    if (EnemyBuffer[index].radius > 0 && BulletBuffer[pindex].radius > 0 &&
+        (BulletBuffer[pindex].minDis <= 0 || dis < BulletBuffer[pindex].minDis))
     {
         BulletBuffer[pindex].minDis = dis;
         BulletBuffer[pindex].index = index;
+        if (dis < pow(BulletBuffer[pindex].radius + EnemyBuffer[index].radius, 2))
+        {
+            BulletBuffer[pindex].radius = 0;
+            EnemyBuffer[index].radius = 0;
+        }
     }
 }

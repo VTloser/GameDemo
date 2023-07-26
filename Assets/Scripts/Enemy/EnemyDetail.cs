@@ -40,6 +40,8 @@ namespace DemoGame
         /// <summary>  当前HP  </summary>
         public float CurrentHp;
 
+        public ComputerDate computerDate;
+
         /// <summary>  对应实体  </summary>
         public EnemyAgaent _Enemy;
 
@@ -56,6 +58,8 @@ namespace DemoGame
 
         public override void Die()
         {
+
+            GameManager.Instance.EnemyManager.RemoveEnemyComputerDate(computerDate);
             GameManager.Instance.EnemyManager.Destroy(_Enemy);
         }
 
@@ -68,15 +72,18 @@ namespace DemoGame
         {
             _Enemy = enemy;
 
-            //for (int i = 0; i < enemy.transform.childCount; i++)
-            //{
-            //    enemy.transform.GetChild(i).gameObject.SetActive(false);
-            //}
-            //if (enemy.transform.Find(enemyAttr.ModeName) == null)
-            //{
-            //    GameManager.Instance.ResourceManager.Load<GameManager>("Enemy/" + (enemyAttr.ModeName, enemy));
-            //}
-            //enemy.transform.Find(enemyAttr.ModeName).gameObject.SetActive(true);
+            computerDate = new ComputerDate(enemyAttr.Radius);
+            GameManager.Instance.EnemyManager.AddEnemyComputerDate(computerDate);
+
+            for (int i = 0; i < enemy.transform.childCount; i++)
+            {
+                enemy.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            if (enemy.transform.Find(enemyAttr.ModeName) == null)
+            {
+                GameManager.Instance.ResourceManager.Load<GameManager>("Enemy/" + (enemyAttr.ModeName, enemy));
+            }
+            enemy.transform.Find(enemyAttr.ModeName).gameObject.SetActive(true);
         }
 
         public override void Injury(float damage)

@@ -15,37 +15,41 @@ namespace DemoGame
 {
     public class LP : MonoBehaviour
     {
-        public List<DemoDate> list1 = new List<DemoDate>();
-        public List<DemoDate> list2 = new List<DemoDate>();
+       // public List<DemoDate> list1 = new List<DemoDate>();
+        //public List<DemoDate> list2 = new List<DemoDate>();
 
         void Start()
         {
-            for (int i = 0; i < 1000; i++)
-            {
-                list1.Add(new DemoDate(Random.insideUnitSphere, -1));
-            }
-            for (int i = 0; i < 1000; i++)
-            {
-                list2.Add(new DemoDate(Random.insideUnitSphere, -1));
-            }
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    list1.Add(new DemoDate(Random.insideUnitSphere, -1));
+            //}
+            //for (int i = 0; i < 2048; i++)
+            //{
+            //    list2.Add(new DemoDate(Random.insideUnitSphere, -1));
+            //}
         }
 
         // Update is called once per frame
         void Update()
         {
-            for (int i = 0; i < list1.Count; i++)
+            for (int i = 0; i < 2048; i++)
             {
-                for (int j = 0; j < list2.Count; j++)
-                {
-                    if ((list1[i].pos - list2[j].pos).sqrMagnitude < list1[i].minDis)
-                    {
-                        var t = list1[i];
-                        t.minDis = (list1[i].pos - list2[j].pos).sqrMagnitude;
-                        t.index = j;
-                        list1[i] = t;
-                    }
-                }
+                //list2[i]=(new DemoDate(Random.insideUnitSphere, -1));
             }
+            //for (int i = 0; i < list1.Count; i++)
+            //{
+            //    for (int j = 0; j < list2.Count; j++)
+            //    {
+            //        if ((list1[i].pos - list2[j].pos).sqrMagnitude < list1[i].minDis)
+            //        {
+            //            var t = list1[i];
+            //            t.minDis = (list1[i].pos - list2[j].pos).sqrMagnitude;
+            //            t.index = j;
+            //            list1[i] = t;
+            //        }
+            //    }
+            //}
         }
     }
 }

@@ -39,10 +39,8 @@ namespace DemoGame
             EnemyManager    = new EnemyManager();  EnemyManager.Init();
             inputManager    = new PCInputManager();
 
-
             bulletFactory = new BulletFactory();
             enemyFactory  = new EnemyFactory();
         }
-
     }
 }
