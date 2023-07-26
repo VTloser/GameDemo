@@ -31,6 +31,8 @@ namespace DemoGame
 
         public abstract void Init(EnemyAgaent enemy);
 
+        public abstract ComputerDate GetData();
+
         /// <summary>  敌人种类  </summary>
         public EnemyType enemyType;
 
@@ -39,8 +41,6 @@ namespace DemoGame
 
         /// <summary>  当前HP  </summary>
         public float CurrentHp;
-
-        public ComputerDate computerDate;
 
         /// <summary>  对应实体  </summary>
         public EnemyAgaent _Enemy;
@@ -59,8 +59,12 @@ namespace DemoGame
         public override void Die()
         {
 
-            GameManager.Instance.EnemyManager.RemoveEnemyComputerDate(computerDate);
             GameManager.Instance.EnemyManager.Destroy(_Enemy);
+        }
+
+        public override ComputerDate GetData()
+        {
+            return new ComputerDate(_Enemy.transform.position, enemyAttr.Radius);
         }
 
         public override void Hit()
@@ -72,18 +76,15 @@ namespace DemoGame
         {
             _Enemy = enemy;
 
-            computerDate = new ComputerDate(enemyAttr.Radius);
-            GameManager.Instance.EnemyManager.AddEnemyComputerDate(computerDate);
-
-            for (int i = 0; i < enemy.transform.childCount; i++)
-            {
-                enemy.transform.GetChild(i).gameObject.SetActive(false);
-            }
-            if (enemy.transform.Find(enemyAttr.ModeName) == null)
-            {
-                GameManager.Instance.ResourceManager.Load<GameManager>("Enemy/" + (enemyAttr.ModeName, enemy));
-            }
-            enemy.transform.Find(enemyAttr.ModeName).gameObject.SetActive(true);
+            //for (int i = 0; i < enemy.transform.childCount; i++)
+            //{
+            //    enemy.transform.GetChild(i).gameObject.SetActive(false);
+            //}
+            //if (enemy.transform.Find(enemyAttr.ModeName) == null)
+            //{
+            //    GameManager.Instance.ResourceManager.Load<GameManager>("Enemy/" + (enemyAttr.ModeName, enemy));
+            //}
+            //enemy.transform.Find(enemyAttr.ModeName).gameObject.SetActive(true);
         }
 
         public override void Injury(float damage)

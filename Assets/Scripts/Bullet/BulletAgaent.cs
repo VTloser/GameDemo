@@ -31,6 +31,7 @@ namespace DemoGame
 
         #endregion
 
+        [SerializeField]
         private BulletDetail _BulletDetail;
         public SpriteRenderer Sprite;
 

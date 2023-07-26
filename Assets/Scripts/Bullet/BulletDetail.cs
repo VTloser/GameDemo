@@ -14,6 +14,7 @@ using UnityEngine;
 
 namespace DemoGame
 {
+    [Serializable]
     public abstract class BulletDetail/*: ICloneable*/
     {
         /// <summary>  移动   </summary>
@@ -36,6 +37,8 @@ namespace DemoGame
 
         public abstract BulletDetail Clone();
 
+        public abstract ComputerDate GetData();
+
         /// <summary>  子弹种类  </summary>
         public BulletType bulletType;
 
@@ -45,11 +48,11 @@ namespace DemoGame
         /// <summary>  子弹代理  </summary>
         public BulletAgaent bulletAgaent;
 
-        public ComputerDate computerDate;
-
         protected List<EnemyAgaent> HitEnemy;
     }
 
+
+    [Serializable]
     public class FireBallDetail : BulletDetail
     {
         private EnemyAgaent enemy;
@@ -71,8 +74,6 @@ namespace DemoGame
 
             bulletAgaent.Sprite.sprite = bulletAttr.Sprite;
             HitEnemy = new List<EnemyAgaent>();
-            computerDate = new ComputerDate(bulletAttr.Radius);
-            GameManager.Instance.BulletManager.AddBulletComputerDate(computerDate);
         }
 
         public override void Hit()
@@ -97,8 +98,7 @@ namespace DemoGame
 
         public override void Move()
         {
-            //bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
-            computerDate.pos = bulletAgaent.transform.position;
+            bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
         }
 
         public override IEnumerator LifeTime()
@@ -110,7 +110,7 @@ namespace DemoGame
         public override void Die()
         {
             HitEnemy.Clear();
-            GameManager.Instance.BulletManager.RemoveBulletComputerDate(computerDate);
+            Debug.Log(111);
 
             GameManager.Instance.BulletManager.Destroy(bulletAgaent);
         }
@@ -120,5 +120,9 @@ namespace DemoGame
             return new FireBallDetail();
         }
 
+        public override ComputerDate GetData()
+        {
+            return new ComputerDate(bulletAgaent.transform.position,bulletAttr.Radius);
+        }
     }
 }

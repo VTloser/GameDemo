@@ -13,6 +13,7 @@ using UnityEngine;
 
 namespace DemoGame
 {
+    [Serializable]
     public struct ComputerDate
     {
         public Vector2 pos;  //等价于float2
@@ -21,7 +22,7 @@ namespace DemoGame
         public float radius; //半径
         public float contact;//是否接触 >=1 接触
 
-        public ComputerDate(float _radius) : this()
+        public ComputerDate(Vector2 _pos, float _radius) : this()
         {
             index = -1;
             radius = _radius;
@@ -46,17 +47,19 @@ namespace DemoGame
             Instance = this;
         }
 
+        [SerializeField]
         public List<ComputerDate> BulletComputerDates = new List<ComputerDate>();
+        [SerializeField]
         public List<ComputerDate> EnemyComputerDates = new List<ComputerDate>();
+
 
         private void Start()
         {
             computeBulletBuffer = new ComputeBuffer(MaxCount, 4 * 6);
             computeEnemyBuffer = new ComputeBuffer(MaxCount, 4 * 6);
 
-            kernelId = BulletEnemyCS.FindKernel(name: "CSMain");
+            kernelId = BulletEnemyCS.FindKernel(name: "BulletEnemyCS");
         }
-
         private void Update()
         {
             computeBulletBuffer.SetData(BulletComputerDates);
@@ -64,9 +67,11 @@ namespace DemoGame
 
             BulletEnemyCS.SetBuffer(kernelId, "BulletBuffer", computeBulletBuffer);
             BulletEnemyCS.SetBuffer(kernelId, "EnemyBuffer", computeEnemyBuffer);
-            BulletEnemyCS.Dispatch(kernelId, 64, 16, 2);
+            BulletEnemyCS.Dispatch(kernelId, 64, 16, 4);
         }
 
+        [SerializeField]
+        public List<ComputerDate> ddt = new List<ComputerDate>();
         void OnDestroy()
         {
             computeBulletBuffer?.Release();

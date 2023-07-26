@@ -18,17 +18,6 @@ namespace DemoGame
         private Pool<EnemyAgaent> EnemyPool;
 
 
-        public void AddEnemyComputerDate(ComputerDate ComputerDate)
-        {
-            ComputerManager.Instance.EnemyComputerDates.Add(ComputerDate);
-        }
-        public void RemoveEnemyComputerDate(ComputerDate ComputerDate)
-        {
-            ComputerManager.Instance.EnemyComputerDates.Remove(ComputerDate);
-        }
-
-
-
         public void Init()
         {
             _Enemy = GameManager.Instance.ResourceManager.Load<EnemyAgaent>("Enemy");
