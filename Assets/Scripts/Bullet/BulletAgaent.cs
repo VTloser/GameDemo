@@ -32,7 +32,7 @@ namespace DemoGame
         #endregion
 
         [SerializeField]
-        private BulletDetail _BulletDetail;
+        public BulletDetail _BulletDetail;
         public SpriteRenderer Sprite;
 
         public void Init(BulletDetail bulletDetail)
@@ -40,7 +40,7 @@ namespace DemoGame
             _BulletDetail = bulletDetail;
             _BulletDetail.Int(this);
             Sprite.enabled = true;
-            StartCoroutine(_BulletDetail.LifeTime());
+            //StartCoroutine(_BulletDetail.LifeTime());
         }
 
         //×¢ÊÍUpdate 180-190

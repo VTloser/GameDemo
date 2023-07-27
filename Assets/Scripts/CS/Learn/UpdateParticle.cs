@@ -64,10 +64,10 @@ namespace DemoGame
             computeBuffer = null;
         }
     }
+    public struct ParticleData
+    {
+        public Vector3 pos;//等价于float3
+        public Color color;//等价于float4
+    }
 }
 
-public struct ParticleData
-{
-    public Vector3 pos;//等价于float3
-    public Color color;//等价于float4
-}

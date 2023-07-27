@@ -15,8 +15,9 @@ namespace DemoGame
     public class EnemyManager
     {
         public EnemyAgaent _Enemy;
-        private Pool<EnemyAgaent> EnemyPool;
+        public Pool<EnemyAgaent> EnemyPool;
 
+        public List<EnemyAgaent> EnemyList = new();
 
         public void Init()
         {

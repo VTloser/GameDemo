@@ -10,9 +10,11 @@ namespace DemoGame
         #region 对象池部分
 
         public BulletAgaent _Bullet;
-        private Pool<BulletAgaent> BulletPool;
+        public Pool<BulletAgaent> BulletPool;
 
         #endregion
+
+        public List<BulletAgaent> BulletList = new List<BulletAgaent>();
 
         private List<BulletDetail> CurrentBulletDetail;
         public Dictionary<BulletDetail, BulletGenerate> Generates;

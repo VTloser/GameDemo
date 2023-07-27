@@ -33,7 +33,7 @@ namespace DemoGame
         /// <summary>   对象池最大容量   </summary>
         public int MaxSize;
         /// <summary>   对象池   </summary>
-        private T[] Items;
+        public T[] Items;
 
         /// <summary>
         /// 创建对象
@@ -145,7 +145,6 @@ namespace DemoGame
             MaxSize = n;
             Debug.Log($"调整后长度{MaxSize}");
         }
-
     }
 
 

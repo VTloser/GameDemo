@@ -98,7 +98,7 @@ namespace DemoGame
 
         public override void Move()
         {
-            bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
+            //bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
         }
 
         public override IEnumerator LifeTime()
@@ -110,8 +110,7 @@ namespace DemoGame
         public override void Die()
         {
             HitEnemy.Clear();
-            Debug.Log(111);
-
+            GameManager.Instance.BulletManager.BulletList.Remove(bulletAgaent);
             GameManager.Instance.BulletManager.Destroy(bulletAgaent);
         }
 
@@ -122,7 +121,8 @@ namespace DemoGame
 
         public override ComputerDate GetData()
         {
-            return new ComputerDate(bulletAgaent.transform.position,bulletAttr.Radius);
+            return new ComputerDate(bulletAgaent.transform.position, bulletAttr.Radius);
+            //return new ComputerDate();
         }
     }
 }

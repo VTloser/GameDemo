@@ -58,7 +58,7 @@ namespace DemoGame
 
         public override void Die()
         {
-
+            GameManager.Instance.EnemyManager.EnemyList.Remove(_Enemy);
             GameManager.Instance.EnemyManager.Destroy(_Enemy);
         }
 
@@ -75,7 +75,7 @@ namespace DemoGame
         public override void Init(EnemyAgaent enemy)
         {
             _Enemy = enemy;
-
+            GameManager.Instance.EnemyManager.EnemyList.Add(_Enemy);
             //for (int i = 0; i < enemy.transform.childCount; i++)
             //{
             //    enemy.transform.GetChild(i).gameObject.SetActive(false);
@@ -105,7 +105,7 @@ namespace DemoGame
         public override void Move()
         {
 
-             _Enemy.transform.Translate(Vector3.up * Time.deltaTime * enemyAttr.MoveSpeed);
+             //_Enemy.transform.Translate(Vector3.up * Time.deltaTime * enemyAttr.MoveSpeed);
 
             //if (enemyAttr.Tag != null)
             //{
