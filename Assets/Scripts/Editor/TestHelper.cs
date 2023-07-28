@@ -24,7 +24,7 @@ namespace DemoGame
             for (int i = 0; i < EnemyNum; i++)
             {
                 var t = GameManager.Instance.EnemyManager.GetEnemy(new DemoEnemyDetail());
-                Vector3 random = Vector3.right * i + Vector3.up*10;
+                Vector3 random = Random.insideUnitSphere * 5 + Vector3.up * 20;
                 random.z = 0;
                 t.transform.position = random;
             }
@@ -36,7 +36,7 @@ namespace DemoGame
             for (int i = 0; i < BulletNum; i++)
             {
                 var t = GameManager.Instance.BulletManager.GetBullet(new FireBallDetail());
-                Vector3 random = Vector3.right * i;
+                Vector3 random = Random.insideUnitSphere * 5;
                 random.z = 0;
                 t.transform.position = random;
             }

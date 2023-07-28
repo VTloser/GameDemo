@@ -4,30 +4,29 @@
 struct DemoDate
 {
     float2 pos;
-    float index;
     float radius;
-    float Boom;
+    int Live;
+    int index;
 };
 
 RWStructuredBuffer<DemoDate> BulletBuffer;
-RWStructuredBuffer<DemoDate> EnemyBuffer;
+StructuredBuffer<DemoDate> EnemyBuffer;
 
 [numthreads(1024, 1, 1)]
 void BulletEnemyCS(uint3 gid : SV_GroupID, uint index : SV_GroupIndex)
 {
-    
-    int i = gid.x;
-    int j = index;
+    int j = gid.x * 1024 + index;
 
-    //EnemyBuffer[i].pos = float2(i, i);
-    //BulletBuffer[j].pos = float2(i, j);
-    
-    float dis = pow(EnemyBuffer[i].pos - BulletBuffer[j].pos, 2);
-    
-    if (dis < pow(EnemyBuffer[i].radius + BulletBuffer[j].radius, 2))
+    for (int i = 0; i < 2048; i++)
     {
-        EnemyBuffer[i].index = j;
-        EnemyBuffer[i].Boom = pow(BulletBuffer[j].pos, 2);
+        if (BulletBuffer[j].Live == 1 && EnemyBuffer[i].Live == 1)
+        {
+            float dis = pow(EnemyBuffer[i].pos.x - BulletBuffer[j].pos.x, 2) + pow(EnemyBuffer[i].pos.y - BulletBuffer[j].pos.y, 2);
+            if (dis < pow(EnemyBuffer[i].radius + BulletBuffer[j].radius, 2))
+            {
+                BulletBuffer[j].Live = -1;
+                BulletBuffer[j].index = i;
+            }
+        }
     }
-    
 }

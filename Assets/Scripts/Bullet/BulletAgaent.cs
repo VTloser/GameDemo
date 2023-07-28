@@ -48,7 +48,7 @@ namespace DemoGame
         {
             //180-170
             _BulletDetail.Move(); //仅Move 150 -160
-            _BulletDetail.JudgeHit();  //仅潘顿 150-140
+            //_BulletDetail.JudgeHit();  //仅潘顿 150-140
             //全卡120-130
         }
 

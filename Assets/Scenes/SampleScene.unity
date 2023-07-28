@@ -1241,8 +1241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe8ddf4e2e7fae469d110c45d47d4c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyNum: 1024
-  BulletNum: 1024
+  EnemyNum: 100
+  BulletNum: 100
 --- !u!4 &1017832031
 Transform:
   m_ObjectHideFlags: 0
@@ -1283,10 +1283,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletEnemyCS: {fileID: 7200000, guid: 7b8c5d6dc639b144b8753a6ffb76451e, type: 3}
-  BulletComputerDates: []
-  EnemyComputerDates: []
-  Receive: []
-  ReceiveEnemy: []
 --- !u!1 &1022931942
 GameObject:
   m_ObjectHideFlags: 0

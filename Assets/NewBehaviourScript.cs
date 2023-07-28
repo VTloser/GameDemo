@@ -15,25 +15,16 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    public Transform[] Trans;
-    void Start()
+
+    private void Update()
     {
-        for (int i = 0; i < Trans.Length; i++)
+        for (int i = 0; i < 512; i++)
         {
-            GG(Trans[i], i);
+            for (int j = 0; j < 512; j++)
+            {
+                Debug.Log(111);
+            }
         }
+
     }
-
-    public void GG(Transform transform, int index)
-    {
-        index += 1000;
-        float x = Mathf.Sin(index );
-        float y = Mathf.Sin(index *1.2f);
-
-        Debug.Log(x * x + y * y);
-
-        Vector3 forward = new Vector3(x, y, -Mathf.Sqrt(1 - x * x - y * y));
-        transform.position += forward*10;
-    }
-
 }

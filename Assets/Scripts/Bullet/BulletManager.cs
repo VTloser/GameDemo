@@ -14,8 +14,6 @@ namespace DemoGame
 
         #endregion
 
-        public List<BulletAgaent> BulletList = new List<BulletAgaent>();
-
         private List<BulletDetail> CurrentBulletDetail;
         public Dictionary<BulletDetail, BulletGenerate> Generates;
 

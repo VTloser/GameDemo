@@ -24,7 +24,7 @@ namespace DemoGame
         public abstract void Int(BulletAgaent _bulletAgaent);
 
         /// <summary>  判断命中  </summary>
-        public abstract void JudgeHit();
+        public abstract void JudgeHit(EnemyAgaent enemyAgaent);
 
         /// <summary>  判断命中  </summary>
         public abstract void Hit();
@@ -59,11 +59,9 @@ namespace DemoGame
 
         private float currentPenetrate;
 
-        RaycastHit2D rayHit;
-
         public FireBallDetail()
         {
-            bulletType = BulletType.None;
+            bulletType = BulletType.FireBall;
             bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
         }
 
@@ -82,23 +80,19 @@ namespace DemoGame
             HitEnemy.Add(enemy);
         }
 
-        public override void JudgeHit()
+        public override void JudgeHit(EnemyAgaent enemyAgaent)
         {
-            Debug.DrawLine(bulletAgaent.transform.position, bulletAgaent.transform.position + bulletAgaent.transform.up * bulletAttr.Radius);
-            rayHit = Physics2D.Raycast(bulletAgaent.transform.position, bulletAgaent.transform.up, bulletAttr.Radius);
-            if (rayHit.collider?.tag == "Enemy")
-            {
-                enemy = rayHit.collider.GetComponentInParent<EnemyAgaent>();
-                if (HitEnemy.Contains(enemy)) return;
-                Hit();
-                if (--currentPenetrate < 0)
-                    Die();
-            }
+            enemy = enemyAgaent;
+            if(!enemy.IsUse) return;
+            if (HitEnemy.Contains(enemy)) return;
+            Hit();
+            if (--currentPenetrate < 0)
+                Die();
         }
 
         public override void Move()
         {
-            //bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
+            bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
         }
 
         public override IEnumerator LifeTime()
@@ -106,12 +100,12 @@ namespace DemoGame
             yield return new WaitForSeconds(bulletAttr.LifeTime);
             Die();
         }
-
+        bool _ISLive = true;
         public override void Die()
         {
             HitEnemy.Clear();
-            GameManager.Instance.BulletManager.BulletList.Remove(bulletAgaent);
             GameManager.Instance.BulletManager.Destroy(bulletAgaent);
+            _ISLive = false;
         }
 
         public override BulletDetail Clone()
@@ -121,7 +115,7 @@ namespace DemoGame
 
         public override ComputerDate GetData()
         {
-            return new ComputerDate(bulletAgaent.transform.position, bulletAttr.Radius);
+            return new ComputerDate(bulletAgaent.transform.position, bulletAttr.Radius, _ISLive);
             //return new ComputerDate();
         }
     }
