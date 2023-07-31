@@ -47,7 +47,7 @@ namespace DemoGame
         [Button(ButtonSizes.Medium)]
         private void AddPlayer()
         {
-            Instantiate(GameManager.Instance.ResourceManager.Load<PlayerControl>(Path: "Player"));
+            Instantiate(GameManager.Instance.ResourceManager.Load<Player>(Path: "Player"));
         }
 
         int Count0;        

@@ -21,6 +21,8 @@ namespace DemoGame
         public Vector3 LookAt(Camera camera, float height);
 
         public bool Fire();
+
+        public bool SpeedUp();
     }
 
     public class PCInputManager : InputManager
@@ -50,6 +52,11 @@ namespace DemoGame
         public bool Fire()
         {
             return Input.GetMouseButton(0);
+        }
+
+        public bool SpeedUp()
+        {
+            return Input.GetKey(KeyCode.LeftShift);
         }
     }
 }

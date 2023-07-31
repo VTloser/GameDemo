@@ -11,9 +11,9 @@ namespace DemoGame
 
         public List<IMiniMap> MiniMapTail = new List<IMiniMap>();
 
-        private PlayerControl player;
+        private Player player;
 
-        public PlayerControl Player { get => player; set { player = value; enemyFactory.ChangePlayer(player.transform); } }
+        public Player Player { get => player; set { player = value; enemyFactory.ChangePlayer(player.transform); } }
 
         public BulletFactory bulletFactory;
 
