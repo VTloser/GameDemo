@@ -21,12 +21,13 @@ namespace DemoGame
         private void Awake()
         {
             spriteRenderer = this.GetComponent<SpriteRenderer>();
-            PlayerSkill.ADD(SkillType.SpeedUp);
-            SkillFactor.GetSkills(this, PlayerSkill);
+            PlayerSkill.ADD(this, SkillType.SpeedUp);
         }
 
         public override void Update()
         {
+            string a = "";
+            a.Split("}}");
             base.Update();
             if (GameManager.Instance.inputManager.Fire())
             {

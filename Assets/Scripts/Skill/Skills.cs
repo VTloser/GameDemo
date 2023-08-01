@@ -38,20 +38,18 @@ namespace DemoGame
         public abstract void Release();
     }
 
-
     public static class SkillFactor
     {
         public static Skills GetSkills(BaseUnit owner, SkillType skillType) =>
             skillType switch
             {
                 SkillType.None => throw new System.NotImplementedException(),
-                SkillType.SpeedUp => new Trailing(owner, skillType),
+                SkillType.SpeedUp => new SpeedUp(owner, skillType),
                 SkillType.Other => throw new System.NotImplementedException(),
                 SkillType.Other1 => throw new System.NotImplementedException(),
                 _ => throw new System.NotImplementedException(),
             };
     }
-
 
     public static class SkillHelper
     {
@@ -60,9 +58,10 @@ namespace DemoGame
         /// </summary>
         /// <param name="state"></param>
         /// <param name="_AddState"></param>
-        public static void ADD(ref this SkillType state, SkillType _AddState)
+        public static void ADD(ref this SkillType state, BaseUnit Unit, SkillType _AddState)
         {
             state |= _AddState;
+            SkillFactor.GetSkills(Unit, _AddState);
         }
 
         /// <summary>

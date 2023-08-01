@@ -7,6 +7,9 @@ struct DemoDate
     float radius;
     int Live;
     int index;
+    
+    float floowRadius;
+    int floowindex;
 };
 
 RWStructuredBuffer<DemoDate> BulletBuffer;
@@ -26,6 +29,15 @@ void BulletEnemyCS(uint3 gid : SV_GroupID, uint index : SV_GroupIndex)
             {
                 BulletBuffer[j].Live = -1;
                 BulletBuffer[j].index = i;
+            }
+
+            if (BulletBuffer[j].Live != 2 && EnemyBuffer[i].Live != 2)
+            {
+                if (dis < BulletBuffer[j].floowRadius)
+                {
+                    BulletBuffer[j].Live = 2;
+                    BulletBuffer[j].floowindex = i;
+                }
             }
         }
     }

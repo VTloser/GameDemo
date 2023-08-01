@@ -46,10 +46,7 @@ namespace DemoGame
         //×¢ÊÍUpdate 180-190
         private void Update()
         {
-            //180-170
-            _BulletDetail.Move(); //½öMove 150 -160
-            //_BulletDetail.JudgeHit();  //½öÅË¶Ù 150-140
-            //È«¿¨120-130
+            //_BulletDetail.Move();
         }
 
         //private void OnBecameInvisible()

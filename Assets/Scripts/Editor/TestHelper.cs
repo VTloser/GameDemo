@@ -24,7 +24,15 @@ namespace DemoGame
             for (int i = 0; i < EnemyNum; i++)
             {
                 var t = GameManager.Instance.EnemyManager.GetEnemy(new DemoEnemyDetail());
-                Vector3 random = Random.insideUnitSphere * 5 + Vector3.up * 20;
+                Vector3 random = Random.insideUnitSphere * 20;
+                if (random.x > 0 && random.x < 5)
+                    random.x += 5;
+                if (random.x < -5 && random.x > 0)
+                    random.x -= 5;
+                if (random.y > 0 && random.y < 5)
+                    random.y += 5;
+                if (random.y < -5 && random.y > 0)
+                    random.y -= 5;
                 random.z = 0;
                 t.transform.position = random;
             }
@@ -38,11 +46,10 @@ namespace DemoGame
                 var t = GameManager.Instance.BulletManager.GetBullet(new FireBallDetail());
                 Vector3 random = Random.insideUnitSphere * 5;
                 random.z = 0;
+                t.transform.up = random;
                 t.transform.position = random;
             }
         }
-
-
 
         [Button(ButtonSizes.Medium)]
         private void AddPlayer()

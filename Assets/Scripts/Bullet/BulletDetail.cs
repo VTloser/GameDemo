@@ -18,7 +18,7 @@ namespace DemoGame
     public abstract class BulletDetail/*: ICloneable*/
     {
         /// <summary>  移动   </summary>
-        public abstract void Move();
+        public abstract void Move(Transform Tag = null);
 
         /// <summary>  子弹生成 可视为一次开火  </summary>
         public abstract void Int(BulletAgaent _bulletAgaent);
@@ -90,8 +90,13 @@ namespace DemoGame
                 Die();
         }
 
-        public override void Move()
+        public override void Move(Transform Tag = null)
         {
+            if (Tag != null)
+            {
+                Quaternion t = Quaternion.FromToRotation(Vector3.up, Tag.position - bulletAgaent.transform.position);
+                bulletAgaent.transform.rotation = t;
+            }
             bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
         }
 

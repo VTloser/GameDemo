@@ -1,4 +1,12 @@
 /*
+ * FileName:      SpeedUp.cs
+ * Author:        摩诘创新
+ * Date:          2023/08/01 14:57:17
+ * Describe:      Describe
+ * UnityVersion:  2021.3.23f1c1
+ * Version:       0.1
+ */
+/*
  * FileName:      Trailing.cs
  * Author:        魏宇辰
  * Date:          2023/07/28 16:19:25
@@ -15,7 +23,7 @@ using static UnityEngine.UI.GridLayoutGroup;
 namespace DemoGame
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class Trailing : Skills
+    public class SpeedUp : Skills
     {
         /// <summary>  最大可同屏幕数  </summary>
         public int TrailingCount = 5;
@@ -30,7 +38,7 @@ namespace DemoGame
         private int UseNum { get { if (useNum >= TrailingCount) useNum -= TrailingCount; return useNum++; } }
         private Vector3 LastGenerate;
 
-        public Trailing(BaseUnit owner, SkillType skillType) : base(owner, skillType)
+        public SpeedUp(BaseUnit owner, SkillType skillType) : base(owner, skillType)
         {
             SpriteRenderer = Owner.GetComponent<SpriteRenderer>();
             for (int i = 0; i < TrailingCount; i++)
@@ -49,6 +57,7 @@ namespace DemoGame
                 {
                     int Count = UseNum;
                     TrailingItem[Count].sprite = SpriteRenderer.sprite;
+                    TrailingItem[Count].material = GameManager.Instance.ResourceManager.Load<Material>("Material/SpeedUp");
                     TrailingItem[Count].flipX = SpriteRenderer.flipX;
                     TrailingItem[Count].DOFade(1, 0f);
                     TrailingItem[Count].DOFade(0, CutTime);
