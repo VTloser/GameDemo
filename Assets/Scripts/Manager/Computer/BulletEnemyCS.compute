@@ -10,6 +10,7 @@ struct DemoDate
     
     float floowRadius;
     int floowindex;
+    int Isfloow;
 };
 
 RWStructuredBuffer<DemoDate> BulletBuffer;
@@ -22,20 +23,22 @@ void BulletEnemyCS(uint3 gid : SV_GroupID, uint index : SV_GroupIndex)
 
     for (int i = 0; i < 2048; i++)
     {
+        float dis;
         if (BulletBuffer[j].Live == 1 && EnemyBuffer[i].Live == 1)
         {
-            float dis = pow(EnemyBuffer[i].pos.x - BulletBuffer[j].pos.x, 2) + pow(EnemyBuffer[i].pos.y - BulletBuffer[j].pos.y, 2);
+            dis = pow(EnemyBuffer[i].pos.x - BulletBuffer[j].pos.x, 2) + pow(EnemyBuffer[i].pos.y - BulletBuffer[j].pos.y, 2);
             if (dis < pow(EnemyBuffer[i].radius + BulletBuffer[j].radius, 2))
             {
                 BulletBuffer[j].Live = -1;
                 BulletBuffer[j].index = i;
             }
-
-            if (BulletBuffer[j].Live != 2 && EnemyBuffer[i].Live != 2)
+            
+            if (BulletBuffer[j].Isfloow == 1)
             {
-                if (dis < BulletBuffer[j].floowRadius)
+                dis = pow(EnemyBuffer[i].pos.x - BulletBuffer[j].pos.x, 2) + pow(EnemyBuffer[i].pos.y - BulletBuffer[j].pos.y, 2);
+                if (dis < pow(BulletBuffer[j].floowRadius, 2))
                 {
-                    BulletBuffer[j].Live = 2;
+                    BulletBuffer[j].Isfloow = -1;
                     BulletBuffer[j].floowindex = i;
                 }
             }

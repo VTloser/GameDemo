@@ -96,6 +96,11 @@ namespace DemoGame
             {
                 Quaternion t = Quaternion.FromToRotation(Vector3.up, Tag.position - bulletAgaent.transform.position);
                 bulletAgaent.transform.rotation = t;
+                //_ISNOfloow = false;
+            }
+            else
+            {
+                //_ISNOfloow = true;
             }
             bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
         }
@@ -106,11 +111,13 @@ namespace DemoGame
             Die();
         }
         bool _ISLive = true;
+        bool _ISNOfloow = true;
         public override void Die()
         {
             HitEnemy.Clear();
             GameManager.Instance.BulletManager.Destroy(bulletAgaent);
             _ISLive = false;
+            _ISNOfloow = false;
         }
 
         public override BulletDetail Clone()
@@ -120,7 +127,7 @@ namespace DemoGame
 
         public override ComputerDate GetData()
         {
-            return new ComputerDate(bulletAgaent.transform.position, bulletAttr.Radius, _ISLive);
+            return new ComputerDate(bulletAgaent.transform.position, bulletAttr.Radius, _ISLive, _ISNOfloow);
             //return new ComputerDate();
         }
     }

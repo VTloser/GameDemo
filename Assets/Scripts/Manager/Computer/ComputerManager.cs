@@ -94,11 +94,11 @@ namespace DemoGame
                     GameManager.Instance.BulletManager.BulletPool.Items[i]._BulletDetail.JudgeHit(GameManager.Instance.EnemyManager.EnemyPool.Items[ReceiveBullet[i].index]);
                 }
 
-                if (ReceiveBullet[i].Live == 2 && (GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value)
+                if (ReceiveBullet[i].Isfloow == -1 && (GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value)
                 {
                     GameManager.Instance.BulletManager.BulletPool.Items[i]._BulletDetail.Move(GameManager.Instance.EnemyManager.EnemyPool.Items[ReceiveBullet[i].floowindex].transform);
                 }
-                if ((GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value )
+                else if ((GameManager.Instance.BulletManager.BulletPool.Items?[i]?.IsUse).Value)
                 {
                     GameManager.Instance.BulletManager.BulletPool.Items?[i]?._BulletDetail?.Move();
                 }
@@ -118,22 +118,23 @@ namespace DemoGame
     }
 
 
-
     public struct ComputerDate
     {
         public Vector2 pos;  //等价于float2
         public float radius; //半径 如果半径小于等于0则认为接触到了
-        public int Live;     // 0 是默认状态 -1是死亡状态  1是存活状态  2正在/被追踪
+        public int Live;     // 0 是默认状态 -1是死亡状态  1是存活状态  
         public int index;    //序号
 
         public float floowRadius;
         public int floowindex;
+        public int Isfloow;
 
-        public ComputerDate(Vector2 _pos, float _radius, bool _Live) : this()
+        public ComputerDate(Vector2 _pos, float _radius, bool _Live, bool _Isfloow) : this()
         {
             pos = _pos;
             radius = _radius;
             Live = _Live ? 1 : -1;
+            Isfloow = _Isfloow ? 1 : -1;
             floowRadius = 5;
         }
     }

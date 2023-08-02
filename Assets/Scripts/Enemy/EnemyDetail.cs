@@ -57,14 +57,17 @@ namespace DemoGame
         }
 
         bool _ISLive = true;
+        bool _ISNoFloow = true;
         public override void Die()
         {
-            GameManager.Instance.EnemyManager.Destroy(_Enemy); _ISLive = false;
+            GameManager.Instance.EnemyManager.Destroy(_Enemy); 
+            _ISLive = false;
+            _ISNoFloow = false;
         }
 
         public override ComputerDate GetData()
         {
-            return new ComputerDate(_Enemy.transform.position, enemyAttr.Radius, _ISLive);
+            return new ComputerDate(_Enemy.transform.position, enemyAttr.Radius, _ISLive, _ISNoFloow);
         }
 
         public override void Hit()
