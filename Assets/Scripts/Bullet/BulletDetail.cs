@@ -95,7 +95,7 @@ namespace DemoGame
             if (Tag != null)
             {
                 Quaternion t = Quaternion.FromToRotation(Vector3.up, Tag.position - bulletAgaent.transform.position);
-                bulletAgaent.transform.rotation = t;
+                bulletAgaent.transform.rotation = Quaternion.Slerp(bulletAgaent.transform.rotation, t, 0.05f);
                 //_ISNOfloow = false;
             }
             else

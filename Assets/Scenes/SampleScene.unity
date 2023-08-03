@@ -1194,8 +1194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe8ddf4e2e7fae469d110c45d47d4c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyNum: 100
-  BulletNum: 100
+  EnemyNum: 2048
+  BulletNum: 98
 --- !u!4 &1017832031
 Transform:
   m_ObjectHideFlags: 0
