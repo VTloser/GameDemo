@@ -20,14 +20,16 @@ namespace DemoGame
     {
         public static ComputerManager Instance;
 
-        #region 子弹敌人碰撞管理模块
+        public ComputeShader BulletEnemyCS; //子弹敌人计算
 
-        public ComputeShader BulletEnemyCS;
+        public ComputeShader EnemyColliderCS;//敌人间碰撞检测
+
         const int MaxCount = 2048;
 
         ComputeBuffer computeBulletBuffer;
         ComputeBuffer computeEnemyBuffer;
-        int kernelId;
+        int BEkernelId;
+        int EkernelId;
 
         private void Awake()
         {
@@ -53,7 +55,8 @@ namespace DemoGame
             computeBulletBuffer.SetData(BulletComputerDates);
             computeEnemyBuffer.SetData(EnemyComputerDates);
 
-            kernelId = BulletEnemyCS.FindKernel(name: "BulletEnemyCS");
+            BEkernelId = BulletEnemyCS.FindKernel(name: "BulletEnemyCS");
+            EkernelId = EnemyColliderCS.FindKernel(name: "EnemyColliderCS");
         }
         private void Update()
         {
@@ -80,12 +83,15 @@ namespace DemoGame
             computeBulletBuffer.SetData(BulletComputerDates);
             computeEnemyBuffer.SetData(EnemyComputerDates);
 
-            BulletEnemyCS.SetBuffer(kernelId, "BulletBuffer", computeBulletBuffer);
-            BulletEnemyCS.SetBuffer(kernelId, "EnemyBuffer", computeEnemyBuffer);
-            BulletEnemyCS.Dispatch(kernelId, 2048 / 1024, 1, 1);
+            BulletEnemyCS.SetBuffer(BEkernelId, "BulletBuffer", computeBulletBuffer);
+            BulletEnemyCS.SetBuffer(BEkernelId, "EnemyBuffer", computeEnemyBuffer);
+            BulletEnemyCS.Dispatch(BEkernelId, 2048 / 1024, 1, 1);
+
+            EnemyColliderCS.SetBuffer(EkernelId, "EnemyBuffer", computeEnemyBuffer);
+            EnemyColliderCS.Dispatch(EkernelId, 2048 / 1024, 1, 1);
 
             computeBulletBuffer.GetData(ReceiveBullet);
-            //computeEnemyBuffer.GetData(ReceiveEnemy);
+            computeEnemyBuffer.GetData(ReceiveEnemy);
 
             for (int i = 0; i < ReceiveBullet.Length; i++)
             {
@@ -94,11 +100,16 @@ namespace DemoGame
                     GameManager.Instance.BulletManager.BulletPool.Items[i]._BulletDetail.JudgeHit(GameManager.Instance.EnemyManager.EnemyPool.Items[ReceiveBullet[i].index]);
                 }
 
+                if (ReceiveEnemy[i].Live == -1 && (GameManager.Instance.EnemyManager.EnemyPool.Items?[i].IsUse).Value)
+                {
+                    GameManager.Instance.EnemyManager.EnemyPool.Items[i].transform.Translate(ReceiveEnemy[i].pos * Time.deltaTime*10);
+                }
+
                 if (ReceiveBullet[i].Isfloow == -1 && (GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value)
                 {
                     GameManager.Instance.BulletManager.BulletPool.Items[i]._BulletDetail.Move(GameManager.Instance.EnemyManager.EnemyPool.Items[ReceiveBullet[i].floowindex].transform);
                 }
-                else if ((GameManager.Instance.BulletManager.BulletPool.Items?[i]?.IsUse).Value)
+                else if (i < GameManager.Instance.BulletManager.BulletPool.Items.Length && (GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value)
                 {
                     GameManager.Instance.BulletManager.BulletPool.Items?[i]?._BulletDetail?.Move();
                 }
@@ -113,11 +124,9 @@ namespace DemoGame
             computeEnemyBuffer.Release();
             computeEnemyBuffer.Dispose();
         }
-        #endregion
-
     }
 
-
+    //[Serializable]
     public struct ComputerDate
     {
         public Vector2 pos;  //等价于float2

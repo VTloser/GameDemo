@@ -1,29 +1,84 @@
 /*
  * FileName:      LevelManager.cs
- * Author:        摩诘创新
+ * Author:        魏宇辰
  * Date:          2023/07/19 16:24:23
- * Describe:      Describe
+ * Describe:      关卡生成器
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
+using Codice.Client.BaseCommands.BranchExplorer;
+using log4net.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using static UnityEditor.Progress;
 
 namespace DemoGame
 {
-    public class LevelManager : MonoBehaviour
+    public class LevelManager  :MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        public List<LevelItem> Levels;
+        private LevelItem CurrentLevel;
+
+        public static LevelManager Instance;
+
+        public void Awake()
         {
-        
+
+            Instance = this;
+
+            Levels = new List<LevelItem>();
+            LevelItem item = new LevelItem();
+            item.GenerateSpeed = 10;
+            Levels.Add(item);
+           
         }
 
-        // Update is called once per frame
-        void Update()
+        public void BeginGame()
         {
+            CurrentLevel = Levels[0];
+
+
+            StartCoroutine(Generator());
+        }
+
         
+
+
+        IEnumerator Generator()
+        {
+            while (true)
+            {
+                float outside = 30;
+                float isside = 10;
+
+                for (int i = 0; i < CurrentLevel.GenerateSpeed; i++)
+                {
+                    var t = GameManager.Instance.EnemyManager.GetEnemy(new DemoEnemyDetail());
+                    Vector2 random = Random.insideUnitSphere * outside;  //外圈
+                    if (random.magnitude < isside)
+                    {
+                        random += random.normalized * isside;
+                    }
+                    t.transform.position = random;
+                }
+                yield return new WaitForSeconds(1);
+            }
         }
     }
+}
+
+public class LevelItem
+{
+
+    /// <summary>   每秒生成速度     </summary>
+    public int GenerateSpeed;
+    /// <summary>    关卡开始回调     </summary>
+    public UnityAction LevelBegin;
+    /// <summary>    关卡成功回调     </summary>
+    public UnityAction LevelSucceed;
+    /// <summary>    生成失败     </summary>
+    public UnityAction LevelFailed;
+
 }

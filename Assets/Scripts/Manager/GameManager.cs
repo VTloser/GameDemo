@@ -15,6 +15,9 @@ namespace DemoGame
 
         public Player Player { get => player; set { player = value; enemyFactory.ChangePlayer(player.transform); } }
 
+
+        public EventManager EventManager;
+
         public BulletFactory bulletFactory;
 
         public EnemyFactory enemyFactory;
@@ -29,18 +32,21 @@ namespace DemoGame
 
         public MathManager MathManager;
 
+        public LevelManager LevelManager;
+
         private void Awake()
         {
             Instance = this;
-
             ResourceManager = new ResourceManager();
             MathManager     = new MathManager();
-            BulletManager   = new BulletManager(); BulletManager.Init();
-            EnemyManager    = new EnemyManager();  EnemyManager.Init();
+            BulletManager   = new BulletManager();  BulletManager.Init();
+            EnemyManager    = new EnemyManager();   EnemyManager.Init();
             inputManager    = new PCInputManager();
+            bulletFactory   = new BulletFactory();
+            enemyFactory    = new EnemyFactory();
+            LevelManager    = new LevelManager(); //LevelManager.Init();
 
-            bulletFactory = new BulletFactory();
-            enemyFactory  = new EnemyFactory();
+            EventManager    = new EventManager(); EventManager.Init();
         }
     }
 }

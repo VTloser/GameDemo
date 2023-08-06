@@ -1223,6 +1223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2040c8f6fbda6fb42a14ac0a57fd7b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelManager: {fileID: 0}
 --- !u!114 &1017832033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,6 +1237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletEnemyCS: {fileID: 7200000, guid: 7b8c5d6dc639b144b8753a6ffb76451e, type: 3}
+  EnemyColliderCS: {fileID: 7200000, guid: 35f48ee0bf4774149a6470a40befac49, type: 3}
 --- !u!1 &1022931942
 GameObject:
   m_ObjectHideFlags: 0

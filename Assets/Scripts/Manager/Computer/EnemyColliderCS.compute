@@ -1,0 +1,49 @@
+#pragma kernel EnemyColliderCS
+
+struct DemoDate
+{
+    float2 pos;
+    float radius;
+    int Live;
+    int index;
+    
+    float floowRadius;
+    int floowindex;
+    int Isfloow;
+};
+
+RWStructuredBuffer<DemoDate> EnemyBuffer;
+//RWStructuredBuffer<DemoDate> EnemyBuffer_Back;
+
+float2 Assit2D(float2 Tag, float2 Compare, float RadioSum)
+{
+    if (pow(Tag.x - Compare.x, 2) + pow(Tag.y - Compare.y, 2) < RadioSum * RadioSum)
+    {
+        float2 mid = (Tag + Compare) / 2;
+        float2 dir = Tag - mid;
+        float2 dirNor = normalize(dir);
+        if (length(dirNor) == 0)    return float2(1, 1);
+        float speed = RadioSum / 2 - length(dir);
+        return dirNor * speed;
+    }
+    return float2(0, 0);
+}
+
+[numthreads(1024, 1, 1)]
+void EnemyColliderCS(uint3 gid : SV_GroupID, uint index : SV_GroupIndex)
+{
+    int j = gid.x * 1024 + index;
+    float2 Dir;
+    for (int i = 0; i < 2048; i++)
+    {
+        if (j != i && EnemyBuffer[j].Live == 1 && EnemyBuffer[i].Live == 1)
+        {
+            Dir += Assit2D(EnemyBuffer[j].pos, EnemyBuffer[i].pos, EnemyBuffer[j].radius + EnemyBuffer[i].radius);
+        }
+    }
+    if (length(Dir)!=0)
+    {
+        EnemyBuffer[j].pos = Dir;
+        EnemyBuffer[j].Live = -1;
+    }
+}

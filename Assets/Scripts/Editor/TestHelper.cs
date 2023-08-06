@@ -40,7 +40,6 @@ namespace DemoGame
                 {
                     random += random.normalized * isside;
                 }
-                //random.z = 0;
                 t.transform.position = random;
             }
         }
@@ -50,7 +49,7 @@ namespace DemoGame
             for (int i = 0; i < EnemyNum; i++)
             {
                 var t = GameManager.Instance.EnemyManager.GetEnemy(new DemoEnemyDetail());
-                Vector3 random = Random.insideUnitSphere * 20;
+                Vector3 random = Random.insideUnitSphere * 15;
                 random.z = 0;
                 t.transform.position = random;
             }
