@@ -29,19 +29,16 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine("11");
         MutilCollider(Aa, Bb, Ca, Dd);
     }
 
     public void MutilCollider(DemoClass A, DemoClass B, DemoClass C, DemoClass D)
     {
-
-
-
-        A.transform.transform.Translate(SingalCollider(A.demoC, B.demoC, C.demoC, D.demoC));
-        B.transform.transform.Translate(SingalCollider(B.demoC, A.demoC, C.demoC, D.demoC));
-        C.transform.transform.Translate(SingalCollider(C.demoC, B.demoC, A.demoC, D.demoC));
-        D.transform.transform.Translate(SingalCollider(D.demoC, B.demoC, A.demoC, C.demoC));
+        A.transform.transform.Translate(( A.transform.worldToLocalMatrix.rotation * new Vector3(1, 0, 0)) * Time.deltaTime );
+        //A.transform.transform.Translate(SingalCollider(A.demoC, B.demoC /*, C.demoC, D.demoC*/)); 
+        //B.transform.transform.Translate(SingalCollider(B.demoC, A.demoC /*, C.demoC, D.demoC*/));
+        //C.transform.transform.Translate(SingalCollider(C.demoC, B.demoC, A.demoC, D.demoC));
+        //D.transform.transform.Translate(SingalCollider(D.demoC, B.demoC, A.demoC, C.demoC));
     }
 
     public Vector2 SingalCollider(DemoC A, params DemoC[] Array)
@@ -67,54 +64,53 @@ public class NewBehaviourScript : MonoBehaviour
         return Vector2.zero;
     }
 
+    //public Vector3 AssVV(GameObject A, Vector3 point)
+    //{
+    //    var Dir = (A.transform.position - point).normalized;
+    //    float Speed = ModeSize - (A.transform.position - point).magnitude;
+    //    Speed = Mathf.Clamp01(Speed);
+    //    return Dir * Speed;
+    //}
 
-    public Vector3 AssVV(GameObject A, Vector3 point)
-    {
-        var Dir = (A.transform.position - point).normalized;
-        float Speed = ModeSize - (A.transform.position - point).magnitude;
-        Speed = Mathf.Clamp01(Speed);
-        return Dir * Speed;
-    }
+    //[ExecuteInEditMode]
+    //public void JEE(GameObject A, GameObject B, GameObject C)
+    //{
 
-    [ExecuteInEditMode]
-    public void JEE(GameObject A, GameObject B, GameObject C)
-    {
-
-        Vector3 point = (A.transform.position + B.transform.position) / 2; //中心
-
-
-        Ass(A, point);
-        Ass(B, point);
-
-        Vector3 dir = C.transform.position - point;
-        Vector3 AB = B.transform.position - A.transform.position;
-
-        Vector3 nor = Vector3.Cross(AB, Vector3.forward);
-        nor = Vector3.Dot(dir, nor) > 0 ? nor : -nor;
-
-        Debug.DrawLine(C.transform.position, point);
-        Debug.DrawLine(B.transform.position, A.transform.position);
-        Debug.DrawLine(point + nor.normalized * ModeSize * Mathf.Sqrt(3) / 2, point);
-        C.transform.position = point + nor.normalized * ModeSize * Mathf.Sqrt(3) ;
-    }
-
-    public void Ass(GameObject A, Vector3 point)
-    {
-        var Dir = (A.transform.position - point).normalized;
-        float Speed = ModeSize - (A.transform.position - point).magnitude;
-        Speed = Mathf.Clamp01(Speed);
-        A.transform.transform.Translate(Dir * Speed);
-    }
+    //    Vector3 point = (A.transform.position + B.transform.position) / 2; //中心
 
 
-    public void JE(GameObject A, GameObject B)
-    {
-        if (Vector3.Distance(A.transform.position, B.transform.position) < 1)
-        {
-            Vector3 point = (A.transform.position + B.transform.position) / 2;
+    //    Ass(A, point);
+    //    Ass(B, point);
 
-            A.transform.transform.Translate((A.transform.position - point).normalized * Mathf.Clamp(point.magnitude, 0, 1) * Time.deltaTime);
-            B.transform.transform.Translate((B.transform.position - point).normalized * Mathf.Clamp(point.magnitude, 0, 1) * Time.deltaTime);
-        }
-    }
+    //    Vector3 dir = C.transform.position - point;
+    //    Vector3 AB = B.transform.position - A.transform.position;
+
+    //    Vector3 nor = Vector3.Cross(AB, Vector3.forward);
+    //    nor = Vector3.Dot(dir, nor) > 0 ? nor : -nor;
+
+    //    Debug.DrawLine(C.transform.position, point);
+    //    Debug.DrawLine(B.transform.position, A.transform.position);
+    //    Debug.DrawLine(point + nor.normalized * ModeSize * Mathf.Sqrt(3) / 2, point);
+    //    C.transform.position = point + nor.normalized * ModeSize * Mathf.Sqrt(3) ;
+    //}
+
+    //public void Ass(GameObject A, Vector3 point)
+    //{
+    //    var Dir = (A.transform.position - point).normalized;
+    //    float Speed = ModeSize - (A.transform.position - point).magnitude;
+    //    Speed = Mathf.Clamp01(Speed);
+    //    A.transform.transform.Translate(Dir * Speed);
+    //}
+
+
+    //public void JE(GameObject A, GameObject B)
+    //{
+    //    if (Vector3.Distance(A.transform.position, B.transform.position) < 1)
+    //    {
+    //        Vector3 point = (A.transform.position + B.transform.position) / 2;
+
+    //        A.transform.transform.Translate((A.transform.position - point).normalized * Mathf.Clamp(point.magnitude, 0, 1) * Time.deltaTime);
+    //        B.transform.transform.Translate((B.transform.position - point).normalized * Mathf.Clamp(point.magnitude, 0, 1) * Time.deltaTime);
+    //    }
+    //}
 }

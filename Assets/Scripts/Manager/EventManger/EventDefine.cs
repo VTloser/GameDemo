@@ -23,7 +23,6 @@ public enum GameEvent : int
 
     GameBegin = 6,
 
-
     LevelSuccess,
     LevelFailde,
 

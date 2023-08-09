@@ -65,7 +65,7 @@ namespace DemoGame
         public EnemyFactory()
         {
             EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
-            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 0.1f, 0, 1, "DemoEnemy", 0.5f));
+            EnemyAttrDB.Add(EnemyType.None,      new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 0.5f));
             EnemyAttrDB.Add(EnemyType.Height,    new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 0.5f));
         }
 

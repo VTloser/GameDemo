@@ -102,7 +102,11 @@ namespace DemoGame
 
                 if (ReceiveEnemy[i].Live == -1 && (GameManager.Instance.EnemyManager.EnemyPool.Items?[i].IsUse).Value)
                 {
-                    GameManager.Instance.EnemyManager.EnemyPool.Items[i].transform.Translate(ReceiveEnemy[i].pos * Time.deltaTime*10);
+                    GameManager.Instance.EnemyManager.EnemyPool.Items[i]._EnemyDetail?.Move(ReceiveEnemy[i].pos);
+                }
+                else if (i < GameManager.Instance.EnemyManager.EnemyPool.Items.Length && (GameManager.Instance.EnemyManager.EnemyPool.Items?[i].IsUse).Value)
+                {
+                    GameManager.Instance.EnemyManager.EnemyPool.Items[i]._EnemyDetail?.Move(Vector3.zero);
                 }
 
                 if (ReceiveBullet[i].Isfloow == -1 && (GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value)

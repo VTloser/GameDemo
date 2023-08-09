@@ -20,7 +20,12 @@ public class EventManager
         //EventCenter.Broadcast(GameEvent.Begin);
 
 
-        EventCenter.AddListener(GameEvent.GameBegin, () => { LevelManager.Instance.BeginGame(); });
-        EventCenter.Broadcast(GameEvent.GameBegin);
+        EventCenter.AddListener(GameEvent.GameBegin, () => { GameManager.Instance.LevelManager.BeginGame(); });
+
+
+        EventCenter.AddListener(GameEvent.Stop, () => { GameManager.Instance.LevelManager.Stop(); });
+
+
+
     }
 }

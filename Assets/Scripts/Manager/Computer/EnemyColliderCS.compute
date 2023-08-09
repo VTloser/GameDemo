@@ -22,7 +22,7 @@ float2 Assit2D(float2 Tag, float2 Compare, float RadioSum)
         float2 mid = (Tag + Compare) / 2;
         float2 dir = Tag - mid;
         float2 dirNor = normalize(dir);
-        if (length(dirNor) == 0)    return float2(1, 1);
+        if (length(dirNor) == 0)    return float2(0, 0);
         float speed = RadioSum / 2 - length(dir);
         return dirNor * speed;
     }

@@ -10,45 +10,40 @@ using Codice.Client.BaseCommands.BranchExplorer;
 using log4net.Core;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using static UnityEditor.Progress;
 
 namespace DemoGame
 {
-    public class LevelManager  :MonoBehaviour
+    public class LevelManager
     {
         public List<LevelItem> Levels;
         private LevelItem CurrentLevel;
 
-        public static LevelManager Instance;
 
-        public void Awake()
+
+        public void Init()
         {
-
-            Instance = this;
-
             Levels = new List<LevelItem>();
             LevelItem item = new LevelItem();
             item.GenerateSpeed = 10;
             Levels.Add(item);
-           
         }
 
         public void BeginGame()
         {
             CurrentLevel = Levels[0];
 
-
-            StartCoroutine(Generator());
+            Generator();
         }
 
-        
-
-
-        IEnumerator Generator()
+        CancellationTokenSource cts = new CancellationTokenSource();
+        public async void Generator()
         {
-            while (true)
+            while (!cts.IsCancellationRequested)
             {
                 float outside = 30;
                 float isside = 10;
@@ -63,9 +58,16 @@ namespace DemoGame
                     }
                     t.transform.position = random;
                 }
-                yield return new WaitForSeconds(1);
+                await Task.Delay(1000);
             }
         }
+
+
+        public void Stop()
+        {
+            cts.Cancel();
+        }
+
     }
 }
 

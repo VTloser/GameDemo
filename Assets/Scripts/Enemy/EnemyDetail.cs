@@ -16,7 +16,7 @@ namespace DemoGame
     public abstract class EnemyDetail
     {
         /// <summary>  移动   </summary>
-        public abstract void Move();
+        public abstract void Move(Vector2 Dir);
 
         /// <summary>  判断命中  </summary>
         public abstract bool JudgeHit();
@@ -104,17 +104,22 @@ namespace DemoGame
             throw new System.NotImplementedException();
         }
 
-
-        public override void Move()
+        Vector2 floowDir;
+        public override void Move(Vector2 Dir)
         {
-            _Enemy.transform.Translate(Vector3.up * Time.deltaTime * enemyAttr.MoveSpeed);
-
             if (enemyAttr.Tag != null)
             {
-                _Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position);
-                _Enemy.transform.Translate(Vector3.right * Time.deltaTime * enemyAttr.MoveSpeed);
+
+                floowDir = (enemyAttr.Tag.position - _Enemy.transform.position).normalized;
+                _Enemy.transform.Translate((floowDir + Dir * 20) * Time.deltaTime * enemyAttr.MoveSpeed);
+
+                //_Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position);
+                //_Enemy.transform.Translate((Vector3.right * 0.1f + _Enemy.transform.worldToLocalMatrix.rotation * Dir) * Time.deltaTime * 30 * enemyAttr.MoveSpeed);
+            }
+            else
+            {
+                _Enemy.transform.Translate(Dir * Time.deltaTime * 20);
             }
         }
-
     }
 }

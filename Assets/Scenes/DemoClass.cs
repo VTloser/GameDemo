@@ -6,6 +6,7 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,15 +19,15 @@ public class DemoClass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         demoC.Pos = this.transform.position;
         demoC.Radio = this.transform.localScale.x / 2;
-
     }
 }
 
+[Serializable]
 public class DemoC
 {
+    [SerializeField]
     public Vector2 Pos;
     public float Radio;
 }

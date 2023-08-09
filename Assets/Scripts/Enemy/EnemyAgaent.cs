@@ -59,7 +59,7 @@ namespace DemoGame
         ////关闭160-170
         private void Update()
         {
-            _EnemyDetail.Move(); //打开 60帧
+            //_EnemyDetail.Move(); //打开 60帧
 
             //全关闭 170-160帧
         }
