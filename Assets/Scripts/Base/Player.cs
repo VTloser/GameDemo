@@ -45,7 +45,7 @@ namespace DemoGame
 
         }
 
-        #region Ð¡µØÍ¼²¿·Ö
+        #region å°åœ°å›¾éƒ¨åˆ†
 
         public MiniType _MiniType { get => MiniType.Player; }
         public Transform _Transform { get => this.transform; }

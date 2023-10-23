@@ -9,22 +9,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace DemoGame
 {
     [Serializable]
-    public abstract class BulletDetail/*: ICloneable*/
+    public abstract class BulletDetail /*: ICloneable*/
     {
         /// <summary>  移动   </summary>
-        public abstract void Move(Transform Tag = null);
+        public abstract void Move(Transform tag = null);
 
         /// <summary>  子弹生成 可视为一次开火  </summary>
-        public abstract void Int(BulletAgaent _bulletAgaent);
+        public abstract void Int(BulletAgaent agentBullet);
 
         /// <summary>  判断命中  </summary>
-        public abstract void JudgeHit(EnemyAgaent enemyAgaent);
+        public abstract void JudgeHit(EnemyAgaent enemyAgent);
 
         /// <summary>  判断命中  </summary>
         public abstract void Hit();
@@ -46,7 +46,7 @@ namespace DemoGame
         public BulletAttr bulletAttr;
 
         /// <summary>  子弹代理  </summary>
-        public BulletAgaent bulletAgaent;
+        public BulletAgaent bulletAgent;
 
         protected List<EnemyAgaent> HitEnemy;
     }
@@ -65,12 +65,12 @@ namespace DemoGame
             bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
         }
 
-        public override void Int(BulletAgaent _bulletAgaent)
+        public override void Int(BulletAgaent agentBullet)
         {
             currentPenetrate = bulletAttr.Penetrate;
-            bulletAgaent = _bulletAgaent;
+            bulletAgent = agentBullet;
 
-            bulletAgaent.Sprite.sprite = bulletAttr.Sprite;
+            bulletAgent.Sprite.sprite = bulletAttr.Sprite;
             HitEnemy = new List<EnemyAgaent>();
         }
 
@@ -80,9 +80,9 @@ namespace DemoGame
             HitEnemy.Add(enemy);
         }
 
-        public override void JudgeHit(EnemyAgaent enemyAgaent)
+        public override void JudgeHit(EnemyAgaent enemyAgent)
         {
-            enemy = enemyAgaent;
+            enemy = enemyAgent;
             if(!enemy.IsUse) return;
             if (HitEnemy.Contains(enemy)) return;
             Hit();
@@ -90,19 +90,21 @@ namespace DemoGame
                 Die();
         }
 
-        public override void Move(Transform Tag = null)
+        public override void Move(Transform tag = null)
         {
-            if (Tag != null)
-            {
-                Quaternion t = Quaternion.FromToRotation(Vector3.up, Tag.position - bulletAgaent.transform.position);
-                bulletAgaent.transform.rotation = Quaternion.Slerp(bulletAgaent.transform.rotation, t, 0.05f);
-                //_ISNOfloow = false;
-            }
-            else
-            {
-                //_ISNOfloow = true;
-            }
-            bulletAgaent.transform.Translate(Vector3.up * Time.deltaTime * bulletAttr.MoveSpeed);
+            // if (tag != null)
+            // {
+            //     Quaternion t = Quaternion.FromToRotation(Vector3.up, tag.position - bulletAgent.transform.position);
+            //     bulletAgent.transform.rotation = Quaternion.Slerp(bulletAgent.transform.rotation, t, 0.05f);
+            //     //_ISNOfloow = false;
+            // }
+            // else
+            // {
+            //     //_ISNOfloow = true;
+            // }
+            // bulletAgent.transform.Translate(Vector3.up * (Time.deltaTime * BulletAttr.MoveSpeed));
+            
+            bulletAttr.MoveType.Move(bulletAgent.transform, tag, bulletAttr.MoveSpeed);
         }
 
         public override IEnumerator LifeTime()
@@ -110,14 +112,14 @@ namespace DemoGame
             yield return new WaitForSeconds(bulletAttr.LifeTime);
             Die();
         }
-        bool _ISLive = true;
-        bool _ISNOfloow = true;
+        bool isLive = true;
+        bool isFollow = true;
         public override void Die()
         {
             HitEnemy.Clear();
-            GameManager.Instance.BulletManager.Destroy(bulletAgaent);
-            _ISLive = false;
-            _ISNOfloow = false;
+            GameManager.Instance.BulletManager.Destroy(bulletAgent);
+            isLive = false;
+            isFollow = false;
         }
 
         public override BulletDetail Clone()
@@ -127,7 +129,7 @@ namespace DemoGame
 
         public override ComputerDate GetData()
         {
-            return new ComputerDate(bulletAgaent.transform.position, bulletAttr.Radius, _ISLive, _ISNOfloow);
+            return new ComputerDate(bulletAgent.transform.position, bulletAttr.Radius, isLive, isFollow);
             //return new ComputerDate();
         }
     }

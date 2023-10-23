@@ -6,12 +6,12 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
+
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DemoGame
 {
-
     /// <summary> 
     /// 子弹基础属性
     /// </summary>
@@ -20,24 +20,36 @@ namespace DemoGame
     {
         /// <summary>     生命周期   </summary>
         public float LifeTime;
+
         /// <summary>     伤害       </summary>
         public float Damage;
+
         /// <summary>     移动速度   </summary>
         public float MoveSpeed;
+
         /// <summary>    子弹精灵    </summary>
         public Sprite Sprite;
+
         /// <summary>    攻击间隔    </summary>
         public float Interval;
+
         /// <summary>    伤害半径    </summary>
         public float Radius;
+
         /// <summary>    子弹穿透    </summary>
         public float Penetrate;
+
         /// <summary>    暴击率      </summary>
         public float CritRate;
+
         /// <summary>    暴击加成    </summary>
         public float CritDamage;
+        
+        /// <summary>    移动方式    </summary>
+        public BulletMove MoveType;
 
-        public BulletAttr(float lifeTime, float damage, float moveSpeed, Sprite sprite, float interval, float radius, float penetrate, float critRate, float critDamage)
+        public BulletAttr(float lifeTime, float damage, float moveSpeed, Sprite sprite, float interval, float radius,
+            float penetrate, float critRate, float critDamage, BulletMove moveType)
         {
             LifeTime = lifeTime;
             Damage = damage;
@@ -48,6 +60,7 @@ namespace DemoGame
             Penetrate = penetrate;
             CritRate = critRate;
             CritDamage = critDamage;
+            MoveType = moveType;
         }
     }
 
@@ -55,6 +68,7 @@ namespace DemoGame
     {
         //性能检测用
         None = 0,
+
         //火球
         FireBall,
     }
@@ -62,19 +76,28 @@ namespace DemoGame
     public class BulletFactory
     {
         public Dictionary<BulletType, BulletAttr> bulletAttrDB = null;
+
+        public BulletAttr NoneAttr = new BulletAttr(4, 1, 10,
+            GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.01f,
+            0.4f, 0, 0, 0.5f, new DirMove());
+
+        public BulletAttr FireBallAttr = new BulletAttr(2, 1, 10,
+            GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.5f,
+            0.4f, 0, 0, 0.5f, new DirMove());
+        
+        
         public BulletFactory()
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();
-            //后期读取配置表实现
+            //TODO 后期读取配置表实现
 
-            bulletAttrDB.Add(BulletType.None,     new BulletAttr(4, 1, 10, GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.01f, 0.4f, 0, 0, 0.5f));
-            bulletAttrDB.Add(BulletType.FireBall, new BulletAttr(2, 1, 10, GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.5f, 0.4f, 0, 0, 0.5f));
+            bulletAttrDB.Add(BulletType.None, NoneAttr);
+            bulletAttrDB.Add(BulletType.FireBall, FireBallAttr);
         }
 
         public BulletAttr GetBulletAttr(BulletType bulletType)
-        { 
+        {
             return bulletAttrDB[bulletType];
         }
     }
-
 }

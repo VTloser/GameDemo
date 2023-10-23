@@ -6,26 +6,20 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
+
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
-using Sirenix.Utilities.Editor;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 #if UNITY_EDITOR
 
-
-namespace DemoGame
+namespace DemoGame.Editor
 {
     public class TestHelper : MonoBehaviour
     {
-
-
+        
         [HorizontalGroup("AddEnemy")]
         public int EnemyNum;
-
-
+        
         [Button(ButtonSizes.Medium), HorizontalGroup("AddEnemy"),]
         private void 圆环()
         {

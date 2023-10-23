@@ -94,7 +94,7 @@ namespace DemoGame
         /// </summary>
         public T DynamicAddSize()
         {
-            Debug.Log($"数组长度不足");
+            //Debug.Log($"数组长度不足");
             int RecordNum;
             int n = 1;
             while (n <= MaxSize) n *= 2;
@@ -107,7 +107,7 @@ namespace DemoGame
             }
             RecordNum = MaxSize;
             MaxSize = n;
-            Debug.Log($"数组长度不足，动态调整数组长度,调整后长度{MaxSize}");
+            //Debug.Log($"数组长度不足，动态调整数组长度,调整后长度{MaxSize}");
             Items[RecordNum].Get();
             return Items[RecordNum];
         }

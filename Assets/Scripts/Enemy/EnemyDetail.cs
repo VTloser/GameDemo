@@ -111,7 +111,7 @@ namespace DemoGame
             {
 
                 floowDir = (enemyAttr.Tag.position - _Enemy.transform.position).normalized;
-                _Enemy.transform.Translate((floowDir + Dir * 20) * Time.deltaTime * enemyAttr.MoveSpeed);
+                _Enemy.transform.Translate((floowDir + Dir * 10) * Time.deltaTime * enemyAttr.MoveSpeed);
 
                 //_Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position);
                 //_Enemy.transform.Translate((Vector3.right * 0.1f + _Enemy.transform.worldToLocalMatrix.rotation * Dir) * Time.deltaTime * 30 * enemyAttr.MoveSpeed);

@@ -1,8 +1,8 @@
 /*
  * FileName:      BulletGenerate.cs
- * Author:        ÎºÓî³½
+ * Author:        é­å®‡è¾°
  * Date:          2023/07/23 19:42:56
- * Describe:      ×Óµ¯Éú³É¹ÜÀíÆ÷
+ * Describe:      å­å¼¹ç”Ÿæˆç®¡ç†å™¨
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
@@ -60,7 +60,7 @@ namespace DemoGame
 
 
     /// <summary>
-    /// Ô²»·Éú³ÉÆ÷
+    /// åœ†ç¯ç”Ÿæˆå™¨
     /// </summary>
     public class CircleGenerate : BulletGenerate
     {
@@ -73,7 +73,7 @@ namespace DemoGame
         {
             await Task.Delay(WaitTime);
             if (Time.time - LastGenerate < bulletDetail.bulletAttr.Interval) return;
-
+            
             for (int i = 0; i < Count; i++)
             {
                 var bullet = GameManager.Instance.BulletManager.GetBullet(bulletDetail.Clone() /*as BulletDetail*/);
@@ -85,7 +85,7 @@ namespace DemoGame
     }
 
     /// <summary>
-    /// Ô²»··½ÏòÉú³ÉÆ÷
+    /// åœ†ç¯æ–¹å‘ç”Ÿæˆå™¨
     /// </summary>
     public class CircleDirGenerate : BulletGenerate
     {
@@ -95,7 +95,7 @@ namespace DemoGame
             Count = 36;
             Radio = radio;
         }
-
+        
         public async override void Generate(Vector3 ForWard)
         {
             await Task.Delay(WaitTime);
@@ -111,6 +111,4 @@ namespace DemoGame
             LastGenerate = Time.time;
         }
     }
-
-
 }

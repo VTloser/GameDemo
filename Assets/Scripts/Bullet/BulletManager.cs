@@ -7,13 +7,16 @@ namespace DemoGame
     public class BulletManager
     {
 
-        #region ¶ÔÏó³Ø²¿·Ö
+        #region å¯¹è±¡æ± éƒ¨åˆ†
 
         public BulletAgaent _Bullet;
         public Pool<BulletAgaent> BulletPool;
 
         #endregion
 
+        
+        
+        
         private List<BulletDetail> CurrentBulletDetail;
         public Dictionary<BulletDetail, BulletGenerate> Generates;
 
@@ -31,17 +34,17 @@ namespace DemoGame
         public void Init() 
         {
             _Bullet = GameManager.Instance.ResourceManager.Load<BulletAgaent>("Bullet");
-            BulletPool = new Pool<BulletAgaent>(_Bullet, null, 64);
+            BulletPool = new Pool<BulletAgaent>(_Bullet, null, 128);
 
             CurrentBulletDetail = new List<BulletDetail>();
             Generates = new Dictionary<BulletDetail, BulletGenerate>();
         }
 
-        public void Fire(Vector3 ForWard)
+        public void Fire(Vector3 forWard)
         {
             foreach (BulletDetail b in CurrentBulletDetail)
             {
-                Generates[b].Generate(ForWard);
+                Generates[b].Generate(forWard);
             }
         }
 

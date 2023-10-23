@@ -6,6 +6,8 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
+
+
 using Codice.Client.BaseCommands.BranchExplorer;
 using log4net.Core;
 using System.Collections;
@@ -21,8 +23,8 @@ namespace DemoGame
     public class LevelManager
     {
         public List<LevelItem> Levels;
-        private LevelItem CurrentLevel;
 
+        private LevelItem CurrentLevel;
 
 
         public void Init()

@@ -9,7 +9,7 @@ namespace DemoGame
     [System.Serializable]
     public class BulletAgaent : MonoBehaviour, IPoolBase
     {
-        #region ¶ÔÏó³Ø²¿·Ö
+        #region å¯¹è±¡æ± éƒ¨åˆ†
 
         private bool _IsUse;
         public bool IsUse { get => _IsUse; set => _IsUse = value; }
@@ -43,7 +43,7 @@ namespace DemoGame
             //StartCoroutine(_BulletDetail.LifeTime());
         }
 
-        //×¢ÊÍUpdate 180-190
+        //æ³¨é‡ŠUpdate 180-190
         private void Update()
         {
             //_BulletDetail.Move();
