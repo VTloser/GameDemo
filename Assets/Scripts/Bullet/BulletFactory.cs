@@ -44,7 +44,7 @@ namespace DemoGame
 
         /// <summary>    暴击加成    </summary>
         public float CritDamage;
-        
+
         /// <summary>    移动方式    </summary>
         public BulletMove MoveType;
 
@@ -83,9 +83,9 @@ namespace DemoGame
 
         public BulletAttr FireBallAttr = new BulletAttr(2, 1, 10,
             GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.5f,
-            0.4f, 0, 0, 0.5f, new DirMove());
-        
-        
+            0.4f, 0, 0, 0.5f, new TrackingMove());
+
+
         public BulletFactory()
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();

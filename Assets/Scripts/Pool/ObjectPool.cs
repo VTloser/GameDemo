@@ -166,7 +166,7 @@ namespace DemoGame
             var t = GameObject.Instantiate<T>(original, parent);
             t.name = original.name;
             t.Num = number;
-            t.gameObject.SetActive(false);
+            t.Release();
             t.IsUse = false;
             return t;
         }

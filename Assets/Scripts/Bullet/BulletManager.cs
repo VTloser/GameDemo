@@ -13,8 +13,6 @@ namespace DemoGame
         public Pool<BulletAgaent> BulletPool;
 
         #endregion
-
-        
         
         
         private List<BulletDetail> CurrentBulletDetail;
