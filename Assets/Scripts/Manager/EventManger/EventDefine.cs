@@ -19,13 +19,15 @@ public enum GameEvent : int
     Start = 2,
     Pause = 3,
     Resume = 4,
-    Stop = 5,
-
+    
     GameBegin = 6,
-
+    GamePause = 5,
+    GameSuccess,
+    GameFailde,
+    
     LevelSuccess,
-    LevelFailde,
-
+    
+    
 }
 
 

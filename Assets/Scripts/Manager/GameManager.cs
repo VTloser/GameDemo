@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Resources;
 using UnityEngine;
@@ -33,6 +34,10 @@ namespace DemoGame
 
         public LevelManager LevelManager;
 
+        public FloatingWordManager floatingWordMgr;
+
+        public Transform floatingWordFather;
+
         private void Awake()
         {
             Instance = this;
@@ -44,18 +49,24 @@ namespace DemoGame
             bulletFactory   = new BulletFactory();
             enemyFactory    = new EnemyFactory();
             LevelManager    = new LevelManager();  LevelManager.Init();
-
-            EventManager    = new EventManager();  EventManager.Init();
+            EventManager    = new EventManager();  EventManager.Init(this);
+            floatingWordMgr = new FloatingWordManager(); floatingWordMgr.Init(floatingWordFather);
         }
 
         private void Start()
         {
-            //EventCenter.Broadcast(GameEvent.GameBegin);
+            LevelManager.NextLevel();
         }
+        
+        private void Update()
+        {
+            LevelManager.LevelManagerUpdate(EnemyManager.EnemyPool.ActiveCount);
+        }
+
 
         private void OnApplicationQuit()
         {
-            EventCenter.Broadcast(GameEvent.Stop);
+            EventCenter.Broadcast(GameEvent.GamePause);
         }
 
     }

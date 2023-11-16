@@ -28,12 +28,18 @@ namespace DemoGame
 
         /// <summary>   父节点位置   </summary>
         private Transform Parent;
+        
         /// <summary>   类型   </summary>
         private T t;
+        
         /// <summary>   对象池最大容量   </summary>
         public int MaxSize;
+        
         /// <summary>   对象池   </summary>
         public T[] Items;
+
+        /// <summary>   对象池激活数量   </summary>
+        public int ActiveCount;
 
         /// <summary>
         /// 创建对象
@@ -46,6 +52,7 @@ namespace DemoGame
                 if (!(Items[i].IsUse))
                 {
                     Items[i].Get();
+                    ActiveCount++;
                     return Items[i];
                 }
             }
@@ -66,6 +73,7 @@ namespace DemoGame
                 {
                     action?.Invoke(Items[i]);
                     Items[i].Get();
+                    ActiveCount++;
                     return Items[i];
                 }
             }
@@ -80,14 +88,17 @@ namespace DemoGame
         public void DestObject(T t)
         {
             Items[t.Num].Release();
+            ActiveCount--;
         }
 
-        async public void DestObject(T t, float Time)
+        public void DestObjectAll()
         {
-            await Task.Delay((int)(Time * 1000));
-            DestObject(t);
+            ActiveCount = 0;
+            foreach (var VARIABLE in Items)
+            {
+                if(VARIABLE.IsUse) VARIABLE.Release();
+            }
         }
-
 
         /// <summary>
         /// 动态调整数组长度
@@ -112,7 +123,10 @@ namespace DemoGame
             return Items[RecordNum];
         }
 
-        //批量式初始化
+        /// <summary>
+        /// 批量式初始化
+        /// </summary>
+        /// <param name="size"></param>
         public void DynamicAddSize(int size)
         {
             Debug.Log("数组长度不足，动态调整数组长度");
@@ -130,7 +144,9 @@ namespace DemoGame
         }
 
 
-        //TODO 暂时不知道怎么处理
+        /// <summary>
+        /// TODO 暂时不知道怎么处理
+        /// </summary>
         public void DynamciReduceSize()
         {
             Debug.Log("数组长度过长，动态调整数组长度");

@@ -48,9 +48,9 @@ namespace DemoGame
 
         [SerializeField] private Text damageText;
 
-        private float moveY = 50;
-        private float moveTime = 0.6f;
-        private float fadeTime = 0.3f;
+        private float moveY = 25;
+        private float moveTime = 0.4f;
+        private float fadeTime = 0.2f;
 
         public void Hit(Vector2 pos, float damage)
         {
@@ -61,14 +61,15 @@ namespace DemoGame
             MoveUp();
         }
 
-        private void Bigger()
+        private void MoveUpDown()
         {
-            damageText.transform.DOScale(Vector2.one, 0.3f)
+            damageText.DOFade(1, 0);
+            damageText.transform.DOMove(new Vector2(4, moveY), moveTime)
                 .SetRelative()
                 .SetEase(Ease.OutBack)
                 .OnComplete(() =>
                 {
-                    MoveUp();
+                    damageText.DOFade(0, fadeTime).OnComplete(Release);
                 });
         }
 

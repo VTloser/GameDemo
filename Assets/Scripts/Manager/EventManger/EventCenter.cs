@@ -99,7 +99,7 @@ public class EventCenter
     {
         if (!mEventTable.ContainsKey(gameEvent))
         {
-            Debug.LogError($"�¼�{gameEvent}δ��");
+           // Debug.LogError($"�¼�{gameEvent}δ��");
         }
     }
 
@@ -205,9 +205,7 @@ public class EventCenter
     }
 
 
-    /// <summary>
-    /// �¼��㲥
-    /// </summary>
+    //广播方法
     public static void Broadcast(GameEvent gameEvent)
     {
         OnBroadcasting(gameEvent);
@@ -217,10 +215,6 @@ public class EventCenter
             if (callback != null)
             {
                 callback();
-            }
-            else
-            {
-                throw CreateBroadcastSingatureException(gameEvent);
             }
         }
     }

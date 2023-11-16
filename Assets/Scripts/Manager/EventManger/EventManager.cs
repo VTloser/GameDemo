@@ -13,19 +13,28 @@ using UnityEngine;
 
 public class EventManager
 {
-    // Start is called before the first frame update
-    public void Init()
+    private GameManager gameMgr;
+
+    public void Init(GameManager gameManager)
     {
-        //EventCenter.AddListener(GameEvent.Begin, (string _, float i) => { Debug.Log("123" + _ + ":" + i); });
-        //EventCenter.Broadcast(GameEvent.Begin);
+        gameMgr = gameManager;
 
+        EventCenter.AddListener(GameEvent.GameBegin, () => { });
 
-        EventCenter.AddListener(GameEvent.GameBegin, () => { GameManager.Instance.LevelManager.BeginGame(); });
+        EventCenter.AddListener(GameEvent.GamePause, () =>
+        {
+            gameMgr.LevelManager.GameStop();
+        });
 
-
-        EventCenter.AddListener(GameEvent.Stop, () => { GameManager.Instance.LevelManager.Stop(); });
-
-
-
+        EventCenter.AddListener(GameEvent.GameFailde, () =>
+        {
+            gameMgr.LevelManager.GameEnd();
+        });
+        
+        EventCenter.AddListener(GameEvent.LevelSuccess, () =>
+        {
+            GameManager.Instance.EnemyManager.EnemyPool.DestObjectAll();
+        });
+        
     }
 }

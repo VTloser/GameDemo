@@ -92,6 +92,8 @@ namespace DemoGame
 
         public override void Injury(float damage)
         {
+            GameManager.Instance.floatingWordMgr.Damage(Camera.main.WorldToScreenPoint(_Enemy.transform.position), damage);
+
             CurrentHp -= damage;
             if (CurrentHp <= 0)
             {
