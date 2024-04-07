@@ -59,7 +59,7 @@ public class Buff
 
     /// <summary> Buff优先级 </summary>
     public int Priority; //负面类Buff优先处理 优先级低 0 - 1000
-    
+
     /// <summary> 开始运行时回调 </summary>
     public UnityAction StartCallback;
 
@@ -71,10 +71,11 @@ public class Buff
 
     /// <summary> 中止回调 </summary>
     public UnityAction InterruptCallback;
-    
+
     public Buff(string name, float maxDuration, int maxStack,
         DecayType decayType, bool refreshable, string info, string icon, int priority,
-        UnityAction startCallback, UnityAction<Buff> effectCallback, UnityAction endCallback, UnityAction interruptCallback)
+        UnityAction startCallback, UnityAction<Buff> effectCallback, UnityAction endCallback,
+        UnityAction interruptCallback)
     {
         Name = name;
         MaxDuration = maxDuration;
@@ -90,7 +91,7 @@ public class Buff
         EndCallback = endCallback;
         InterruptCallback = interruptCallback;
     }
-    
+
     public void Begin()
     {
         Duration = MaxDuration;
@@ -127,8 +128,8 @@ public class Buff
 
 public interface IBuffItem
 {
-    public List<Buff> GetBuffList();
-    public bool GetIsDead();
+    public List<Buff> BuffList{ get; set; }
+    public bool IsDead{ get; set; }
     public void InterruptBuff(Buff buff);
     public void RemoveBuff(Buff buff);
     public void AddBuff(Buff buff);
@@ -140,14 +141,11 @@ public class BuffFactor
     public Buff GetBuff(string BuffName)
     {
         Buff SpeedUp = new Buff("SpeedUp", 5, 5, global::DecayType.Linear, true, "提高移速", "DotImage", 1,
-            () => { Debug.Log("速度提升"); }, (_) =>
-            {
-                Debug.Log($"速度提升层数{_.CurrentStack}");
-            },
+            () => { Debug.Log("速度提升"); }, (_) => { Debug.Log($"速度提升层数{_.CurrentStack}"); },
             () => { Debug.Log("速度恢复"); },
             () => { Debug.Log("速度提前恢复"); });
-        
-        
+
+
         switch (BuffName)
         {
             case "Dot":
@@ -171,36 +169,27 @@ public class BuffFactor
 
 public class BufferBase : MonoBehaviour, IBuffItem
 {
-    private List<Buff> _buffList = new List<Buff>();
-    private bool _isDead;
-
-    public List<Buff> GetBuffList()
-    {
-        return _buffList;
-    }
-    public bool GetIsDead()
-    {
-        return _isDead;
-    }
+    public List<Buff> BuffList { get; set; }
+    public bool IsDead { get; set; }
 
     public void InterruptBuff(Buff buff)
     {
         buff.Interrupt();
-        _buffList.Remove(buff);
+        BuffList.Remove(buff);
     }
 
     public void RemoveBuff(Buff buff)
     {
         buff.End();
-        _buffList.Remove(buff);
+        BuffList.Remove(buff);
     }
 
     public void AddBuff(Buff buff)
     {
         //判断Buff是否已在Buff列表中，如果在列表中刷新，如果不在添加。
-        if (_buffList.Contains(buff))
+        if (BuffList.Contains(buff))
         {
-            var auto = _buffList.Find(X => X.Name == buff.Name);
+            var auto = BuffList.Find(X => X.Name == buff.Name);
             if (auto != null)
             {
                 auto.Refresh();
@@ -209,44 +198,43 @@ public class BufferBase : MonoBehaviour, IBuffItem
         else
         {
             buff.Begin();
-            _buffList.Add(buff);
-            _buffList.Sort(delegate(Buff x, Buff y)
+            BuffList.Add(buff);
+            BuffList.Sort(delegate(Buff x, Buff y)
             {
                 if (x.Priority < y.Priority) return -1; // 如果 x 的 id 小于 y 的 id，返回 -1
                 else if (x.Priority == y.Priority) return 0; // 如果 x 的 id 等于 y 的 id，返回 0
                 else return 1; // 如果 x 的 id 大于 y 的 id，返回 1
             });
         }
-        
     }
 
     public IEnumerator BuffLogic()
     {
         while (true)
         {
-            for (int i = 0; i < _buffList.Count; i++)
+            for (int i = 0; i < BuffList.Count; i++)
             {
-                if (_buffList[i].Duration <= 0.01f || GetIsDead() /*|| 其他条件 */)
+                if (BuffList[i].Duration <= 0.01f || IsDead /*|| 其他条件 */)
                 {
-                    RemoveBuff(_buffList[i]);
+                    RemoveBuff(BuffList[i]);
                     break;
                 }
 
-                _buffList[i].EffectCallback?.Invoke(_buffList[i]);
+                BuffList[i].EffectCallback?.Invoke(BuffList[i]);
 
-                switch (_buffList[i].decayType)
+                switch (BuffList[i].decayType)
                 {
                     case DecayType.Linear:
-                        _buffList[i].Duration -= Time.deltaTime;
+                        BuffList[i].Duration -= Time.deltaTime;
                         break;
                     case DecayType.Exponential:
-                        _buffList[i].Duration *= 0.9f;
+                        BuffList[i].Duration *= 0.9f;
                         break;
                     default:
                         break;
                 }
             }
-            
+
             yield return null;
         }
     }
