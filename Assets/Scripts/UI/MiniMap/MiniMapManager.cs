@@ -1,7 +1,8 @@
 ﻿using DG.Tweening;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
+
 
 namespace DemoGame
 {

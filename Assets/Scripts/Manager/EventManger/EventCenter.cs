@@ -2,19 +2,19 @@
  * FileName:      EventCenter.cs
  * Author:        摩诘创新
  * Date:          2023/08/06 13:14:52
- * Describe:      Describe
+ * Describe:      事件中心
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class EventCenter 
 {
     /// <summary>     事件列表    </summary>
     public static Dictionary<GameEvent, Delegate> mEventTable = new Dictionary<GameEvent, Delegate>();
+    
     /// <summary>     永存事件列表 不清理     </summary>
     private static List<GameEvent> mPerManentMessages = new List<GameEvent>();
 

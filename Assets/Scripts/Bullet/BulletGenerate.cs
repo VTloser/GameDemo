@@ -12,18 +12,25 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
+
 namespace DemoGame
 {
-
+    /// <summary>
+    /// 子弹生成抽象类
+    /// </summary>
     public abstract class BulletGenerate
     {
+        /// <summary> 子弹生成类型 </summary>
         public BulletDetail bulletDetail;
 
+        /// <summary> 子弹生成数量 </summary>
         public float Count;
 
-        public float LastGenerate;
-
+        /// <summary> 上次生成间隔 </summary>
         public int WaitTime;
+        
+        /// <summary> 上次子弹生成时间 </summary>
+        public float LastGenerate;
 
         public BulletGenerate(BulletDetail _bulletDetail, int waiting)
         {
@@ -31,10 +38,17 @@ namespace DemoGame
             WaitTime = waiting;
         }
 
+        /// <summary>
+        /// 子弹生成
+        /// </summary>
+        /// <param name="ForWard"> 方向参数 </param>
         public abstract void Generate(Vector3 ForWard);
     }
 
 
+    /// <summary>
+    /// 直射子弹生成器
+    /// </summary>
     public class DirGenerate : BulletGenerate
     {
         public DirGenerate(BulletDetail _bulletDetail, int waiting) : base(_bulletDetail, waiting)
@@ -42,15 +56,15 @@ namespace DemoGame
             Count = 2;
         }
 
-        public async override void Generate(Vector3 ForWard)
+        public override async void Generate(Vector3 ForWard)
         {
             await Task.Delay(WaitTime);
             if (Time.time - LastGenerate < bulletDetail.bulletAttr.Interval) return;
-
             for (int i = 0; i < Count; i++)
             {
                 var bullet = GameManager.Instance.BulletManager.GetBullet(bulletDetail.Clone());
-                bullet.transform.up = Quaternion.Euler(new Vector3(0, 0, (i - (Count - 1) / 2) * 20f / Count)) * ForWard;
+                bullet.transform.up =
+                    Quaternion.Euler(new Vector3(0, 0, (i - (Count - 1) / 2) * 20f / Count)) * ForWard;
                 bullet.transform.position = GameManager.Instance.Player.transform.position;
             }
 
@@ -60,7 +74,7 @@ namespace DemoGame
 
 
     /// <summary>
-    /// 圆环生成器
+    /// 圆环子弹生成器
     /// </summary>
     public class CircleGenerate : BulletGenerate
     {
@@ -69,7 +83,7 @@ namespace DemoGame
             Count = 36;
         }
 
-        public async override void Generate(Vector3 ForWard)
+        public override async void Generate(Vector3 ForWard)
         {
             await Task.Delay(WaitTime);
             if (Time.time - LastGenerate < bulletDetail.bulletAttr.Interval) return;

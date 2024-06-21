@@ -9,7 +9,7 @@
 
 using System.Security.Cryptography;
 using UnityEngine;
-
+    
 namespace DemoGame
 {
     public interface InputManager

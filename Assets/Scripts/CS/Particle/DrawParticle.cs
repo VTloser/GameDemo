@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [Serializable]
 public struct ParticleData
 {
@@ -26,7 +25,7 @@ public class DrawParticle : MonoBehaviour
     [SerializeField]
     ParticleData[] Rece;
     void Start() {
-        //structÖÐÒ»¹²7¸öfloat£¬size=28
+        //structä¸­ä¸€å…±7ä¸ªfloatï¼Œsize=28
         mParticleDataBuffer = new ComputeBuffer(mParticleCount, 28);
         particleDatas = new ParticleData[mParticleCount];
         Rece= new ParticleData[mParticleCount];

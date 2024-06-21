@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
-using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine;
 
 public class WarehouseItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -60,16 +60,16 @@ public enum GoodsType
 
 public struct Goods
 {
-    /// <summary>   物体名字   </summary>
+    /// <summary>   鐗╀綋鍚嶅瓧   </summary>
     public string Name;
-    /// <summary>   描述   </summary>
+    /// <summary>   鎻忚堪   </summary>
     public string Description;
-    /// <summary>   最大堆叠数   </summary>
+    /// <summary>   鏈�澶у爢鍙犳暟   </summary>
     public float MaxCount;
-    /// <summary>   物品类型   </summary>
+    /// <summary>   鐗╁搧绫诲瀷   </summary>
     public GoodsType type;
-    /// <summary>   图片名称   </summary>
+    /// <summary>   鍥剧墖鍚嶇О   </summary>
     public string ImageName;
-    /// <summary>   物体名称   </summary>
+    /// <summary>   鐗╀綋鍚嶇О   </summary>
     public string ResourcesName;
 }

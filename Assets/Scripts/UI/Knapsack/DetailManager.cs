@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 public class DetailManager : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class DetailManager : MonoBehaviour
     }
 
 
-    //ÏÔÊ¾UI
+    //ï¿½ï¿½Ê¾UI
     public void Show()
     {
         _DetailUI.gameObject.SetActive(true);

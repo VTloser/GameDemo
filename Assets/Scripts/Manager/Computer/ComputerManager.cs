@@ -2,7 +2,7 @@
  * FileName:      ComputerManager.cs
  * Author:        摩诘创新
  * Date:          2023/07/26 15:47:06
- * Describe:      ComputerShader计算管理模块
+ * Describe:      ComputerShader 计算管理模块
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
@@ -10,8 +10,9 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Runtime.InteropServices;
+using UnityEngine;
+
 
 namespace DemoGame
 {
@@ -22,7 +23,7 @@ namespace DemoGame
 
         public ComputeShader BulletEnemyCS; //子弹敌人计算
 
-        public ComputeShader EnemyColliderCS;//敌人间碰撞检测
+        public ComputeShader EnemyColliderCS; //敌人间碰撞检测
 
         const int MaxCount = 2048;
 
@@ -41,6 +42,7 @@ namespace DemoGame
 
         //[SerializeField]
         ComputerDate[] ReceiveBullet;
+        
         //[SerializeField]
         ComputerDate[] ReceiveEnemy;
 

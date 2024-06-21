@@ -8,7 +8,6 @@
  */
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 
 public enum GameEvent : int
@@ -25,8 +24,8 @@ public enum GameEvent : int
     GameSuccess,
     GameFailde,
     
-    LevelSuccess,
-    
+    LevelSuccess,//关卡成功
+    LevelFailed, //关卡失败
     
 }
 

@@ -7,7 +7,6 @@
  * Version:       0.1
  */
 using System.Threading;
-using UnityEngine;
 
 namespace DemoGame
 {

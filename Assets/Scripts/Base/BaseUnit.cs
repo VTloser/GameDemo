@@ -6,10 +6,10 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 using UnityEngine.Events;
+using UnityEngine;
+
 
 namespace DemoGame
 {

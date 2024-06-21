@@ -71,13 +71,13 @@ namespace DemoGame.Editor
             Instantiate(GameManager.Instance.ResourceManager.Load<Player>(Path: "Player"));
         }
 
-        int Count0;
+        int Count0 = 0;
         [Button(ButtonSizes.Medium), HorizontalGroup("添加子弹")]
 
         private void 添加方向子弹()
         {
             BulletDetail bullet = new FireBallDetail();
-            GameManager.Instance.BulletManager.AddBulletType(bullet, new DirGenerate(bullet, 500 * Count0++));
+            GameManager.Instance.BulletManager.AddBulletType(bullet, new DirGenerate(bullet, 200 * Count0++));
         }
 
 
@@ -86,7 +86,7 @@ namespace DemoGame.Editor
         private void 添加圆环子弹()
         {
             BulletDetail bullet = new FireBallDetail();
-            GameManager.Instance.BulletManager.AddBulletType(bullet, new CircleGenerate(bullet, 500 * Count1++));
+            GameManager.Instance.BulletManager.AddBulletType(bullet, new CircleGenerate(bullet, 200 * Count1++));
         }
 
         int Count2;
@@ -94,7 +94,7 @@ namespace DemoGame.Editor
         private void 添加方向圆环子弹()
         {
             BulletDetail bullet = new FireBallDetail();
-            GameManager.Instance.BulletManager.AddBulletType(bullet, new CircleDirGenerate(bullet, 500 * Count2++, 2f));
+            GameManager.Instance.BulletManager.AddBulletType(bullet, new CircleDirGenerate(bullet, 200 * Count2++, 2f));
         }
 
 

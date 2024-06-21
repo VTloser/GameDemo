@@ -5,6 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+
 public class ScriptHeadComment : UnityEditor.AssetModificationProcessor
 {
     public static void OnWillCreateAsset(string metaName)
@@ -13,7 +14,7 @@ public class ScriptHeadComment : UnityEditor.AssetModificationProcessor
         string fileExt = Path.GetExtension(filePath); // ".cs"
         if (fileExt != ".cs")
         {
-            return; // ²»ÊÇ½Å±¾
+            return; // ä¸æ˜¯è„šæœ¬
         }
         string fileFullPath = Application.dataPath.Replace("Assets", "") + filePath; // "D:/Program Files/UnityProjects/UnityTest/Assets/Scripts/ScriptHeadCommentTest.cs"
         string fileContent = File.ReadAllText(fileFullPath); // "using System.Collections;\r\nusing System.Collections.Generic;\r\nusing UnityEngine;\r\n\r\npublic class ScriptHeadCommentTest : MonoBehaviour {\r\n\r\n\t// Use this for initialization\r\n\tvoid Start () {\r\n\t\t\r\n\t}\r\n\t\r\n\t// Update is called once per frame\r\n\tvoid Update () {\r\n\t\t\r\n\t}\r\n}\r\n"
@@ -26,12 +27,12 @@ public class ScriptHeadComment : UnityEditor.AssetModificationProcessor
             "\n * UnityVersion:  #UNITYVERSION#" +
             "\n * Version:       0.1" +
             "\n */" +
-            "\n"; // °´ÕÕ×Ô¼ºµÄÉè¼ÆÌí¼ÓĞèÒª×Ô¶¯Éú³ÉµÄĞÅÏ¢£¬µ÷ÕûºÃ¼ä¾à
+            "\n"; // æŒ‰ç…§è‡ªå·±çš„è®¾è®¡æ·»åŠ éœ€è¦è‡ªåŠ¨ç”Ÿæˆçš„ä¿¡æ¯ï¼Œè°ƒæ•´å¥½é—´è·
         commentContent = commentContent.Replace("#FILENAME#", Path.GetFileName(fileFullPath));
         commentContent = commentContent.Replace("#AUTHOR#", Environment.UserName);
         commentContent = commentContent.Replace("#DATE#", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
         commentContent = commentContent.Replace("#UNITYVERSION#", Application.unityVersion);
-        //fileContent.Insert(0, commentContent); ÕâÀïÈİÒ×³ö´í£¬²»¸Ä±äÔ­Öµ
+        //fileContent.Insert(0, commentContent); è¿™é‡Œå®¹æ˜“å‡ºé”™ï¼Œä¸æ”¹å˜åŸå€¼
         fileContent = fileContent.Insert(0, commentContent); // "/*\n *FileName:      ScriptHeadCommentTest.cs\n *Author:        tangmingzhe\n *Date:          2020/11/12 20:00:16\n *UnityVersion:  2018.2.0f2\n */\nusing System.Collections;\r\nusing System.Collections.Generic;\r\nusing UnityEngine;\r\n\r\npublic class ScriptHeadCommentTest : MonoBehaviour {\r\n\r\n\t// Use this for initialization\r\n\tvoid Start () {\r\n\t\t\r\n\t}\r\n\t\r\n\t// Update is called once per frame\r\n\tvoid Update () {\r\n\t\t\r\n\t}\r\n}\r\n"
         File.WriteAllText(fileFullPath, fileContent);
     }

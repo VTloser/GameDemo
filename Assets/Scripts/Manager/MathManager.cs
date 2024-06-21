@@ -10,8 +10,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace DemoGame
 {
+    /// <summary>
+    /// 伤害计算模块
+    /// </summary>
     public class MathManager
     {
         public float Damage(EnemyAttr enemy, BulletAttr bullet)
@@ -19,9 +23,11 @@ namespace DemoGame
             float Damage = 0;
 
             //计算普通伤害
-            Damage += bullet.Damage;
+            Damage += bullet.Damage * (1 - enemy.Damage_Reduction);
+            
             //计算暴击伤害
             Damage += Random.Range(0, 101) < bullet.CritRate ? bullet.Damage * bullet.CritDamage : 0;
+            
             return Damage;
         }
     }

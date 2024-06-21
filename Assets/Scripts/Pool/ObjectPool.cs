@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine;
+
 
 namespace DemoGame
 {
@@ -91,6 +92,9 @@ namespace DemoGame
             ActiveCount--;
         }
 
+        /// <summary>
+        /// 销毁所有对象
+        /// </summary>
         public void DestObjectAll()
         {
             ActiveCount = 0;

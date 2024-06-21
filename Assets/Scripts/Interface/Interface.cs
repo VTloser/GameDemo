@@ -9,7 +9,6 @@
 using DemoGame;
 using UnityEngine;
 
-
 public interface IMiniMap
 {
     public MiniType _MiniType { get; }

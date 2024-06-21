@@ -2,13 +2,14 @@
  * FileName:      Props.cs
  * Author:        魏宇辰
  * Date:          2023/07/24 09:40:37
- * Describe:      Describe
+ * Describe:      道具基础类
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace DemoGame
 {

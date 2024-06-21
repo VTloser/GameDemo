@@ -2,36 +2,26 @@
  * FileName:      DamageText.cs
  * Author:        摩诘创新
  * Date:          2023/10/27 15:09:47
- * Describe:      Describe
+ * Describe:      飘字对象
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
 
-using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-
+using UnityEngine;
 namespace DemoGame
 {
+    /// <summary>
+    ///  飘字对象
+    /// </summary>
     public class FloatingWordItem : MonoBehaviour, IPoolBase
     {
         #region 对象池部分
 
-        private bool _IsUse;
+        public bool IsUse { get; set; }
 
-        public bool IsUse
-        {
-            get => _IsUse;
-            set => _IsUse = value;
-        }
-
-        private int _Num;
-
-        public int Num
-        {
-            get => _Num;
-            set => _Num = value;
-        }
+        public int Num { get; set; }
 
         public void Get()
         {
@@ -46,6 +36,7 @@ namespace DemoGame
 
         #endregion
 
+        
         [SerializeField] private Text damageText;
 
         private float moveY = 25;

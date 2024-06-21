@@ -1,25 +1,29 @@
 /*
  * FileName:      EnemyAgaent.cs
- * Author:        摩诘创新
+ * Author:        魏宇辰
  * Date:          2023/07/21 16:33:57
- * Describe:      Describe
+ * Describe:      怪物代理类
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
-using UnityEngine;
+
 using UnityEngine.UI;
+using UnityEngine;
+
 
 namespace DemoGame
 {
+    /// <summary>
+    /// 怪物代理
+    /// </summary>
     public class EnemyAgaent : MonoBehaviour, IPoolBase , IMiniMap
     {
 
         #region 对象池部分
 
-        private bool _IsUse;
-        public bool IsUse { get => _IsUse; set => _IsUse = value; }
-        private int _Num;
-        public int Num { get => _Num; set => _Num = value; }
+        public bool IsUse { get; set; }
+
+        public int Num { get; set; }
 
         public void Get()
         {
@@ -52,8 +56,7 @@ namespace DemoGame
         public Transform _Transform { get => this.transform; }
 
         #endregion
-
-
+        
         public EnemyDetail _EnemyDetail;
 
         ////关闭160-170

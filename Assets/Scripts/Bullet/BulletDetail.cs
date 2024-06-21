@@ -10,23 +10,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace DemoGame
 {
+    
+    /// <summary>
+    /// 子弹细节描述类
+    /// </summary>
     [Serializable]
     public abstract class BulletDetail /*: ICloneable*/
     {
-        /// <summary>  移动   </summary>
+        /// <summary>  移动细节   </summary>
         public abstract void Move(Transform tag = null);
 
-        /// <summary>  子弹生成 可视为一次开火  </summary>
-        public abstract void Int(BulletAgaent agentBullet);
+        /// <summary>  子弹初始化  </summary>
+        public abstract void Int(BulletAgent agentBullet);
 
         /// <summary>  判断命中  </summary>
         public abstract void JudgeHit(EnemyAgaent enemyAgent);
 
-        /// <summary>  判断命中  </summary>
+        /// <summary>  判断伤害  </summary>
         public abstract void Hit();
 
         /// <summary>  生命周期倒计时  </summary>
@@ -46,15 +49,19 @@ namespace DemoGame
         public BulletAttr bulletAttr;
 
         /// <summary>  子弹代理  </summary>
-        public BulletAgaent bulletAgent;
+        public BulletAgent bulletAgent;
 
         protected List<EnemyAgaent> HitEnemy;
+        
     }
-
-
+    
+    /// <summary>
+    /// 火球子弹细节
+    /// </summary>
     [Serializable]
     public class FireBallDetail : BulletDetail
     {
+        
         private EnemyAgaent enemy;
 
         private float currentPenetrate;
@@ -65,7 +72,7 @@ namespace DemoGame
             bulletAttr = GameManager.Instance.bulletFactory.GetBulletAttr(bulletType);
         }
 
-        public override void Int(BulletAgaent agentBullet)
+        public override void Int(BulletAgent agentBullet)
         {
             currentPenetrate = bulletAttr.Penetrate;
             bulletAgent = agentBullet;
@@ -92,18 +99,6 @@ namespace DemoGame
 
         public override void Move(Transform tag = null)
         {
-            // if (tag != null)
-            // {
-            //     Quaternion t = Quaternion.FromToRotation(Vector3.up, tag.position - bulletAgent.transform.position);
-            //     bulletAgent.transform.rotation = Quaternion.Slerp(bulletAgent.transform.rotation, t, 0.05f);
-            //     //_ISNOfloow = false;
-            // }
-            // else
-            // {
-            //     //_ISNOfloow = true;
-            // }
-            // bulletAgent.transform.Translate(Vector3.up * (Time.deltaTime * BulletAttr.MoveSpeed));
-            
             bulletAttr.MoveType.Move(bulletAgent.transform, tag, bulletAttr.MoveSpeed);
         }
 
@@ -112,6 +107,7 @@ namespace DemoGame
             yield return new WaitForSeconds(bulletAttr.LifeTime);
             Die();
         }
+        
         bool isLive = true;
         bool isFollow = true;
         public override void Die()

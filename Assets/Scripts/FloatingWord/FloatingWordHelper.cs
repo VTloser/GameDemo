@@ -6,9 +6,7 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
-
 using UnityEngine;
-
 namespace DemoGame
 {
     public class FloatingWordHelper : MonoBehaviour
@@ -20,7 +18,7 @@ namespace DemoGame
         void Awake()
         {
             floatingWordMgr = new FloatingWordManager();
-            floatingWordMgr.Init(canvas.transform);
+            floatingWordMgr.Init(canvas.transform, Camera.main);
         }
 
         private void Update()

@@ -1,21 +1,25 @@
-using Codice.CM.Common;
-using System.Collections;
-using System.Threading;
-using UnityEditor.Overlays;
+/*
+ * FileName:      BulletAgaent.cs
+ * Author:        魏宇辰
+ * Date:          2023/07/19 16:58:25
+ * Describe:      子弹代理类
+ * UnityVersion:  2021.3.23f1c1
+ * Version:       0.1
+ */
 using UnityEngine;
 
 namespace DemoGame
 {
     [System.Serializable]
-    public class BulletAgaent : MonoBehaviour, IPoolBase
+    public class BulletAgent : MonoBehaviour, IPoolBase
     {
         #region 对象池部分
 
-        private bool _IsUse;
-        public bool IsUse { get => _IsUse; set => _IsUse = value; }
+        private bool _isUse;
+        public bool IsUse { get => _isUse; set => _isUse = value; }
 
-        private int _Num;
-        public int Num { get => _Num; set => _Num = value; }
+        private int _num;
+        public int Num { get => _num; set => _num = value; }
 
         public void Get()
         {
@@ -40,7 +44,8 @@ namespace DemoGame
             _BulletDetail = bulletDetail;
             _BulletDetail.Int(this);
             Sprite.enabled = true;
-            //StartCoroutine(_BulletDetail.LifeTime());
+            
+            StartCoroutine(_BulletDetail.LifeTime());
         }
 
         //注释Update 180-190

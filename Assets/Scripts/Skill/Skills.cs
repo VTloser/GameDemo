@@ -8,11 +8,13 @@
  */
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Playables;
 
 namespace DemoGame
 {
+    /// <summary>
+    /// 技能枚举类
+    /// </summary>
     public enum SkillType
     {
         None = 0,
@@ -21,10 +23,15 @@ namespace DemoGame
         Other1 = 1 << 2,
     }
 
-
+    /// <summary>
+    /// 技能类
+    /// </summary>
     public abstract class Skills
     {
+        /// <summary> 技能拥有者 </summary>
         protected BaseUnit Owner;
+        
+        /// <summary> 技能类型 </summary>
         protected SkillType skillType;
 
         protected Skills(BaseUnit owner, SkillType skillType)
@@ -33,11 +40,20 @@ namespace DemoGame
             this.skillType = skillType;
         }
 
-        public abstract void ToDO();
+        /// <summary>
+        /// 拥有技能后
+        /// </summary>
+        public abstract void ToDo();
 
+        /// <summary>
+        /// 移除技能后
+        /// </summary>
         public abstract void Release();
     }
 
+    /// <summary>
+    /// 技能工厂
+    /// </summary>
     public static class SkillFactor
     {
         public static Skills GetSkills(BaseUnit owner, SkillType skillType) =>

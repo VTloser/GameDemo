@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Resources;
-using UnityEngine;
+using UnityEditor.VersionControl;
 using UnityEngine.UIElements;
+using UnityEngine;
+using Task = System.Threading.Tasks.Task;
+
 
 namespace DemoGame
 {
@@ -34,7 +37,7 @@ namespace DemoGame
 
         public LevelManager LevelManager;
 
-        public FloatingWordManager floatingWordMgr;
+        public FloatingWordManager FloatingWordMgr;
 
         public Transform floatingWordFather;
 
@@ -50,11 +53,14 @@ namespace DemoGame
             enemyFactory    = new EnemyFactory();
             LevelManager    = new LevelManager();  LevelManager.Init();
             EventManager    = new EventManager();  EventManager.Init(this);
-            floatingWordMgr = new FloatingWordManager(); floatingWordMgr.Init(floatingWordFather);
+            FloatingWordMgr = new FloatingWordManager(); FloatingWordMgr.Init(floatingWordFather, Camera.main);
         }
 
-        private void Start()
+        private async void  Start()
         {
+            await Task.Delay(5000); //等待系统卡顿延迟
+            
+            Instantiate(GameManager.Instance.ResourceManager.Load<Player>(Path: "Player"));
             LevelManager.NextLevel();
         }
         

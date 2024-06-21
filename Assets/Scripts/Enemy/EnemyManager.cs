@@ -10,26 +10,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 namespace DemoGame
 {
+    /// <summary>
+    /// 怪物管理系统
+    /// </summary>
     public class EnemyManager
     {
         public EnemyAgaent _Enemy;
         public Pool<EnemyAgaent> EnemyPool;
 
-
+        /// <summary>
+        /// 初始化
+        /// </summary>
         public void Init()
         {
             _Enemy = GameManager.Instance.ResourceManager.Load<EnemyAgaent>("Enemy");
             EnemyPool = new Pool<EnemyAgaent>(_Enemy, null, 64);
         }
 
-
+        /// <summary>
+        /// 销毁怪物
+        /// </summary>
+        /// <param name="enemy"></param>
         public void Destroy(EnemyAgaent enemy)
         {
             EnemyPool.DestObject(enemy);
         }
 
+        /// <summary>
+        /// 获取一个怪物
+        /// </summary>
+        /// <returns></returns>
         public EnemyAgaent GetEnemy(EnemyDetail enemyDetail)
         {
             var enemy = EnemyPool.GetObject();

@@ -4,8 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+
 namespace DemoGame
 {
+    /// <summary>
+    /// Player类
+    /// </summary>
     public class Player : BaseUnit, IMiniMap
     {
         public Camera PlayerCam;
@@ -13,6 +17,7 @@ namespace DemoGame
         private SkillType PlayerSkill;
 
         public float MoveSpeed = 10;
+        
         [SerializeField]
         private float CurrentSpeed;
 
@@ -26,23 +31,23 @@ namespace DemoGame
 
         public override void Update()
         {
-            string a = "";
-            a.Split("}}");
             base.Update();
             if (GameManager.Instance.inputManager.Fire())
             {
-                GameManager.Instance.BulletManager.Fire(GameManager.Instance.inputManager.LookAt(PlayerCam, 0) - this.transform.position);
+                GameManager.Instance.BulletManager.Fire(GameManager.Instance.inputManager.LookAt(PlayerCam, 0) -
+                                                        this.transform.position);
             }
+
             CurrentSpeed = MoveSpeed;
             if (GameManager.Instance.inputManager.SpeedUp())
             {
                 CurrentSpeed *= 2;
             }
 
-            this.transform.position += GameManager.Instance.inputManager.MoveControl() * Time.deltaTime * CurrentSpeed;
+            this.transform.position +=
+                GameManager.Instance.inputManager.MoveControl() * (Time.deltaTime * CurrentSpeed);
 
-            spriteRenderer.flipX = GameManager.Instance.inputManager.MoveControl().x >= 0 ? false : true;
-
+            spriteRenderer.flipX = GameManager.Instance.inputManager.MoveControl().x < 0;
         }
 
         #region 小地图部分

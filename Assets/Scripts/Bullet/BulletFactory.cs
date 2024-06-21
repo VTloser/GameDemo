@@ -10,6 +10,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace DemoGame
 {
     /// <summary> 
@@ -64,6 +65,9 @@ namespace DemoGame
         }
     }
 
+    /// <summary>
+    /// 子弹种类
+    /// </summary>
     public enum BulletType
     {
         //性能检测用
@@ -73,17 +77,20 @@ namespace DemoGame
         FireBall,
     }
 
+    /// <summary>
+    /// 子弹属性工厂
+    /// </summary>
     public class BulletFactory
     {
         public Dictionary<BulletType, BulletAttr> bulletAttrDB = null;
 
-        public BulletAttr NoneAttr = new BulletAttr(4, 1, 10,
+        private BulletAttr NoneAttr = new BulletAttr(4, 1, 10,
             GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.01f,
             0.4f, 0, 0, 0.5f, new DirMove());
 
-        public BulletAttr FireBallAttr = new BulletAttr(2, 1, 10,
+        private BulletAttr FireBallAttr = new BulletAttr(10, 1, 10,
             GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.5f,
-            0.4f, 0, 0, 0.5f, new TrackingMove());
+            0.4f, 0, 0, 0.5f, new RandomMove());
 
 
         public BulletFactory()
@@ -94,7 +101,12 @@ namespace DemoGame
             bulletAttrDB.Add(BulletType.None, NoneAttr);
             bulletAttrDB.Add(BulletType.FireBall, FireBallAttr);
         }
-
+        
+        /// <summary>
+        /// 获取子弹属性
+        /// </summary>
+        /// <param name="bulletType"></param>
+        /// <returns></returns>
         public BulletAttr GetBulletAttr(BulletType bulletType)
         {
             return bulletAttrDB[bulletType];
