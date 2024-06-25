@@ -47,17 +47,5 @@ namespace DemoGame
             
             StartCoroutine(_BulletDetail.LifeTime());
         }
-
-        //注释Update 180-190
-        private void Update()
-        {
-            //_BulletDetail.Move();
-        }
-
-        //private void OnBecameInvisible()
-        //{
-        //    Debug.Log(111);
-        //    Sprite.enabled = false;
-        //}
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Resources;
+using DemoGame.Bullet;
 using UnityEditor.VersionControl;
 using UnityEngine.UIElements;
 using UnityEngine;
@@ -58,15 +59,15 @@ namespace DemoGame
 
         private async void  Start()
         {
-            await Task.Delay(5000); //等待系统卡顿延迟
+            //await Task.Delay(5000); //等待系统卡顿延迟
             
             Instantiate(GameManager.Instance.ResourceManager.Load<Player>(Path: "Player"));
-            LevelManager.NextLevel();
+            //LevelManager.NextLevel();
         }
         
         private void Update()
         {
-            LevelManager.LevelManagerUpdate(EnemyManager.EnemyPool.ActiveCount);
+            //LevelManager.LevelManagerUpdate(EnemyManager.EnemyPool.ActiveCount);
         }
 
 

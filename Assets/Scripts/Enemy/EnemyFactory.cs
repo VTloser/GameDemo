@@ -40,14 +40,20 @@ namespace DemoGame
         /// <summary>    碰撞大小    </summary>
         public float Radius;
 
+        /// <summary>    显示大小    </summary>
+        public Vector2 Size;
+
         /// <summary>    血量上限    </summary>
         public float MaxHp;
 
         /// <summary>    伤害减免率    </summary>
-        public float Damage_Reduction;
+        public float DamageReduction;
         
+        /// <summary>    材质球    </summary>
+        public Material Material;
+
         public EnemyAttr(float attackRange, float damage, float moveSpeed, float interval, float maxHp, string modeName,
-            float radius, float damage_Reduction)
+            float radius, float damageReduction, Material material, Vector2 size)
         {
             AttackRange = attackRange;
             Damage = damage;
@@ -56,8 +62,9 @@ namespace DemoGame
             MaxHp = maxHp;
             ModeName = modeName;
             Radius = radius;
-
-            Damage_Reduction = damage_Reduction;
+            Material = material;
+            DamageReduction = damageReduction;
+            Size = size;
         }
     }
     
@@ -84,11 +91,16 @@ namespace DemoGame
     public class EnemyFactory
     {
         public Dictionary<EnemyType, EnemyAttr> EnemyAttrDB = null;
+
         public EnemyFactory()
         {
             EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
-            EnemyAttrDB.Add(EnemyType.None,   new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 0.5f, 0.2f));
-            EnemyAttrDB.Add(EnemyType.Height, new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 0.5f, 0.2f));
+            EnemyAttrDB.Add(EnemyType.None,
+                new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 0.5f, 0.2f,
+                    GameManager.Instance.ResourceManager.Load<Material>("Material/DemoEnemy"), new Vector2(2, 2)));
+            EnemyAttrDB.Add(EnemyType.Height,
+                new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 0.5f, 0.2f,
+                    GameManager.Instance.ResourceManager.Load<Material>("Material/DemoEnemy"), new Vector2(2, 2)));
         }
 
         /// <summary>

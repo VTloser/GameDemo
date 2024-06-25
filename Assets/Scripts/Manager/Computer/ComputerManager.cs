@@ -7,142 +7,63 @@
  * Version:       0.1
  */
 
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using DemoGame.Manager.Computer;
 using UnityEngine;
 
 
 namespace DemoGame
 {
-
+    /// <summary>
+    ///  ComputerShader 计算管理模块
+    /// </summary>
     public class ComputerManager : MonoBehaviour
     {
-        public static ComputerManager Instance;
-
+        /// <summary>  子弹怪物相关 ComputerShader </summary>
         public ComputeShader BulletEnemyCS; //子弹敌人计算
+        
+        /// <summary>  怪物间碰撞 ComputerShader </summary>
+        public ComputeShader EnemyColliderCS;
+        
+        /// <summary>  怪物间碰撞 ComputerShader </summary>
+        public ComputeShader EnemyColliderCSTemp;
 
-        public ComputeShader EnemyColliderCS; //敌人间碰撞检测
-
-        const int MaxCount = 2048;
-
-        ComputeBuffer computeBulletBuffer;
-        ComputeBuffer computeEnemyBuffer;
-        int BEkernelId;
-        int EkernelId;
+        // public BulletEnemy bulletEnemy = new();
+        // public EnemyCollider enemyCollider = new();
+        public EnemyColliderTemp enemyColliderTemp = new();
 
         private void Awake()
         {
-            Instance = this;
+            // bulletEnemy.Init(BulletEnemyCS, this);
+            // enemyCollider.Init(EnemyColliderCS);
+            enemyColliderTemp.Init(EnemyColliderCSTemp);
         }
 
-        List<ComputerDate> BulletComputerDates = new List<ComputerDate>();
-        List<ComputerDate> EnemyComputerDates = new List<ComputerDate>();
-
-        //[SerializeField]
-        ComputerDate[] ReceiveBullet;
-        
-        //[SerializeField]
-        ComputerDate[] ReceiveEnemy;
-
-        private void Start()
-        {
-            computeBulletBuffer = new ComputeBuffer(MaxCount, Marshal.SizeOf(typeof(ComputerDate))); 
-            computeEnemyBuffer = new ComputeBuffer(MaxCount, Marshal.SizeOf(typeof(ComputerDate)));
-
-            ReceiveBullet = new ComputerDate[MaxCount];
-            ReceiveEnemy = new ComputerDate[MaxCount];
-
-            computeBulletBuffer.SetData(BulletComputerDates);
-            computeEnemyBuffer.SetData(EnemyComputerDates);
-
-            BEkernelId = BulletEnemyCS.FindKernel(name: "BulletEnemyCS");
-            EkernelId = EnemyColliderCS.FindKernel(name: "EnemyColliderCS");
-        }
         private void Update()
         {
-            try
-            {
-                BulletComputerDates.Clear();
-                for (int i = 0; i < GameManager.Instance.BulletManager.BulletPool.Items.Length; i++)
-                {
-                    BulletComputerDates.Add(GameManager.Instance.BulletManager.BulletPool.Items[i]._BulletDetail.GetData());
-                }
-            }
-            catch { }
-
-            try
-            {
-                EnemyComputerDates.Clear();
-                for (int i = 0; i < GameManager.Instance.EnemyManager.EnemyPool.Items.Length; i++)
-                {
-                    EnemyComputerDates.Add(GameManager.Instance.EnemyManager.EnemyPool.Items[i]._EnemyDetail.GetData());
-                }
-            }
-            catch { }
-
-            computeBulletBuffer.SetData(BulletComputerDates);
-            computeEnemyBuffer.SetData(EnemyComputerDates);
-
-            BulletEnemyCS.SetBuffer(BEkernelId, "BulletBuffer", computeBulletBuffer);
-            BulletEnemyCS.SetBuffer(BEkernelId, "EnemyBuffer", computeEnemyBuffer);
-            BulletEnemyCS.Dispatch(BEkernelId, 2048 / 1024, 1, 1);
-
-            EnemyColliderCS.SetBuffer(EkernelId, "EnemyBuffer", computeEnemyBuffer);
-            EnemyColliderCS.Dispatch(EkernelId, 2048 / 1024, 1, 1);
-
-            computeBulletBuffer.GetData(ReceiveBullet);
-            computeEnemyBuffer.GetData(ReceiveEnemy);
-
-            for (int i = 0; i < ReceiveBullet.Length; i++)
-            {
-                if (ReceiveBullet[i].Live == -1 && (GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value)
-                {
-                    GameManager.Instance.BulletManager.BulletPool.Items[i]._BulletDetail.JudgeHit(GameManager.Instance.EnemyManager.EnemyPool.Items[ReceiveBullet[i].index]);
-                }
-
-                if (ReceiveEnemy[i].Live == -1 && (GameManager.Instance.EnemyManager.EnemyPool.Items?[i].IsUse).Value)
-                {
-                    GameManager.Instance.EnemyManager.EnemyPool.Items[i]._EnemyDetail?.Move(ReceiveEnemy[i].pos);
-                }
-                else if (i < GameManager.Instance.EnemyManager.EnemyPool.Items.Length && (GameManager.Instance.EnemyManager.EnemyPool.Items?[i].IsUse).Value)
-                {
-                    GameManager.Instance.EnemyManager.EnemyPool.Items[i]._EnemyDetail?.Move(Vector3.zero);
-                }
-
-                if (ReceiveBullet[i].Isfloow == -1 && (GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value)
-                {
-                    GameManager.Instance.BulletManager.BulletPool.Items[i]._BulletDetail.Move(GameManager.Instance.EnemyManager.EnemyPool.Items[ReceiveBullet[i].floowindex].transform);
-                }
-                else if (i < GameManager.Instance.BulletManager.BulletPool.Items.Length && (GameManager.Instance.BulletManager.BulletPool.Items?[i].IsUse).Value)
-                {
-                    GameManager.Instance.BulletManager.BulletPool.Items?[i]?._BulletDetail?.Move();
-                }
-            }
+            // bulletEnemy.Tick();
+            // enemyCollider.Tick();
+            
+            enemyColliderTemp.Tick();
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
-            computeBulletBuffer.Release();
-            computeBulletBuffer.Dispose();
-
-            computeEnemyBuffer.Release();
-            computeEnemyBuffer.Dispose();
+            // bulletEnemy.OnDestroy();
+            // enemyCollider.OnDestroy();
         }
     }
 
     //[Serializable]
     public struct ComputerDate
     {
-        public Vector2 pos;  //等价于float2
+        public Vector2 pos; //等价于float2
         public float radius; //半径 如果半径小于等于0则认为接触到了
-        public int Live;     // 0 是默认状态 -1是死亡状态  1是存活状态  
-        public int index;    //序号
+        public int Live; // 0 是默认状态 -1是死亡状态  1是存活状态  
+        public int index; //序号
 
-        public float floowRadius;
-        public int floowindex;
-        public int Isfloow;
+        public float floowRadius; //追踪半径
+        public int floowindex;    //追踪序号
+        public int Isfloow;       //正在追踪？
 
         public ComputerDate(Vector2 _pos, float _radius, bool _Live, bool _Isfloow) : this()
         {
@@ -153,5 +74,36 @@ namespace DemoGame
             floowRadius = 5;
         }
     }
-}
 
+    public struct BulletComputerData
+    {
+        public Vector2 pos;        //等价于float2
+        public float hitRange;     //伤害检测范围
+        public int index;          //伤害范围内的最近的敌人,如果为-1则认为没有敌人在附近
+        public float followRadius;  //寻敌半径, 如果为0 则认为没有追踪功能。
+        public int followIndex;     //追踪目标序号，如果为-1 则认为没有在追踪。
+
+        public BulletComputerData(Vector2 pos, float hitRange, float followRadius = 0)
+        {
+            this.pos = pos;
+            this.hitRange = hitRange;
+            this.index = -1;
+            this.followRadius = followRadius;
+            this.followIndex = -1;
+        }
+    }
+
+    public struct EnemyComputerData
+    {
+        public Vector2 pos;     //等价于float2
+        public float hitRange;  //受到伤害范围 
+
+        public EnemyComputerData(Vector2 pos, float hitRange)
+        {
+            this.pos = pos;
+            this.hitRange = hitRange;
+        }
+    }
+
+
+}

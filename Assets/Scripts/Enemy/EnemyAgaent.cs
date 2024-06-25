@@ -18,7 +18,6 @@ namespace DemoGame
     /// </summary>
     public class EnemyAgaent : MonoBehaviour, IPoolBase , IMiniMap
     {
-
         #region 对象池部分
 
         public bool IsUse { get; set; }
@@ -51,21 +50,20 @@ namespace DemoGame
             GameManager.Instance.MiniMapTail.Remove(this);
         }
 
-        public MiniType _MiniType { get => MiniType.Enemy; }
-
-        public Transform _Transform { get => this.transform; }
-
-        #endregion
-        
-        public EnemyDetail _EnemyDetail;
-
-        ////关闭160-170
-        private void Update()
+        public MiniType _MiniType
         {
-            //_EnemyDetail.Move(); //打开 60帧
-
-            //全关闭 170-160帧
+            get => MiniType.Enemy;
         }
 
+        public Transform _Transform
+        {
+            get => this.transform;
+        }
+
+        #endregion
+
+        public EnemyDetail _EnemyDetail;
+        public SpriteRenderer Sprite;
+        
     }
 }

@@ -9,6 +9,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DemoGame.Bullet;
 using UnityEngine;
 
 namespace DemoGame
@@ -77,7 +78,8 @@ namespace DemoGame
             currentPenetrate = bulletAttr.Penetrate;
             bulletAgent = agentBullet;
 
-            bulletAgent.Sprite.sprite = bulletAttr.Sprite;
+            bulletAgent.Sprite.material = bulletAttr.Material;
+            bulletAgent.transform.localScale = bulletAttr.Size;
             HitEnemy = new List<EnemyAgaent>();
         }
 

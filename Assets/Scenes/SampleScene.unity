@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1275,6 +1275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletEnemyCS: {fileID: 7200000, guid: 7b8c5d6dc639b144b8753a6ffb76451e, type: 3}
   EnemyColliderCS: {fileID: 7200000, guid: 35f48ee0bf4774149a6470a40befac49, type: 3}
+  EnemyColliderCSTemp: {fileID: 7200000, guid: 3b25df2b769cff1438f6df4b2ac2f3bf, type: 3}
 --- !u!1 &1022931942
 GameObject:
   m_ObjectHideFlags: 0

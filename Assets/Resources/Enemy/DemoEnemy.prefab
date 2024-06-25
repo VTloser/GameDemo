@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3878658597730676539}
   - component: {fileID: 6732105717460396070}
-  - component: {fileID: 6700090296933143914}
   m_Layer: 0
   m_Name: DemoEnemy
   m_TagString: Enemy
@@ -53,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 683d4f0ccf709c24c885ca7ecf4b411e, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -74,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -117565519
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 511014026, guid: 700d3f2e392961a4dad24351f27daba2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aa8dd943138695b45b16bbe3c334717d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -85,29 +84,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &6700090296933143914
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7254562263887720640}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.0024369955, y: -0.15631469}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.16, y: 0.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.8729451, y: 0.68737066}
-  m_EdgeRadius: 0

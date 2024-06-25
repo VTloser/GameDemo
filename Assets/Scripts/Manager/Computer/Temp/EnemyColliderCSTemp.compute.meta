@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 19b479839f90af44ebfd83256f3e2f80
-NativeFormatImporter:
+guid: 3b25df2b769cff1438f6df4b2ac2f3bf
+ComputeShaderImporter:
   externalObjects: {}
-  mainObjectFileID: 2100000
+  preprocessorOverride: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

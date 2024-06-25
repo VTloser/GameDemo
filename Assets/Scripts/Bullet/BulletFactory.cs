@@ -10,8 +10,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-namespace DemoGame
+namespace DemoGame.Bullet
 {
     /// <summary> 
     /// 子弹基础属性
@@ -28,8 +27,8 @@ namespace DemoGame
         /// <summary>     移动速度   </summary>
         public float MoveSpeed;
 
-        /// <summary>    子弹精灵    </summary>
-        public Sprite Sprite;
+        // /// <summary>    子弹精灵    </summary>
+        // public Sprite Sprite;
 
         /// <summary>    攻击间隔    </summary>
         public float Interval;
@@ -48,20 +47,28 @@ namespace DemoGame
 
         /// <summary>    移动方式    </summary>
         public BulletMove MoveType;
+        
+        /// <summary>    材质球    </summary>
+        public Material Material;
+        
+        /// <summary>    子弹大小    </summary>
+        public Vector2 Size;
 
-        public BulletAttr(float lifeTime, float damage, float moveSpeed, Sprite sprite, float interval, float radius,
-            float penetrate, float critRate, float critDamage, BulletMove moveType)
+        public BulletAttr(float lifeTime, float damage, float moveSpeed, Material material, float interval,
+            float radius,
+            float penetrate, float critRate, float critDamage, BulletMove moveType, Vector2 size)
         {
             LifeTime = lifeTime;
             Damage = damage;
             MoveSpeed = moveSpeed;
-            Sprite = sprite;
+            Material = material;
             Interval = interval;
             Radius = radius;
             Penetrate = penetrate;
             CritRate = critRate;
             CritDamage = critDamage;
             MoveType = moveType;
+            Size = size;
         }
     }
 
@@ -85,14 +92,13 @@ namespace DemoGame
         public Dictionary<BulletType, BulletAttr> bulletAttrDB = null;
 
         private BulletAttr NoneAttr = new BulletAttr(4, 1, 10,
-            GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.01f,
-            0.4f, 0, 0, 0.5f, new DirMove());
+            GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.01f,
+            0.4f, 0, 0, 0.5f, new TrackingMove(), new Vector2(0.6f, 1.6f));
 
         private BulletAttr FireBallAttr = new BulletAttr(10, 1, 10,
-            GameManager.Instance.ResourceManager.Load<Sprite>("Bullet/FireBall"), 0.5f,
-            0.4f, 0, 0, 0.5f, new RandomMove());
-
-
+            GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.5f,
+            0.4f, 0, 0, 0.5f, new TrackingMove(), new Vector2(0.6f, 1.6f));
+        
         public BulletFactory()
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();

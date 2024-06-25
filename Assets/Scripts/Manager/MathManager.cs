@@ -8,6 +8,7 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using DemoGame.Bullet;
 using UnityEngine;
 
 
@@ -23,7 +24,7 @@ namespace DemoGame
             float Damage = 0;
 
             //计算普通伤害
-            Damage += bullet.Damage * (1 - enemy.Damage_Reduction);
+            Damage += bullet.Damage * (1 - enemy.DamageReduction);
             
             //计算暴击伤害
             Damage += Random.Range(0, 101) < bullet.CritRate ? bullet.Damage * bullet.CritDamage : 0;

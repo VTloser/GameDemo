@@ -33,7 +33,7 @@ namespace DemoGame
 
         public abstract void Init(EnemyAgaent enemy);
 
-        public abstract ComputerDate GetData();
+        public abstract EnemyComputerData GetData();
 
         /// <summary>  敌人种类  </summary>
         public EnemyType enemyType;
@@ -71,14 +71,19 @@ namespace DemoGame
             GameManager.Instance.EnemyManager.Destroy(_Enemy); 
         }
 
-        public override ComputerDate GetData()
+        public override EnemyComputerData GetData()
         {
-            return new ComputerDate(_Enemy.transform.position, enemyAttr.Radius, _ISLive, _ISNoFloow);
+            //return new ComputerDate(_Enemy.transform.position, enemyAttr.Radius, _ISLive, _ISNoFloow);
+            
+            return new EnemyComputerData(_Enemy.transform.position, enemyAttr.Radius);
         }
         
         public override void Init(EnemyAgaent enemy)
         {
             _Enemy = enemy;
+            
+            enemy.Sprite.material = enemyAttr.Material;
+            enemy.transform.localScale = enemyAttr.Size;
         }
 
         public override void Injury(float damage)
