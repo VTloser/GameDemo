@@ -6,13 +6,11 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
+
+using DemoGame.Manager.Computer;
 using UnityEngine;
 
-
-namespace DemoGame
+namespace DemoGame.Enemy
 {
     /// <summary>
     /// 怪物细节类
@@ -20,7 +18,7 @@ namespace DemoGame
     public abstract class EnemyDetail
     {
         /// <summary>  移动   </summary>
-        public abstract void Move(Vector2 Dir);
+        public abstract void Move(Vector2 dir);
 
         /// <summary>  判断命中  </summary>
         public abstract bool JudgeHit();
@@ -32,7 +30,7 @@ namespace DemoGame
         public abstract void Die();
 
         public abstract void Init(EnemyAgaent enemy);
-
+        
         public abstract EnemyComputerData GetData();
 
         /// <summary>  敌人种类  </summary>
@@ -70,19 +68,17 @@ namespace DemoGame
             
             GameManager.Instance.EnemyManager.Destroy(_Enemy); 
         }
-
+        
         public override EnemyComputerData GetData()
         {
-            //return new ComputerDate(_Enemy.transform.position, enemyAttr.Radius, _ISLive, _ISNoFloow);
-            
-            return new EnemyComputerData(_Enemy.transform.position, enemyAttr.Radius);
+            return new EnemyComputerData(_Enemy.transform.position, enemyAttr.Radius, _Enemy.Num);
         }
         
         public override void Init(EnemyAgaent enemy)
         {
             _Enemy = enemy;
             
-            enemy.Sprite.material = enemyAttr.Material;
+            enemy.sprite.material = enemyAttr.Material;
             enemy.transform.localScale = enemyAttr.Size;
         }
 
@@ -109,14 +105,15 @@ namespace DemoGame
             {
 
                 _floowDir = (enemyAttr.Tag.position - _Enemy.transform.position).normalized;
-                _Enemy.transform.Translate((_floowDir + dir * 10) * (Time.deltaTime * enemyAttr.MoveSpeed));
+                _Enemy.sprite.flipX = _floowDir.x > 0;
+                _Enemy.transform.Translate((_floowDir + dir * 50) * (Time.deltaTime * enemyAttr.MoveSpeed));
 
                 //_Enemy.transform.rotation = Quaternion.FromToRotation(Vector3.right, enemyAttr.Tag.position - _Enemy.transform.position);
                 //_Enemy.transform.Translate((Vector3.right * 0.1f + _Enemy.transform.worldToLocalMatrix.rotation * Dir) * Time.deltaTime * 30 * enemyAttr.MoveSpeed);
             }
             else
             {
-                _Enemy.transform.Translate(dir * (Time.deltaTime * 20));
+                _Enemy.transform.Translate(dir * (Time.deltaTime * 50));
             }
         }
     }

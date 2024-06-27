@@ -8,6 +8,8 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using DemoGame.Enemy;
+using DemoGame.Pool;
 using UnityEngine;
 
 
@@ -47,8 +49,8 @@ namespace DemoGame
         public EnemyAgaent GetEnemy(EnemyDetail enemyDetail)
         {
             var enemy = EnemyPool.GetObject();
-            enemy._EnemyDetail = enemyDetail;
-            enemy._EnemyDetail.Init(enemy);
+            enemy.enemyDetail = enemyDetail;
+            enemy.enemyDetail.Init(enemy);
             return enemy;
         }
     }

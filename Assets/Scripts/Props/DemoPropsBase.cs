@@ -6,44 +6,82 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using UnityEngine.Rendering.VirtualTexturing;
+
 using UnityEngine;
 
-
-namespace DemoGame
+namespace DemoGame.Props
 {
-    public class DemoPropsBase : PropsBase
+    /// <summary>
+    /// 加子弹攻击力与穿透
+    /// </summary>
+    public class Props_1001 : PropsBase
     {
+        public override string Name { get; } = "Props_1001";
+        public override float ID { get; } = 1001;
+        public override Rarity rarity { get; } = Rarity.N;
+
         public override void Get()
         {
-            //加敌人血
+            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
+            {
+                item.Penetrate += 1;
+                item.Damage += 1;
+                item.MoveSpeed += 1;
+            }
+        }
+
+        public override void Dis()
+        {
+            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
+            {
+                item.Penetrate -= 1;
+                item.Damage -= 1;
+                item.MoveSpeed -= 1;
+            }
+        }
+    }
+
+
+    public class Props_1002 : PropsBase
+    {
+        public override string Name { get; } = "Props_1002";
+        public override float ID { get; } = 1002;
+        public override Rarity rarity { get; } = Rarity.N;
+
+        public override void Get()
+        {
+            //加额外两个条弹道
+            foreach (var item in GameManager.Instance.BulletManager.Generates.Values)
+            {
+                item.Count += 2;
+            }
+        }
+
+        public override void Dis()
+        {
+            foreach (var item in GameManager.Instance.BulletManager.Generates.Values)
+            {
+                item.Count -= 2;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 增加敌人最大HP上限
+    /// </summary>
+    public class Props_1003 : PropsBase
+    {
+        public override string Name { get; } = "Props_1003";
+        public override float ID { get; } = 1003;
+        public override Rarity rarity { get; } = Rarity.N;
+
+        public override void Get()
+        {
             foreach (var item in GameManager.Instance.enemyFactory.EnemyAttrDB.Values)
             {
                 item.MaxHp += 5;
             }
-            
-            //加子弹攻击力 与穿透
-            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
-            {
-                item.Penetrate += 5;
-                item.Damage += 5;
-                item.MoveSpeed += 5;
-            }
-            
-            //加额外一条弹道
-            foreach (var item in GameManager.Instance.BulletManager.Generates.Values)
-            {
-                item.Count += 1;
-            }
-            
-            //给子弹添加追踪功能
-            //子弹变大
-            //
         }
-
 
         public override void Dis()
         {
@@ -51,16 +89,101 @@ namespace DemoGame
             {
                 item.MaxHp -= 5;
             }
+        }
+    }
 
-            //加子弹攻击力 与穿透
+    /// <summary>
+    /// 使你的所有的子弹能够跟踪敌人，如果已经可以跟踪则略微提升伤害
+    /// </summary>
+    public class Props_1004 : PropsBase
+    {
+        public override string Name { get; } = "Props_1004";
+        public override float ID { get; } = 1004;
+        public override Rarity rarity { get; } = Rarity.N;
+
+        private int i;
+        private bool[] _originalTrack;
+
+        public override void Get()
+        {
+            _originalTrack = new bool[GameManager.Instance.bulletFactory.bulletAttrDB.Values.Count];
+
+            i = 0;
             foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
             {
-                item.Penetrate -= 5;
-            }
+                _originalTrack[i] = item.TrackRadius == 0;
 
-            foreach (var item in GameManager.Instance.BulletManager.Generates.Values)
+                if (_originalTrack[i])
+                    item.TrackRadius = 5;
+                else
+                    item.Damage += 1;
+                i++;
+            }
+        }
+
+        public override void Dis()
+        {
+            i = 0;
+            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
             {
-                item.Count -= 1;
+                if (_originalTrack[i])
+                    item.TrackRadius = 0;
+                else
+                    item.Damage -= 1;
+                i++;
+            }
+        }
+    }
+
+    /// <summary>
+    ///  让你的子弹看起来巨大
+    /// </summary>
+    public class Props_1005 : PropsBase
+    {
+        public override string Name { get; } = "Props_1005";
+        public override float ID { get; } = 1005;
+        public override Rarity rarity { get; } = Rarity.N;
+
+        public override void Get()
+        {
+            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
+            {
+                item.ModelSize *= 5;
+            }
+        }
+
+        public override void Dis()
+        {
+            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
+            {
+                item.ModelSize /= 5;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// 使一个怪变成精英怪 
+    /// </summary>
+    public class Props_1006 : PropsBase
+    {
+        public override string Name { get; } = "Props_1006";
+        public override float ID { get; } = 1006;
+        public override Rarity rarity { get; } = Rarity.N;
+
+        public override void Get()
+        {
+            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
+            {
+                item.ModelSize *= 5;
+            }
+        }
+
+        public override void Dis()
+        {
+            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
+            {
+                item.ModelSize /= 5;
             }
         }
     }

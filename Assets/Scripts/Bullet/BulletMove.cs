@@ -40,7 +40,7 @@ namespace DemoGame
     {
         public override void Move(Transform agent, Transform tag, float moveSpeed)
         {
-            if (tag != null)
+            if (tag is not null)
             {
                 Quaternion t = Quaternion.FromToRotation(Vector3.up, tag.position - agent.transform.position);
                 agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, t, 0.05f);

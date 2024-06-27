@@ -96,10 +96,10 @@ namespace DemoGame
         {
             EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
             EnemyAttrDB.Add(EnemyType.None,
-                new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 0.5f, 0.2f,
+                new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 1f, 0.2f,
                     GameManager.Instance.ResourceManager.Load<Material>("Material/DemoEnemy"), new Vector2(2, 2)));
             EnemyAttrDB.Add(EnemyType.Height,
-                new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 0.5f, 0.2f,
+                new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 1f, 0.2f,
                     GameManager.Instance.ResourceManager.Load<Material>("Material/DemoEnemy"), new Vector2(2, 2)));
         }
 

@@ -1,0 +1,61 @@
+#pragma kernel BulletAndEnemyCS
+
+struct bullet_date
+{
+    float2 pos;
+    float radius;
+    int index;
+    float follow_radius;
+    int follow_index;
+    int num;
+    int hit;
+};
+
+
+struct enemy_date
+{
+    float2 pos;
+    float hitRange;
+    int num;
+};
+
+
+RWStructuredBuffer<bullet_date> BulletBuffer;
+RWStructuredBuffer<enemy_date> EnemyBuffer;
+
+//当前怪物总数
+int EnemyCount;
+
+
+[numthreads(8,8,4)]
+void BulletAndEnemyCS(uint3 groupId : SV_GroupID, uint groupIndex : SV_GroupIndex)
+{
+    const int j = groupId.x * 256 + groupIndex;
+    float rec_m_in = 65535;
+    int rec_foll_index = -1;
+
+
+    for (int i = 0; i < EnemyCount; i++)
+    {
+        const float dis = pow(EnemyBuffer[i].pos.x - BulletBuffer[j].pos.x, 2) + pow(
+            EnemyBuffer[i].pos.y - BulletBuffer[j].pos.y, 2);
+
+        if (dis < pow(EnemyBuffer[i].hitRange + BulletBuffer[j].radius, 2))
+        {
+            BulletBuffer[j].index = EnemyBuffer[i].num;
+        }
+
+        if (dis < pow(BulletBuffer[j].follow_radius + EnemyBuffer[i].hitRange, 2))
+        {
+            if (dis < rec_m_in)
+            {
+                rec_m_in = dis;
+                rec_foll_index = EnemyBuffer[i].num;
+            }
+        }
+        
+    }
+    BulletBuffer[j].follow_index = rec_foll_index;
+}
+
+

@@ -6,9 +6,11 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
+
+using DemoGame.Pool;
 using UnityEngine;
 
-namespace DemoGame
+namespace DemoGame.Bullet
 {
     [System.Serializable]
     public class BulletAgent : MonoBehaviour, IPoolBase

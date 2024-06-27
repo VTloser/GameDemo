@@ -1,37 +1,47 @@
-﻿using System;
-using System.Threading.Tasks;
-using UnityEngine.Events;
+﻿/*
+ * FileName:      ComputerManager.cs
+ * Author:        摩诘创新
+ * Date:          2023/07/26 15:47:06
+ * Describe:      对象池接口类
+ * UnityVersion:  2021.3.23f1c1
+ * Version:       0.1
+ */
+
+
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-
-namespace DemoGame
+namespace DemoGame.Pool
 {
     public class Pool<T> where T : Component, IPoolBase
     {
+
         /// <summary>
-        ///  构造器 初始化时产生多少物体
+        /// 构造器 初始化时产生多少物体
         /// </summary>
-        /// <param name="Tempt"></param>
-        /// <param name="trans"></param>
-        /// <param name="Size"></param>
-        public Pool(T Tempt, Transform parent, int Size)
+        /// <param name="tempt"></param>
+        /// <param name="parent"></param>
+        /// <param name="size"></param>
+        public Pool(T tempt, Transform parent, int size)
         {
-            t = Tempt;
-            MaxSize = Size;
+            _ttype = tempt;
+            MaxSize = size;
             Items = new T[MaxSize];
             Parent = parent;
             //首先初始化出MaxSize个
             for (int i = 0; i < MaxSize; i++)
             {
-                Items[i] = t.Create(t, Parent, i);
+                Items[i] = _ttype.Create(_ttype, Parent, i);
             }
         }
 
         /// <summary>   父节点位置   </summary>
-        private Transform Parent;
+        private readonly Transform Parent;
         
         /// <summary>   类型   </summary>
-        private T t;
+        private T _ttype;
         
         /// <summary>   对象池最大容量   </summary>
         public int MaxSize;
@@ -39,11 +49,24 @@ namespace DemoGame
         /// <summary>   对象池   </summary>
         public T[] Items;
 
+        /// <summary>   对象池中所有激活的对象   </summary>
+        public List<T> ActivateItems = new();
+        
         /// <summary>   对象池激活数量   </summary>
         public int ActiveCount;
 
         /// <summary>
-        /// 创建对象
+        /// 根据Num获取对象
+        /// </summary>
+        /// <returns></returns>
+        public T GetObjectByNum(int Num)
+        {
+            //return ActivateItems.Find(X => X.Num == Num);
+            return Items[Num];
+        }
+
+        /// <summary>
+        /// 获取对象
         /// </summary>
         /// <returns></returns>
         public T GetObject()
@@ -53,6 +76,7 @@ namespace DemoGame
                 if (!(Items[i].IsUse))
                 {
                     Items[i].Get();
+                    ActivateItems.Add(Items[i]);
                     ActiveCount++;
                     return Items[i];
                 }
@@ -62,7 +86,7 @@ namespace DemoGame
         }
 
         /// <summary>
-        /// 获取对象
+        /// 获取对象 带有回调方法
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
@@ -74,6 +98,7 @@ namespace DemoGame
                 {
                     action?.Invoke(Items[i]);
                     Items[i].Get();
+                    ActivateItems.Add(Items[i]);
                     ActiveCount++;
                     return Items[i];
                 }
@@ -88,7 +113,11 @@ namespace DemoGame
         /// <param name="t"></param>
         public void DestObject(T t)
         {
-            Items[t.Num].Release();
+            // Items[t.Num].Release();
+            // ActivateItems.Remove( Items[t.Num]);
+            
+            t.Release();
+            ActivateItems.Remove(t);
             ActiveCount--;
         }
 
@@ -110,21 +139,24 @@ namespace DemoGame
         public T DynamicAddSize()
         {
             //Debug.Log($"数组长度不足");
-            int RecordNum;
             int n = 1;
             while (n <= MaxSize) n *= 2;
-            T[] Temp = new T[n];
-            Array.Copy(Items, 0, Temp, 0, Items.Length);
-            Items = Temp;
+            T[] temp = new T[n];
+            Array.Copy(Items, 0, temp, 0, Items.Length);
+            Items = temp;
             for (int i = MaxSize; i < n; i++)
             {
-                Items[i] = t.Create(t, Parent, i);
+                Items[i] = _ttype.Create(_ttype, Parent, i);
             }
-            RecordNum = MaxSize;
+
+            int recordNum = MaxSize;
             MaxSize = n;
+            
             //Debug.Log($"数组长度不足，动态调整数组长度,调整后长度{MaxSize}");
-            Items[RecordNum].Get();
-            return Items[RecordNum];
+            Items[recordNum].Get();
+            ActivateItems.Add(Items[recordNum]);
+            ActiveCount++;
+            return Items[recordNum];
         }
 
         /// <summary>
@@ -141,7 +173,7 @@ namespace DemoGame
             Items = Temp;
             for (int i = MaxSize; i < n; i++)
             {
-                Items[i] = t.Create(t, Parent, i);
+                Items[i] = _ttype.Create(_ttype, Parent, i);
             }
             MaxSize = n;
             Debug.Log($"调整后长度{MaxSize}");

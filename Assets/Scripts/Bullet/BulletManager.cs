@@ -7,6 +7,8 @@
  * Version:       0.1
  */
 using System.Collections.Generic;
+using DemoGame.Bullet;
+using DemoGame.Pool;
 using UnityEngine;
 
 

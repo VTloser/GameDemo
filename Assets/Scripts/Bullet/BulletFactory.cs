@@ -26,16 +26,16 @@ namespace DemoGame.Bullet
 
         /// <summary>     移动速度   </summary>
         public float MoveSpeed;
-
-        // /// <summary>    子弹精灵    </summary>
-        // public Sprite Sprite;
-
+        
         /// <summary>    攻击间隔    </summary>
         public float Interval;
 
         /// <summary>    伤害半径    </summary>
-        public float Radius;
+        public float HitRadius;
 
+        /// <summary>    跟踪半径  如果没有跟踪能力则认为0   </summary>
+        public float TrackRadius;
+        
         /// <summary>    子弹穿透    </summary>
         public float Penetrate;
 
@@ -52,23 +52,25 @@ namespace DemoGame.Bullet
         public Material Material;
         
         /// <summary>    子弹大小    </summary>
-        public Vector2 Size;
+        public Vector2 ModelSize;
 
         public BulletAttr(float lifeTime, float damage, float moveSpeed, Material material, float interval,
-            float radius,
-            float penetrate, float critRate, float critDamage, BulletMove moveType, Vector2 size)
+            float hitRadius,
+            float penetrate, float critRate, float critDamage, BulletMove moveType, Vector2 modelSize,
+            float trackRadius)
         {
             LifeTime = lifeTime;
             Damage = damage;
             MoveSpeed = moveSpeed;
             Material = material;
             Interval = interval;
-            Radius = radius;
+            HitRadius = hitRadius;
             Penetrate = penetrate;
             CritRate = critRate;
             CritDamage = critDamage;
             MoveType = moveType;
-            Size = size;
+            ModelSize = modelSize;
+            TrackRadius = trackRadius;
         }
     }
 
@@ -91,21 +93,21 @@ namespace DemoGame.Bullet
     {
         public Dictionary<BulletType, BulletAttr> bulletAttrDB = null;
 
-        private BulletAttr NoneAttr = new BulletAttr(4, 1, 10,
-            GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.01f,
-            0.4f, 0, 0, 0.5f, new TrackingMove(), new Vector2(0.6f, 1.6f));
+        private readonly BulletAttr _noneAttr = new BulletAttr(4, 1, 10,
+            GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.01f, 0.4f, 0, 0, 0.5f,
+            new TrackingMove(), new Vector2(0.6f, 1.6f), 5);
 
-        private BulletAttr FireBallAttr = new BulletAttr(10, 1, 10,
-            GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.5f,
-            0.4f, 0, 0, 0.5f, new TrackingMove(), new Vector2(0.6f, 1.6f));
-        
+        private readonly BulletAttr _fireBallAttr = new BulletAttr(10, 1, 10,
+            GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.5f, 0.4f, 0, 0, 0.5f,
+            new TrackingMove(), new Vector2(0.6f, 1.6f), 5);
+
         public BulletFactory()
         {
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>();
             //TODO 后期读取配置表实现
 
-            bulletAttrDB.Add(BulletType.None, NoneAttr);
-            bulletAttrDB.Add(BulletType.FireBall, FireBallAttr);
+            bulletAttrDB.Add(BulletType.None, _noneAttr);
+            bulletAttrDB.Add(BulletType.FireBall, _fireBallAttr);
         }
         
         /// <summary>

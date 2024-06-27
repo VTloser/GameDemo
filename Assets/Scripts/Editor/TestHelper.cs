@@ -7,6 +7,9 @@
  * Version:       0.1
  */
 
+using DemoGame.Bullet;
+using DemoGame.Enemy;
+using DemoGame.Props;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -101,7 +104,7 @@ namespace DemoGame.Editor
         [Button(ButtonSizes.Medium)]
         private void 添加Demo道具()
         {
-            DemoPropsBase demoPropsBase = new DemoPropsBase();
+            PropsBase demoPropsBase = new Props_1005();
             demoPropsBase.Get();
         }
 

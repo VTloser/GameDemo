@@ -6,13 +6,15 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoGame.Bullet;
+using DemoGame.Enemy;
+using DemoGame.Manager.Computer;
 using UnityEngine;
 
-namespace DemoGame
+namespace DemoGame.Bullet
 {
     
     /// <summary>
@@ -40,9 +42,9 @@ namespace DemoGame
         public abstract void Die();
 
         public abstract BulletDetail Clone();
-
-        public abstract ComputerDate GetData();
-
+        
+        public abstract BulletComputerData GetData();
+        
         /// <summary>  子弹种类  </summary>
         public BulletType bulletType;
 
@@ -79,13 +81,13 @@ namespace DemoGame
             bulletAgent = agentBullet;
 
             bulletAgent.Sprite.material = bulletAttr.Material;
-            bulletAgent.transform.localScale = bulletAttr.Size;
+            bulletAgent.transform.localScale = bulletAttr.ModelSize;
             HitEnemy = new List<EnemyAgaent>();
         }
 
         public override void Hit()
         {
-            enemy._EnemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy._EnemyDetail.enemyAttr, this.bulletAttr));
+            enemy.enemyDetail.Injury(GameManager.Instance.MathManager.Damage(enemy.enemyDetail.enemyAttr, this.bulletAttr));
             HitEnemy.Add(enemy);
         }
 
@@ -110,14 +112,10 @@ namespace DemoGame
             Die();
         }
         
-        bool isLive = true;
-        bool isFollow = true;
         public override void Die()
         {
             HitEnemy.Clear();
             GameManager.Instance.BulletManager.Destroy(bulletAgent);
-            isLive = false;
-            isFollow = false;
         }
 
         public override BulletDetail Clone()
@@ -125,10 +123,10 @@ namespace DemoGame
             return new FireBallDetail();
         }
 
-        public override ComputerDate GetData()
+        public override BulletComputerData GetData()
         {
-            return new ComputerDate(bulletAgent.transform.position, bulletAttr.Radius, isLive, isFollow);
-            //return new ComputerDate();
+            return new BulletComputerData(bulletAgent.transform.position, bulletAttr.HitRadius, bulletAttr.TrackRadius,
+                bulletAgent.Num);
         }
     }
 }

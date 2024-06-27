@@ -7,11 +7,10 @@
  * Version:       0.1
  */
 
-using UnityEngine.UI;
+using DemoGame.Pool;
 using UnityEngine;
 
-
-namespace DemoGame
+namespace DemoGame.Enemy
 {
     /// <summary>
     /// 怪物代理
@@ -23,7 +22,7 @@ namespace DemoGame
         public bool IsUse { get; set; }
 
         public int Num { get; set; }
-
+        
         public void Get()
         {
             IsUse = true;
@@ -62,8 +61,15 @@ namespace DemoGame
 
         #endregion
 
-        public EnemyDetail _EnemyDetail;
-        public SpriteRenderer Sprite;
-        
+        public EnemyDetail enemyDetail;
+        public SpriteRenderer sprite;
+
+
+        public int num;
+
+        private void Update()
+        {
+            num = Num;
+        }
     }
 }

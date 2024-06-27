@@ -10,6 +10,7 @@ using Codice.Client.BaseCommands.Merge.Xml;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DemoGame.Bullet;
 using UnityEngine;
 
 
@@ -53,7 +54,7 @@ namespace DemoGame
     {
         public DirGenerate(BulletDetail _bulletDetail, int waiting) : base(_bulletDetail, waiting)
         {
-            Count = 2;
+            Count = 1;
         }
 
         public override async void Generate(Vector3 ForWard)

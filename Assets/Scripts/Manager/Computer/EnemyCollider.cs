@@ -11,76 +11,60 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using DemoGame.Manager.Computer;
 using UnityEngine;
 
 namespace DemoGame
 {
-    public class EnemyCollider 
+    public class EnemyCollider
     {
         /// <summary>  怪物间碰撞 ComputerShader </summary>
-        public ComputeShader EnemyColliderCS; 
+        public ComputeShader enemyColliderCs; 
 
         /// <summary>  怪物间碰撞 ComputerShader Buffer </summary>
         public ComputeBuffer computeEnemyBuffer;
         
         const int MaxCount = 2048;
         
+        int _ekernelId;
         
-        int EkernelId;
-        
-        List<ComputerDate> EnemyComputerDates = new List<ComputerDate>();
         
         //[SerializeField]
-        ComputerDate[] ReceiveEnemy;
+        EnemyComputerData[] _receiveEnemy;
+        private static readonly int EnemyBuffer = Shader.PropertyToID("EnemyBuffer");
+        private static readonly int EnemyCount = Shader.PropertyToID("EnemyCount");
 
         public void Init(ComputeShader computeShader)
         {
-            EnemyColliderCS = computeShader;
+            enemyColliderCs = computeShader;
 
-            computeEnemyBuffer = new ComputeBuffer(MaxCount, Marshal.SizeOf(typeof(ComputerDate)));
-
-            ReceiveEnemy = new ComputerDate[MaxCount];
-
-            //computeEnemyBuffer.SetData(EnemyComputerDates);
-
-            EkernelId = EnemyColliderCS.FindKernel(name: "EnemyColliderCS");
+            computeEnemyBuffer = new ComputeBuffer(MaxCount, Marshal.SizeOf(typeof(EnemyComputerData)));
+            
+            _ekernelId = enemyColliderCs.FindKernel(name: "EnemyColliderCS");
         }
 
-
-        public void Tick()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enemyComputerDates"></param>
+        public void Tick(List<EnemyComputerData> enemyComputerDates)
         {
-            try
-            {
-                EnemyComputerDates.Clear();
-                for (int i = 0; i < GameManager.Instance.EnemyManager.EnemyPool.Items.Length; i++)
-                {
-                   // EnemyComputerDates.Add(GameManager.Instance.EnemyManager.EnemyPool.Items[i]._EnemyDetail.GetData());
-                }
-            }
-            catch
-            {
-                // ignored
-            }
             
-            computeEnemyBuffer.SetData(EnemyComputerDates);
+            if (enemyComputerDates is not { Count: > 0 }) return;
 
-            EnemyColliderCS.SetBuffer(EkernelId, "EnemyBuffer", computeEnemyBuffer);
-            EnemyColliderCS.Dispatch(EkernelId, 2048 / 1024, 1, 1);
+            computeEnemyBuffer.SetData(enemyComputerDates);
             
-            computeEnemyBuffer.GetData(ReceiveEnemy);
+            enemyColliderCs.SetInt(EnemyCount, enemyComputerDates.Count);
+            enemyColliderCs.SetBuffer(_ekernelId, EnemyBuffer, computeEnemyBuffer);
+            enemyColliderCs.Dispatch(_ekernelId, Mathf.CeilToInt(enemyComputerDates.Count / 256f), 1, 1);
             
-            
-            for (int i = 0; i < ReceiveEnemy.Length; i++)
+            _receiveEnemy = new EnemyComputerData[enemyComputerDates.Count];
+            computeEnemyBuffer.GetData(_receiveEnemy);
+
+            for (int i = 0; i < _receiveEnemy.Length; i++)
             {
-                if (ReceiveEnemy[i].Live == -1 && (GameManager.Instance.EnemyManager.EnemyPool.Items?[i].IsUse).Value)
-                {
-                    GameManager.Instance.EnemyManager.EnemyPool.Items[i]._EnemyDetail?.Move(ReceiveEnemy[i].pos);
-                }
-                else if (i < GameManager.Instance.EnemyManager.EnemyPool.Items.Length &&
-                         (GameManager.Instance.EnemyManager.EnemyPool.Items?[i].IsUse).Value)
-                {
-                    GameManager.Instance.EnemyManager.EnemyPool.Items[i]._EnemyDetail?.Move(Vector3.zero);
-                }
+                GameManager.Instance.EnemyManager.EnemyPool.Items[_receiveEnemy[i].num].enemyDetail
+                    .Move(_receiveEnemy[i].pos);
             }
         }
 

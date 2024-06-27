@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using DemoGame.Enemy;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
