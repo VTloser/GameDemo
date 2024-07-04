@@ -7,13 +7,13 @@
  * Version:       0.1
  */
 
-using DG.Tweening;
 using System.Collections.Generic;
-using static UnityEngine.UI.GridLayoutGroup;
+using DemoGame.Base;
+using DG.Tweening;
 using UnityEngine;
 
 
-namespace DemoGame
+namespace DemoGame.Skill
 {
     /// <summary>
     /// 加速技能  人物身后产生拖尾
@@ -21,13 +21,13 @@ namespace DemoGame
     public class SpeedUp : Skills
     {
         /// <summary>  最大可同屏幕数  </summary>
-        public int TrailingCount = 5;
+        private int TrailingCount = 5;
 
         /// <summary>  产生距离  </summary>
-        public float GenerateDistance = 3f;
+        private float GenerateDistance = 3f;
 
         /// <summary>  渐隐时间  </summary>
-        public float CutTime = 1;
+        private float CutTime = 1;
 
         /// <summary>  精灵渲染器  </summary>
         private SpriteRenderer SpriteRenderer;
@@ -56,33 +56,28 @@ namespace DemoGame
                 TrailingItem.Add(new GameObject("TrailingItem", typeof(SpriteRenderer)).GetComponent<SpriteRenderer>());
             }
             LastGenerate = Owner.transform.position;
-            
-            Owner.UpdateAction += ToDo;
         }
 
         public override void ToDo()
         {
-            if (GameManager.Instance.inputManager.SpeedUp())
+            if (Vector3.Distance(LastGenerate, Owner.transform.position) > GenerateDistance)
             {
-                if (Vector3.Distance(LastGenerate, Owner.transform.position) > GenerateDistance)
-                {
-                    int Count = UseNum;
-                    TrailingItem[Count].sprite = SpriteRenderer.sprite;
-                    TrailingItem[Count].material = GameManager.Instance.ResourceManager.Load<Material>("Material/SpeedUp");
-                    TrailingItem[Count].flipX = SpriteRenderer.flipX;
-                    TrailingItem[Count].DOFade(1, 0f);
-                    TrailingItem[Count].DOFade(0, CutTime);
+                int Count = UseNum;
+                TrailingItem[Count].sprite = SpriteRenderer.sprite;
+                TrailingItem[Count].material = GameManager.Instance.ResourceManager.Load<Material>("Material/SpeedUp");
+                TrailingItem[Count].flipX = SpriteRenderer.flipX;
+                TrailingItem[Count].DOFade(1, 0f);
+                TrailingItem[Count].DOFade(0, CutTime);
 
-                    var position = Owner.transform.position;
-                    TrailingItem[Count].transform.position = position;
-                    LastGenerate = position;
-                }
+                var position = Owner.transform.position;
+                TrailingItem[Count].transform.position = position;
+                LastGenerate = position;
             }
         }
 
         public override void Release()
         {
-            Owner.UpdateAction -= ToDo;
+           
         }
         
     }

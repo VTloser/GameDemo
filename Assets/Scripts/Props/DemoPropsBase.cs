@@ -7,6 +7,8 @@
  * Version:       0.1
  */
 
+using DemoGame.Bullet;
+using DemoGame.Enemy;
 using UnityEngine;
 
 namespace DemoGame.Props
@@ -148,7 +150,7 @@ namespace DemoGame.Props
         {
             foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
             {
-                item.ModelSize *= 5;
+                item.ModelSize *= 3;
             }
         }
 
@@ -156,7 +158,7 @@ namespace DemoGame.Props
         {
             foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
             {
-                item.ModelSize /= 5;
+                item.ModelSize /= 3;
             }
         }
     }
@@ -173,10 +175,20 @@ namespace DemoGame.Props
 
         public override void Get()
         {
-            foreach (var item in GameManager.Instance.bulletFactory.bulletAttrDB.Values)
+            EnemyAgaent item = null;
+
+            while (item is null)
             {
-                item.ModelSize *= 5;
+                item = GameManager.Instance.EnemyManager.EnemyPool.ActivateItems[
+                    Random.Range(0, GameManager.Instance.EnemyManager.EnemyPool.ActiveCount)];
+                if (item.enemyDetail.SpecialAttr != null)
+                    item = null;
             }
+
+            EnemyAttr bossAttr = new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 1f, 0.2f,
+                null, new Vector2(2, 2));
+
+            item.Mutations(bossAttr);
         }
 
         public override void Dis()
@@ -185,6 +197,26 @@ namespace DemoGame.Props
             {
                 item.ModelSize /= 5;
             }
+        }
+    }
+    
+    /// <summary>
+    /// 切换子弹移动类型
+    /// </summary>
+    public class Props_1007 : PropsBase
+    {
+        public override string Name { get; } = "Props_1007";
+        public override float ID { get; } = 1007;
+        public override Rarity rarity { get; } = Rarity.N;
+
+        public override void Get()
+        {
+            GameManager.Instance.bulletFactory.bulletAttrDB[BulletType.FireBall].MoveType = new TrackingMove();
+        }
+
+        public override void Dis()
+        {
+
         }
     }
 }

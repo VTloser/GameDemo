@@ -7,40 +7,47 @@
  * Version:       0.1
  */
 
+using System;
 using DG.Tweening;
+using UnityEditor.VersionControl;
 using UnityEngine;
+using Task = System.Threading.Tasks.Task;
 
 
 namespace DemoGame
 {
     /// <summary>
-    ///     子弹移动方式
-    /// 
+    /// 子弹移动方式
     /// </summary>
     public abstract class BulletMove
     {
-        public abstract void Move(Transform agent, Transform tag, float moveSpeed);
+        public abstract void Move(Transform agent, Transform tag, float bulletAttr, float lifeTime);
     }
-
+    
     /// <summary>
-    /// 直线移动
+    /// 匀速直线跟踪移动
     /// </summary>
-    public class DirMove : BulletMove
+    public class StopMove : BulletMove
     {
-        public override void Move(Transform agent, Transform tag, float moveSpeed)
+        private float _trackWaitTime = 0f; // 追踪延迟时间
+        
+        public override void Move(Transform agent, Transform tag, float moveSpeed, float lifeTime)
         {
-            agent.Translate(Vector3.up * (Time.deltaTime * moveSpeed));
         }
     }
-
+    
+    
     /// <summary>
-    /// 跟踪移动
+    /// 匀速直线跟踪移动
     /// </summary>
     public class TrackingMove : BulletMove
     {
-        public override void Move(Transform agent, Transform tag, float moveSpeed)
+        private float _trackWaitTime = 0f; // 追踪延迟时间
+        
+        public override void Move(Transform agent, Transform tag, float moveSpeed, float lifeTime)
         {
-            if (tag is not null)
+            
+            if (tag is not null && lifeTime > _trackWaitTime)
             {
                 Quaternion t = Quaternion.FromToRotation(Vector3.up, tag.position - agent.transform.position);
                 agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, t, 0.05f);
@@ -51,24 +58,23 @@ namespace DemoGame
     }
 
     /// <summary>
-    /// 随机移动
+    /// 变速跟踪运动
     /// </summary>
-    public class RandomMove : BulletMove
+    public class TrackingVariableMove : BulletMove
     {
         public float angle = 45f;
         public float angleTime = 1f;
 
-        public override void Move(Transform agent, Transform tag, float moveSpeed)
+        public override void Move(Transform agent, Transform tag, float moveSpeed, float lifeTime)
         {
-            // agent.transform.DORotate(new Vector3(0, 0, angle / 2f), angleTime / 2f).SetRelative().OnComplete(() =>
-            // {
-            //     Sequence se = DOTween.Sequence();
-            //     se.Append(agent.transform.DORotate(new Vector3(0, 0, -angle), angleTime)).SetRelative(); //增加一段动画
-            //     se.Append(agent.transform.DORotate(new Vector3(0, 0, angle), angleTime).SetRelative()); //增加一段动画
-            //     se.SetLoops(-1, LoopType.Restart);
-            // });
+            if (tag is not null)
+            {
+                Quaternion t = Quaternion.FromToRotation(Vector3.up, tag.position - agent.transform.position);
+                agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, t, 0.05f);
+            }
 
-            agent.transform.Translate(Vector3.up * (Time.deltaTime * moveSpeed));
+            moveSpeed *= Math.Clamp(lifeTime * lifeTime * lifeTime * lifeTime * lifeTime, 0, 50);
+            agent.Translate(Vector3.up * (Time.deltaTime * moveSpeed));
         }
     }
 }

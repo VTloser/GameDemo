@@ -6,15 +6,16 @@
  * UnityVersion:  2021.3.23f1c1
  * Version:       0.1
  */
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Playables;
 
-namespace DemoGame
+using System;
+using DemoGame.Base;
+
+namespace DemoGame.Skill
 {
     /// <summary>
     /// 技能枚举类
     /// </summary>
+    [Flags]
     public enum SkillType
     {
         None = 0,
@@ -74,7 +75,7 @@ namespace DemoGame
         /// </summary>
         /// <param name="state"></param>
         /// <param name="_AddState"></param>
-        public static void ADD(ref this SkillType state, BaseUnit Unit, SkillType _AddState)
+        public static void Add(ref this SkillType state, BaseUnit Unit, SkillType _AddState)
         {
             state |= _AddState;
             SkillFactor.GetSkills(Unit, _AddState);

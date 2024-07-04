@@ -186,7 +186,7 @@ namespace DemoGame
 
                 for (int i = 0; i < CurrentLevel.GenerateSpeed; i++)
                 {
-                    var t = GameManager.Instance.EnemyManager.GetEnemy(new DemoEnemyDetail());
+                    var t = GameManager.Instance.EnemyManager.GetEnemy(EnemyType.GreenSlime);
                     Vector2 random = Random.insideUnitSphere * outside; //外圈
                     if (random.magnitude < inside)
                     {

@@ -46,11 +46,10 @@ namespace DemoGame
         /// 获取一个怪物
         /// </summary>
         /// <returns></returns>
-        public EnemyAgaent GetEnemy(EnemyDetail enemyDetail)
+        public EnemyAgaent GetEnemy(EnemyType enemyType)
         {
             var enemy = EnemyPool.GetObject();
-            enemy.enemyDetail = enemyDetail;
-            enemy.enemyDetail.Init(enemy);
+            enemy.Init(enemyType);
             return enemy;
         }
     }

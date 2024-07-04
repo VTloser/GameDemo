@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using DemoGame.Bullet;
 using DemoGame.Enemy;
 using DemoGame.Pool;
@@ -32,7 +33,6 @@ namespace DemoGame.Manager.Computer
         
         
         private readonly List<BulletComputerData> _bulletComputerDates = new List<BulletComputerData>();
-
         private readonly List<EnemyComputerData> _enemyComputerDates = new List<EnemyComputerData>();
         
         
@@ -55,24 +55,29 @@ namespace DemoGame.Manager.Computer
         {
             _bulletComputerDates.Clear();
             _enemyComputerDates.Clear();
+            
 
             for (int i = 0; i < _bulletPool.ActiveCount; i++)
             {
-                _bulletComputerDates.Add(_bulletPool.ActivateItems[i]._BulletDetail.GetData());
+                _bulletComputerDates.Add(_bulletPool.ActivateItems[i].bulletDetail.GetData());
             }
 
             for (int i = 0; i < _enemyPool.ActiveCount; i++)
             {
                 _enemyComputerDates.Add(_enemyPool.ActivateItems[i].enemyDetail.GetData());
             }
+
+            // Debug.Log($"当前子弹数：{_bulletComputerDates.Count}");
+            // Debug.Log($"当前怪物数：{_enemyComputerDates.Count}");
             
-            
-            _enemy.Tick(_enemyComputerDates);
-            _bulletAndEnemy.Tick(_bulletComputerDates,_enemyComputerDates);
+            _enemy.Tick(_enemyComputerDates, GameManager.Instance.Player?.GetData() ?? new PlayerData(Vector2.zero, 0));
+
+            _bulletAndEnemy.Tick(_bulletComputerDates, _enemyComputerDates);
         }
-        
     }
     
+    
+    [StructLayout(LayoutKind.Sequential)]
     public struct BulletComputerData
     {
         public Vector2 pos;        // 等价于float2
@@ -81,7 +86,7 @@ namespace DemoGame.Manager.Computer
         public float followRadius;  // 寻敌半径, 如果为0 则认为没有追踪功能。
         public int followIndex;     // 追踪目标序号，如果为-1 则认为没有在追踪。
         public int num;             // 对象池序号
-        public int Hit;
+        public int Hit;             // ???
 
         public BulletComputerData(Vector2 pos, float hitRange, float followRadius, int num)
         {
@@ -94,21 +99,4 @@ namespace DemoGame.Manager.Computer
             Hit = 0;
         }
     }
-
-    public struct EnemyComputerData
-    {
-        public Vector2 pos;     //等价于float2
-        public float hitRange;  //受到伤害范围 
-        public int num;         // 对象池序号
-        
-        
-        public EnemyComputerData(Vector2 pos, float hitRange,int num)
-        {
-            this.pos = pos;
-            this.hitRange = hitRange;
-            this.num = num;
-        }
-    }
-
-
 }

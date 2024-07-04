@@ -7,6 +7,7 @@
  * Version:       0.1
  */
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace DemoGame.Bullet
 
         /// <summary>     移动速度   </summary>
         public float MoveSpeed;
-        
+
         /// <summary>    攻击间隔    </summary>
         public float Interval;
 
@@ -35,7 +36,7 @@ namespace DemoGame.Bullet
 
         /// <summary>    跟踪半径  如果没有跟踪能力则认为0   </summary>
         public float TrackRadius;
-        
+
         /// <summary>    子弹穿透    </summary>
         public float Penetrate;
 
@@ -47,10 +48,10 @@ namespace DemoGame.Bullet
 
         /// <summary>    移动方式    </summary>
         public BulletMove MoveType;
-        
+
         /// <summary>    材质球    </summary>
         public Material Material;
-        
+
         /// <summary>    子弹大小    </summary>
         public Vector2 ModelSize;
 
@@ -79,9 +80,6 @@ namespace DemoGame.Bullet
     /// </summary>
     public enum BulletType
     {
-        //性能检测用
-        None = 0,
-
         //火球
         FireBall,
     }
@@ -91,33 +89,35 @@ namespace DemoGame.Bullet
     /// </summary>
     public class BulletFactory
     {
-        public Dictionary<BulletType, BulletAttr> bulletAttrDB = null;
-
-        private readonly BulletAttr _noneAttr = new BulletAttr(4, 1, 10,
-            GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.01f, 0.4f, 0, 0, 0.5f,
-            new TrackingMove(), new Vector2(0.6f, 1.6f), 5);
-
-        private readonly BulletAttr _fireBallAttr = new BulletAttr(10, 1, 10,
-            GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.5f, 0.4f, 0, 0, 0.5f,
-            new TrackingMove(), new Vector2(0.6f, 1.6f), 5);
+        public readonly Dictionary<BulletType, BulletAttr> bulletAttrDB = null;
 
         public BulletFactory()
         {
-            bulletAttrDB = new Dictionary<BulletType, BulletAttr>();
             //TODO 后期读取配置表实现
-
-            bulletAttrDB.Add(BulletType.None, _noneAttr);
-            bulletAttrDB.Add(BulletType.FireBall, _fireBallAttr);
+            bulletAttrDB = new Dictionary<BulletType, BulletAttr>
+            {
+                {
+                    BulletType.FireBall, new BulletAttr(100, 1, 10,
+                        GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.5f, 0.4f, 0, 0, 0.5f,
+                        new TrackingMove(), new Vector2(0.6f, 1.6f), 5)
+                },
+            };
         }
-        
+
         /// <summary>
         /// 获取子弹属性
         /// </summary>
         /// <param name="bulletType"></param>
         /// <returns></returns>
-        public BulletAttr GetBulletAttr(BulletType bulletType)
+        public BulletAttr GetAttr(BulletType bulletType)
         {
             return bulletAttrDB[bulletType];
         }
+
+        public BulletDetail GetDetail(BulletType bulletType) => bulletType switch
+        {
+            BulletType.FireBall => new FireBallDetail(),
+            _ => throw new ArgumentException("类型未处理{bulletType}"),
+        };
     }
 }

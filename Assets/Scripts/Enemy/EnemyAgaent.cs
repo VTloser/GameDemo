@@ -7,6 +7,7 @@
  * Version:       0.1
  */
 
+using DemoGame.Bullet;
 using DemoGame.Pool;
 using UnityEngine;
 
@@ -15,14 +16,14 @@ namespace DemoGame.Enemy
     /// <summary>
     /// 怪物代理
     /// </summary>
-    public class EnemyAgaent : MonoBehaviour, IPoolBase , IMiniMap
+    public class EnemyAgaent : MonoBehaviour, IPoolBase, IMiniMap
     {
         #region 对象池部分
 
         public bool IsUse { get; set; }
 
         public int Num { get; set; }
-        
+
         public void Get()
         {
             IsUse = true;
@@ -63,13 +64,28 @@ namespace DemoGame.Enemy
 
         public EnemyDetail enemyDetail;
         public SpriteRenderer sprite;
+        public EnemyType enemyType;
 
-
-        public int num;
-
-        private void Update()
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="_enemyType"></param>
+        public void Init(EnemyType _enemyType)
         {
-            num = Num;
+            enemyType = _enemyType;
+            enemyDetail = GameManager.Instance.enemyFactory.GetEnemyDetail(enemyType);
+            enemyDetail.Init(this, GameManager.Instance.enemyFactory.GetAttr(enemyType));
         }
+
+        /// <summary>
+        /// 属性突变 修改特殊属性
+        /// </summary>
+        /// <param name="specialAttr"></param>
+        public void Mutations(EnemyAttr specialAttr)
+        {
+            //enemyDetail.SpecialAttr = specialAttr;
+            enemyDetail.Init(this, GameManager.Instance.enemyFactory.GetAttr(enemyType));
+        }
+        
     }
 }

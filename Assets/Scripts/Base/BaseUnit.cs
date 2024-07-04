@@ -7,11 +7,10 @@
  * Version:       0.1
  */
 
-using UnityEngine.Events;
 using UnityEngine;
+using UnityEngine.Events;
 
-
-namespace DemoGame
+namespace DemoGame.Base
 {
     public class BaseUnit : MonoBehaviour
     {

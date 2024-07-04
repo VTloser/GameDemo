@@ -5,12 +5,16 @@ struct enemy_date
     float2 pos;
     float hit_range;
     int num;
+    int hit_Target;
 };
 
 RWStructuredBuffer<enemy_date> EnemyBuffer;
 
 //当前怪物总数
 int EnemyCount;
+
+float2 player_pos;
+float player_hit_range;
 
 float2 asit_2d(float2 tag, float2 compare, const float radio_sum)
 {
@@ -19,7 +23,7 @@ float2 asit_2d(float2 tag, float2 compare, const float radio_sum)
         const float2 mid = (tag + compare) / 2;
         const float2 dir = tag - mid;
         const float2 dirNor = normalize(dir);
-        if (length(dir) == 0)    return float2(0, 0);
+        if (length(dir) == 0) return float2(0, 0);
         const float speed = radio_sum / 2 - length(dir);
         return dirNor * speed;
     }
@@ -36,6 +40,15 @@ void EnemyColliderCS(uint3 groupId : SV_GroupID, uint groupIndex : SV_GroupIndex
         if (j != i)
         {
             dir += asit_2d(EnemyBuffer[j].pos, EnemyBuffer[i].pos, EnemyBuffer[j].hit_range + EnemyBuffer[i].hit_range);
+        }
+        
+        if (player_hit_range != 0)
+        {
+            if (pow(EnemyBuffer[j].pos.x - player_pos.x, 2) + pow(EnemyBuffer[j].pos.y - player_pos.y, 2) <=
+                pow(EnemyBuffer[j].hit_range + player_hit_range, 2))
+            {
+                EnemyBuffer[j].hit_Target = 1;
+            }
         }
     }
     EnemyBuffer[j].pos = dir;

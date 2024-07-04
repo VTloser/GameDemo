@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace DemoGame
 {
-    public abstract class PropsBase : MonoBehaviour, IMiniMap
+    public abstract class PropsBase: MonoBehaviour, IMiniMap
     {
         #region 小地图部分
 

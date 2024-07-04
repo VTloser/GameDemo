@@ -163,9 +163,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66125f854ed96744c85aca558e0fdbe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCam: {fileID: 0}
   MoveSpeed: 10
-  CurrentSpeed: 0
+  MaxHp: 100
+  CurrentHp: 0
+  HitRange: 2
+  PlayerCam: {fileID: 0}
+  bloodBar: {fileID: 0}
 --- !u!212 &8970830577481822027
 SpriteRenderer:
   m_ObjectHideFlags: 0

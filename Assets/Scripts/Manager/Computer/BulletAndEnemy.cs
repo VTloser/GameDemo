@@ -98,19 +98,20 @@ namespace DemoGame.Manager.Computer
                 // 跟踪
                 if (_receiveBullet[i].followIndex != -1)
                 {
-                    _bulletPool.Items[_receiveBullet[i].num]._BulletDetail.Move(
+                    _bulletPool.Items[_receiveBullet[i].num].bulletDetail.Move(
                         _enemyPool.Items[_receiveBullet[i].followIndex].transform);
                 }
                 // 直线行走
                 else
                 {
-                    _bulletPool.Items[_receiveBullet[i].num]._BulletDetail.Move();
+                    _bulletPool.Items[_receiveBullet[i].num].bulletDetail.Move();
                 }
-
+                
+                
                 //命中事件
                 if (_receiveBullet[i].index != -1)
                 {
-                    _bulletPool.Items[_receiveBullet[i].num]._BulletDetail
+                    _bulletPool.Items[_receiveBullet[i].num].bulletDetail
                         .JudgeHit(_enemyPool.Items[_receiveBullet[i].index]);
                 }
             }
@@ -124,3 +125,4 @@ namespace DemoGame.Manager.Computer
         }
     }
 }
+

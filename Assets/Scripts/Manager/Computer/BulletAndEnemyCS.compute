@@ -17,6 +17,7 @@ struct enemy_date
     float2 pos;
     float hitRange;
     int num;
+    int hitTarget;
 };
 
 
@@ -44,7 +45,7 @@ void BulletAndEnemyCS(uint3 groupId : SV_GroupID, uint groupIndex : SV_GroupInde
         {
             BulletBuffer[j].index = EnemyBuffer[i].num;
         }
-
+        
         if (dis < pow(BulletBuffer[j].follow_radius + EnemyBuffer[i].hitRange, 2))
         {
             if (dis < rec_m_in)

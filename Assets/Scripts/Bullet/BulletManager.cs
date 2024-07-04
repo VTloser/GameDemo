@@ -87,15 +87,16 @@ namespace DemoGame
             BulletPool.DestObject(bullet);
         }
 
+
         /// <summary>
         /// 获取某个子弹细节的子弹代理对象 
         /// </summary>
-        /// <param name="bulletDetail"></param>
+        /// <param name="bulletType"></param>
         /// <returns></returns>
-        public BulletAgent GetBullet(BulletDetail bulletDetail)
+        public BulletAgent GetBullet(BulletType bulletType)
         {
             BulletAgent bullet = BulletPool.GetObject();
-            bullet.Init(bulletDetail);
+            bullet.Init(bulletType);
             return bullet;
         }
     }

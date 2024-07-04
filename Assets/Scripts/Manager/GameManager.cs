@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Resources;
 using DemoGame.Bullet;
+using DemoGame.Enemy;
+using DemoGame.Manager;
 using UnityEditor.VersionControl;
 using UnityEngine.UIElements;
 using UnityEngine;
@@ -82,6 +84,8 @@ namespace DemoGame
         private void Update()
         {
             //LevelManager.LevelManagerUpdate(EnemyManager.EnemyPool.ActiveCount);
+
+            inputManager.Tick();
         }
 
 

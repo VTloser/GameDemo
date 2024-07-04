@@ -9,6 +9,7 @@
 
 using DemoGame.Pool;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace DemoGame.Bullet
 {
@@ -36,18 +37,15 @@ namespace DemoGame.Bullet
         }
 
         #endregion
+        
+        public BulletDetail bulletDetail;
+        [FormerlySerializedAs("Sprite")] public SpriteRenderer sprite;
 
-        [SerializeField]
-        public BulletDetail _BulletDetail;
-        public SpriteRenderer Sprite;
-
-        public void Init(BulletDetail bulletDetail)
+        public void Init(BulletType bulletType)
         {
-            _BulletDetail = bulletDetail;
-            _BulletDetail.Int(this);
-            Sprite.enabled = true;
-            
-            StartCoroutine(_BulletDetail.LifeTime());
+            bulletDetail = GameManager.Instance.bulletFactory.GetDetail(bulletType);
+            bulletDetail.Int(this, GameManager.Instance.bulletFactory.GetAttr(bulletType));
+            StartCoroutine(bulletDetail.LifeTime());
         }
     }
 }

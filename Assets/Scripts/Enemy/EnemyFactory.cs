@@ -7,11 +7,12 @@
  * Version:       0.1
  */
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-
-namespace DemoGame
+namespace DemoGame.Enemy
 {
 
     /// <summary>
@@ -67,22 +68,17 @@ namespace DemoGame
             Size = size;
         }
     }
-    
+
     /// <summary>
     /// 怪物种类
     /// </summary>
     public enum EnemyType
     {
-        //默认
-        None = 0,
-        //高伤害
-        Height,
-        //打的远
-        Long,
-        //子弹速度快
-        Fast,
-        //子弹射速快
-        FastShoot,
+        /// <summary>  红色史莱姆  </summary>
+        RedSlime = 1 << 1,
+
+        /// <summary>  绿色史莱姆  </summary>
+        GreenSlime = 1 << 2,
     }
 
     /// <summary>
@@ -90,17 +86,21 @@ namespace DemoGame
     /// </summary>
     public class EnemyFactory
     {
-        public Dictionary<EnemyType, EnemyAttr> EnemyAttrDB = null;
+        public readonly Dictionary<EnemyType, EnemyAttr> EnemyAttrDB = null;
 
         public EnemyFactory()
         {
-            EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>();
-            EnemyAttrDB.Add(EnemyType.None,
-                new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 1f, 0.2f,
-                    GameManager.Instance.ResourceManager.Load<Material>("Material/DemoEnemy"), new Vector2(2, 2)));
-            EnemyAttrDB.Add(EnemyType.Height,
-                new EnemyAttr(2, 2, 1f, 0, 1, "DemoEnemy", 1f, 0.2f,
-                    GameManager.Instance.ResourceManager.Load<Material>("Material/DemoEnemy"), new Vector2(2, 2)));
+            EnemyAttrDB = new Dictionary<EnemyType, EnemyAttr>
+            {
+                {
+                    EnemyType.RedSlime, new EnemyAttr(1, 20, 1f, 0, 1, "DemoEnemy", 1f, 0.2f,
+                        GameManager.Instance.ResourceManager.Load<Material>("Material/DemoEnemy2"), new Vector2(2, 2))
+                },
+                {
+                    EnemyType.GreenSlime, new EnemyAttr(20, 20, 1f, 0, 1, "DemoEnemy", 1f, 0.2f,
+                        GameManager.Instance.ResourceManager.Load<Material>("Material/DemoEnemy1"), new Vector2(2, 2))
+                },
+            };
         }
 
         /// <summary>
@@ -116,13 +116,44 @@ namespace DemoGame
         }
 
         /// <summary>
-        /// 获取怪物属性
+        /// 获取属性
         /// </summary>
         /// <param name="enemyType"></param>
         /// <returns></returns>
-        public EnemyAttr GetEnemyAttr(EnemyType enemyType)
+        public EnemyAttr GetAttr(EnemyType enemyType)
         {
             return EnemyAttrDB[enemyType];
+        }
+        
+        /// <summary>
+        /// 获取某种怪物属性
+        /// </summary>
+        /// <param name="enemyType"></param>
+        /// <returns></returns>
+        public EnemyDetail GetEnemyDetail(EnemyType enemyType) => enemyType switch
+        {
+            EnemyType.RedSlime => new RedSlime(),
+            EnemyType.GreenSlime => new GreenSlime(),
+            _ => throw new ArgumentException(nameof(enemyType), $"未处理当前类型{enemyType}")
+        };
+        
+        /// <summary>
+        /// 设定某几种怪物类型，然后随机产生一种,
+        /// 效率不高 不建议使用
+        /// </summary>
+        /// <param name="enemyType"></param>
+        /// <returns></returns>
+        public EnemyDetail GetRandomDetail(EnemyType enemyType)
+        {
+            List<EnemyDetail> res = new List<EnemyDetail>();
+            foreach (EnemyType item in Enum.GetValues(typeof(EnemyType)))
+            {
+                if (enemyType.HasFlag(item))
+                {
+                    res.Add(GetEnemyDetail(item));
+                }
+            }
+            return res[Random.Range(0, res.Count)];
         }
     }
 }
