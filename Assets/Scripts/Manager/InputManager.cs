@@ -108,19 +108,19 @@ namespace DemoGame.Manager
         
         public void Tick()
         {
-            if (Input.GetKeyDown(Fire))
+            if (Input.GetKey(Fire))
             {
-                FireCallBack.Invoke();
+                FireCallBack?.Invoke();
             }
             
-            if (Input.GetKeyDown(Skill_One))
+            if (Input.GetKey(Skill_One))
             {
-                Skill_OneCallBack.Invoke();
+                Skill_OneCallBack?.Invoke();
             }
             
-            if (Input.GetKeyDown(Skill_Two))
+            if (Input.GetKey(Skill_Two))
             {
-                Skill_TwoCallBack.Invoke();
+                Skill_TwoCallBack?.Invoke();
             }
         }
         

@@ -122,7 +122,6 @@ GameObject:
   - component: {fileID: 8970830577481822024}
   - component: {fileID: 8970830577481822021}
   - component: {fileID: 8970830577481822027}
-  - component: {fileID: 8970830577481822026}
   - component: {fileID: 24095161}
   - component: {fileID: 24095162}
   - component: {fileID: 24095160}
@@ -167,6 +166,9 @@ MonoBehaviour:
   MaxHp: 100
   CurrentHp: 0
   HitRange: 2
+  ProtectionTime: 1
+  IsProtection: 0
+  IsDie: 0
   PlayerCam: {fileID: 0}
   bloodBar: {fileID: 0}
 --- !u!212 &8970830577481822027
@@ -211,7 +213,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: -210896013, guid: 7549b41dc027b5e48b267204120a1e1d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7647059}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -221,27 +223,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &8970830577481822026
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8970830577481822020}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 79b3cc75d63ae0949b581809b1211e72, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!198 &24095161
 ParticleSystem:
   m_ObjectHideFlags: 0

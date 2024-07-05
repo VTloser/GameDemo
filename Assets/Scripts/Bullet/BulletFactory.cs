@@ -97,7 +97,7 @@ namespace DemoGame.Bullet
             bulletAttrDB = new Dictionary<BulletType, BulletAttr>
             {
                 {
-                    BulletType.FireBall, new BulletAttr(100, 1, 10,
+                    BulletType.FireBall, new BulletAttr(5, 1, 10,
                         GameManager.Instance.ResourceManager.Load<Material>("Bullet/FireBall"), 0.5f, 0.4f, 0, 0, 0.5f,
                         new TrackingMove(), new Vector2(0.6f, 1.6f), 5)
                 },
